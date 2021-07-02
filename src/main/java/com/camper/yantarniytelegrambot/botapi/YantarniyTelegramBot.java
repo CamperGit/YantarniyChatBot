@@ -1,4 +1,4 @@
-package com.camper.yantarniytelegrambot;
+package com.camper.yantarniytelegrambot.botapi;
 
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;

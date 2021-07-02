@@ -1,6 +1,6 @@
 package com.camper.yantarniytelegrambot.controller;
 
-import com.camper.yantarniytelegrambot.YantarniyTelegramBot;
+import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
