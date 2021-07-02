@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "employees", schema = "yantarniytb")
+@Table(name = "employees")
 public class Employee {
     private Integer emplId;
     private byte[] image;

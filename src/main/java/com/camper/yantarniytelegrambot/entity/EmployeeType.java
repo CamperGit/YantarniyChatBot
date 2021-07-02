@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "employees_types", schema = "yantarniytb")
+@Table(name = "employees_types")
 public class EmployeeType {
     private Integer typeId;
     private String title;

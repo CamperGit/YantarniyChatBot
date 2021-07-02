@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "users", schema = "yantarniytb")
+@Table(name = "users")
 public class UserEntity {
     private Integer userId;
     private String chatId;

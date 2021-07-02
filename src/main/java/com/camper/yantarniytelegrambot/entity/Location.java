@@ -14,7 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "locations", schema = "yantarniytb")
+@Table(name = "locations")
 public class Location {
     private Integer locId;
     private String title;
@@ -44,5 +44,11 @@ public class Location {
     @OneToMany(mappedBy = "location",fetch = FetchType.LAZY)
     public List<Sale> getSales() {
         return sales;
+    }
+
+    public Location(String title, List<Employee> employees, List<Sale> sales) {
+        this.title = title;
+        this.employees = employees;
+        this.sales = sales;
     }
 }

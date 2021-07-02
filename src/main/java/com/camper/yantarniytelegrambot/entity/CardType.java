@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "card_types", schema = "yantarniytb")
+@Table(name = "card_types")
 public class CardType {
     private Integer cardId;
     private String title;

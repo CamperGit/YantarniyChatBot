@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "sales", schema = "yantarniytb")
+@Table(name = "sales")
 public class Sale {
     private Integer saleId;
     private byte[] image;
@@ -44,5 +44,11 @@ public class Sale {
     @JoinColumn(name = "location_id", referencedColumnName = "loc_id")
     public Location getLocation() {
         return location;
+    }
+
+    public Sale(byte[] image, String description, Location location) {
+        this.image = image;
+        this.description = description;
+        this.location = location;
     }
 }

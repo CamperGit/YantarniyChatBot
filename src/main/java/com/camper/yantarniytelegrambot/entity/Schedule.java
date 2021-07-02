@@ -13,7 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "schedules", schema = "yantarniytb")
+@Table(name = "schedules")
 public class Schedule {
     private Integer schedId;
     private byte[] image;
