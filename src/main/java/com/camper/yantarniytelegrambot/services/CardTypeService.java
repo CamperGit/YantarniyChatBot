@@ -3,6 +3,7 @@ package com.camper.yantarniytelegrambot.services;
 import com.camper.yantarniytelegrambot.entity.CardType;
 import com.camper.yantarniytelegrambot.repos.CardTypeRepo;
 import jdk.nashorn.internal.objects.annotations.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ public class CardTypeService {
         return cardTypeRepo.findAll();
     }
 
-    @Setter
+    @Autowired
     public void setCardTypeRepo(CardTypeRepo cardTypeRepo) {
         this.cardTypeRepo = cardTypeRepo;
     }
