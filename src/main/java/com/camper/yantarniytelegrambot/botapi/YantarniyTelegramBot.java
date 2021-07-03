@@ -1,17 +1,13 @@
 package com.camper.yantarniytelegrambot.botapi;
 
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
-import com.camper.yantarniytelegrambot.services.CardTypeService;
-import com.camper.yantarniytelegrambot.services.LocationService;
-import com.camper.yantarniytelegrambot.services.MessageSourceService;
-import com.camper.yantarniytelegrambot.services.SaleService;
+import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -30,7 +26,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String USERNAME;
     private final String TOKEN;
     private BotActionListener botActionListener;
-    private MessageSourceService messageSourceService;
+    private LocaleMessageSource localeMessageSource;
 
     static {
         handlers = new HashMap<>();
@@ -99,12 +95,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
                 case "/start": {
-                    SendMessage sendMessage = new SendMessage(chatId,messageSourceService.getMessage("mainMenu.menuLabel"));
+                    SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                     sendMessage.setReplyMarkup(getMainMenuButtons());
                     return sendMessage;
                 }
                 default : {
-                    SendMessage sendMessage = new SendMessage(chatId,messageSourceService.getMessage("other.unknownNonCommandMessage"));
+                    SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage"));
                     sendMessage.setReplyMarkup(getMainMenuButtons());
                     return sendMessage;
                 }
@@ -188,10 +184,10 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private InlineKeyboardMarkup getMainMenuButtons() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.clubCartsButton"));
-        InlineKeyboardButton fitnessButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.fitnessButton"));
-        InlineKeyboardButton spaButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.spaButton"));
-        InlineKeyboardButton contactUsButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.contactUsButton"));
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.clubCartsButton"));
+        InlineKeyboardButton fitnessButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.fitnessButton"));
+        InlineKeyboardButton spaButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.spaButton"));
+        InlineKeyboardButton contactUsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.contactUsButton"));
 
         clubCartsButton.setCallbackData("handleClubCartButton");
         fitnessButton.setCallbackData("fitnes");
@@ -214,9 +210,11 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setMessageSourceService(MessageSourceService messageSourceService) {
-        this.messageSourceService = messageSourceService;
+    public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
+        this.localeMessageSource = localeMessageSource;
     }
+
+
 
     @Autowired
     public void setBotActionListener(BotActionListener botActionListener) {

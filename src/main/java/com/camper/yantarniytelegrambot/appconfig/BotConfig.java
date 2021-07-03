@@ -1,19 +1,18 @@
 package com.camper.yantarniytelegrambot.appconfig;
 
 import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
+import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 
-import java.util.Locale;
-
 @Configuration
-@ComponentScan
+@ComponentScan(basePackages = "com.camper.yantarniytelegrambot")
 public class BotConfig {
     @Bean
     public YantarniyTelegramBot telegramBot(@Value("${telegrambot.webHookPath}")String webHookPath,
