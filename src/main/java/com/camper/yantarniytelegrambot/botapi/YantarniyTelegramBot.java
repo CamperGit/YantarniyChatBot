@@ -1,44 +1,43 @@
 package com.camper.yantarniytelegrambot.botapi;
 
-import com.camper.yantarniytelegrambot.entity.CardType;
-import com.camper.yantarniytelegrambot.entity.Location;
-import com.camper.yantarniytelegrambot.entity.Sale;
+import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.CardTypeService;
 import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.services.SaleService;
-import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.GetFile;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.objects.Document;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.PhotoSize;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.*;
 
+@Slf4j
 public class YantarniyTelegramBot extends TelegramWebhookBot {
+    private static final Map<String, Method> handlers;
     private final String WEB_HOOK_PATH;
     private final String USERNAME;
     private final String TOKEN;
+    private BotActionListener botActionListener;
     private CardTypeService cardTypeService;
     private LocationService locationService;
     private SaleService saleService;
+
+    static {
+        handlers = new HashMap<>();
+        for (Method m : BotActionListener.class.getDeclaredMethods()) {
+            handlers.put(m.getName(),m);
+        }
+    }
 
     public YantarniyTelegramBot(DefaultBotOptions options,String WEB_HOOK_PATH, String USERNAME, String TOKEN) {
         super(options);
@@ -64,8 +63,54 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        if (update.getMessage() != null) {
-            final List<PhotoSize> photos = update.getMessage().getPhoto();
+
+        //CallbackQuery handling
+        if (update.hasCallbackQuery()) {
+            CallbackQuery query = update.getCallbackQuery();
+            String chatId = query.getMessage().getChatId().toString();
+            if (update.hasCallbackQuery()) {
+                Method handler = handlers.get(update.getCallbackQuery().getData());
+                try {
+                    if (handler != null) {
+                        Object answer = handler.invoke(botActionListener,chatId);
+                        if (answer instanceof SendMessage) {
+                            execute((SendMessage)answer);
+                        } else if (answer instanceof SendPhoto) {
+
+                        }
+                    } else {
+                        log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
+                    }
+                } catch (IllegalAccessException | InvocationTargetException | TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        //Commands and nonCommands messages handling
+        if (update.getMessage() != null && update.getMessage().hasText()) {
+            String text = update.getMessage().getText();
+            String chatId = update.getMessage().getChatId().toString();
+            try {
+                switch (text) {
+                    case "/start": {
+                        SendMessage sendMessage = new SendMessage(chatId,"Главное меню:");
+                        sendMessage.setReplyMarkup(getMainMenuButtons());
+                        execute(sendMessage);
+                        break;
+                    }
+                    default : {
+                        SendMessage sendMessage = new SendMessage(chatId,"Команда не распознана, вызываю главное меню:");
+                        sendMessage.setReplyMarkup(getMainMenuButtons());
+                        execute(sendMessage);
+                        break;
+                    }
+                }
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+
+            /*final List<PhotoSize> photos = update.getMessage().getPhoto();
             if (photos != null) {
 
                 byte[] image = null;
@@ -109,9 +154,9 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                 Location location = locationService.putIfAbsent(new Location("Клубная карта", new ArrayList<>(), new ArrayList<>()));
                 Sale sale = new Sale(image,descriptionString,location);
                 saleService.putIfAbsent(sale);
-            }
+            }*/
 
-            if (update.getMessage().hasText()) {
+            /*if (update.getMessage().hasText()) {
                 String chatId = update.getMessage().getChatId().toString();
                 try {
                     execute(new SendMessage(chatId,"Hi " + update.getMessage().getText()));
@@ -134,26 +179,42 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                 } catch (TelegramApiException e) {
                     e.printStackTrace();
                 }
-            }
+            }*/
         }
-
-
         return null;
     }
 
 
-    @Autowired
-    public void setSaleService(SaleService saleService) {
-        this.saleService = saleService;
+    private InlineKeyboardMarkup getMainMenuButtons() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
+        InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
+        InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
+        InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+
+        clubCartsButton.setCallbackData("handleClubCartButton");
+        fitnessButton.setCallbackData("fitnes");
+        spaButton.setCallbackData("spa");
+        contactUsButton.setCallbackData("contactUs");
+
+        List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        firstRow.add(clubCartsButton);
+        firstRow.add(fitnessButton);
+
+        List<InlineKeyboardButton> secondRow = new ArrayList<>();
+        secondRow.add(spaButton);
+        secondRow.add(contactUsButton);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
+
+        inlineKeyboardMarkup.setKeyboard(rowList);
+
+        return inlineKeyboardMarkup;
     }
 
     @Autowired
-    public void setLocationService(LocationService locationService) {
-        this.locationService = locationService;
-    }
-
-    @Autowired
-    public void setCardTypeService(CardTypeService cardTypeService) {
-        this.cardTypeService = cardTypeService;
+    public void setBotActionListener(BotActionListener botActionListener) {
+        this.botActionListener = botActionListener;
     }
 }
