@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
@@ -16,9 +17,22 @@ import java.util.List;
 public class BotActionListener {
     private LocaleMessageSource localeMessageSource;
 
-    public List<BotApiMethod<?>> handleClubCartButton(String chatId) {
-        return new ClubCardButtonHandler(localeMessageSource).handle(chatId);
+    public List<BotApiMethod<?>> handleClubCardButton(String chatId, CallbackQuery query) {
+        return new ClubCardButtonHandler(localeMessageSource).handle(chatId, query);
     }
+
+    public List<BotApiMethod<?>> handleClubCardsTypesButton(String chatId,CallbackQuery query) {
+        return new ClubCardTypeButtonHandler(localeMessageSource).handle(chatId, query);
+    }
+
+    public List<BotApiMethod<?>> handleClubCardsSalesButton(String chatId,CallbackQuery query) {
+        return null;
+    }
+
+    public List<BotApiMethod<?>> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
+        return null;
+    }
+
 
     @Autowired
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {

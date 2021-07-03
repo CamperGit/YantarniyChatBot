@@ -68,7 +68,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                 Method handler = handlers.get(update.getCallbackQuery().getData());
                 try {
                     if (handler != null) {
-                        List<BotApiMethod<?>> answers = (List<BotApiMethod<?>>) handler.invoke(botActionListener,chatId);
+                        List<BotApiMethod<?>> answers = (List<BotApiMethod<?>>) handler.invoke(botActionListener,chatId,query);
 
                         if (answers != null) {
                             for (BotApiMethod<?> answer : answers) {
@@ -105,7 +105,6 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return sendMessage;
                 }
             }
-
             /*final List<PhotoSize> photos = update.getMessage().getPhoto();
             if (photos != null) {
 
@@ -184,12 +183,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private InlineKeyboardMarkup getMainMenuButtons() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.clubCartsButton"));
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.clubCardsButton"));
         InlineKeyboardButton fitnessButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.fitnessButton"));
         InlineKeyboardButton spaButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.spaButton"));
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.contactUsButton"));
 
-        clubCartsButton.setCallbackData("handleClubCartButton");
+        clubCartsButton.setCallbackData("handleClubCardButton");
         fitnessButton.setCallbackData("fitnes");
         spaButton.setCallbackData("spa");
         contactUsButton.setCallbackData("contactUs");
@@ -213,8 +212,6 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
         this.localeMessageSource = localeMessageSource;
     }
-
-
 
     @Autowired
     public void setBotActionListener(BotActionListener botActionListener) {
