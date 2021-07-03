@@ -3,6 +3,7 @@ package com.camper.yantarniytelegrambot.botapi;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.CardTypeService;
 import com.camper.yantarniytelegrambot.services.LocationService;
+import com.camper.yantarniytelegrambot.services.MessageSourceService;
 import com.camper.yantarniytelegrambot.services.SaleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String USERNAME;
     private final String TOKEN;
     private BotActionListener botActionListener;
-    private CardTypeService cardTypeService;
-    private LocationService locationService;
-    private SaleService saleService;
+    private MessageSourceService messageSourceService;
 
     static {
         handlers = new HashMap<>();
@@ -100,12 +99,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
                 case "/start": {
-                    SendMessage sendMessage = new SendMessage(chatId,"Главное меню:");
+                    SendMessage sendMessage = new SendMessage(chatId,messageSourceService.getMessage("mainMenu.menuLabel"));
                     sendMessage.setReplyMarkup(getMainMenuButtons());
                     return sendMessage;
                 }
                 default : {
-                    SendMessage sendMessage = new SendMessage(chatId,"Команда не распознана, вызываю главное меню:");
+                    SendMessage sendMessage = new SendMessage(chatId,messageSourceService.getMessage("other.unknownNonCommandMessage"));
                     sendMessage.setReplyMarkup(getMainMenuButtons());
                     return sendMessage;
                 }
@@ -189,10 +188,10 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private InlineKeyboardMarkup getMainMenuButtons() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
-        InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
-        InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
-        InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.clubCartsButton"));
+        InlineKeyboardButton fitnessButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.fitnessButton"));
+        InlineKeyboardButton spaButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.spaButton"));
+        InlineKeyboardButton contactUsButton = new InlineKeyboardButton(messageSourceService.getMessage("mainMenu.contactUsButton"));
 
         clubCartsButton.setCallbackData("handleClubCartButton");
         fitnessButton.setCallbackData("fitnes");
@@ -212,6 +211,11 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         inlineKeyboardMarkup.setKeyboard(rowList);
 
         return inlineKeyboardMarkup;
+    }
+
+    @Autowired
+    public void setMessageSourceService(MessageSourceService messageSourceService) {
+        this.messageSourceService = messageSourceService;
     }
 
     @Autowired
