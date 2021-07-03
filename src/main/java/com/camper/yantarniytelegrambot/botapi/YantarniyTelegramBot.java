@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 @Slf4j
+@SuppressWarnings("unchecked")
 public class YantarniyTelegramBot extends TelegramWebhookBot {
     private static final Map<String, Method> handlers;
     private final String WEB_HOOK_PATH;
@@ -72,12 +73,18 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                 Method handler = handlers.get(update.getCallbackQuery().getData());
                 try {
                     if (handler != null) {
-                        Object answer = handler.invoke(botActionListener,chatId);
-                        if (answer instanceof SendMessage) {
+                        List<BotApiMethod<?>> answers = (List<BotApiMethod<?>>) handler.invoke(botActionListener,chatId);
+
+                        if (answers != null) {
+                            for (BotApiMethod<?> answer : answers) {
+                                execute(answer);
+                            }
+                        }
+                        /*if (answer instanceof SendMessage) {
                             execute((SendMessage)answer);
                         } else if (answer instanceof SendPhoto) {
 
-                        }
+                        }*/
                     } else {
                         log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
                     }
@@ -91,23 +98,17 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         if (update.getMessage() != null && update.getMessage().hasText()) {
             String text = update.getMessage().getText();
             String chatId = update.getMessage().getChatId().toString();
-            try {
-                switch (text) {
-                    case "/start": {
-                        SendMessage sendMessage = new SendMessage(chatId,"Главное меню:");
-                        sendMessage.setReplyMarkup(getMainMenuButtons());
-                        execute(sendMessage);
-                        break;
-                    }
-                    default : {
-                        SendMessage sendMessage = new SendMessage(chatId,"Команда не распознана, вызываю главное меню:");
-                        sendMessage.setReplyMarkup(getMainMenuButtons());
-                        execute(sendMessage);
-                        break;
-                    }
+            switch (text) {
+                case "/start": {
+                    SendMessage sendMessage = new SendMessage(chatId,"Главное меню:");
+                    sendMessage.setReplyMarkup(getMainMenuButtons());
+                    return sendMessage;
                 }
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+                default : {
+                    SendMessage sendMessage = new SendMessage(chatId,"Команда не распознана, вызываю главное меню:");
+                    sendMessage.setReplyMarkup(getMainMenuButtons());
+                    return sendMessage;
+                }
             }
 
             /*final List<PhotoSize> photos = update.getMessage().getPhoto();
