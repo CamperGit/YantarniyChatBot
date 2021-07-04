@@ -1,17 +1,12 @@
 package com.camper.yantarniytelegrambot.handlers;
 
 
-import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.Message;
 
 import java.util.List;
 
@@ -57,6 +52,29 @@ public class BotActionListener {
 
     public List<PartialBotApiMethod<?>> handleFitnessSchedulesButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessGymButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGymButtonHandler().handle(chatId, query);
+    }
+
+    //GA Start
+    public List<PartialBotApiMethod<?>> handleFitnessGroupsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGroupActivityButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessGAPrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGroupActivityButtonHandler().previousCoach(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessGANextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGroupActivityButtonHandler().nextCoach(chatId, query);
+    }
+    //GA End
+
+
+    public List<PartialBotApiMethod<?>> handleFitnessPoolButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessPoolButtonHandler().handle(chatId, query);
     }
 
     //Fitness menu end

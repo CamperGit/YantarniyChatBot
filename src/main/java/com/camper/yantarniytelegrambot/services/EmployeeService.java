@@ -25,7 +25,7 @@ public class EmployeeService {
     }
 
     @Transactional(readOnly = true)
-    public List<Employee> findEmployeesByLocation(Location location) {
+    public List<Employee> findAllByLocation(Location location) {
         return employeeRepo.findAllByLocation(location);
     }
 
