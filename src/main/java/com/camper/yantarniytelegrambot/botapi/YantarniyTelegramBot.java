@@ -7,13 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
@@ -61,31 +66,30 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
         //CallbackQuery handling
-        if (update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery() && !update.getCallbackQuery().getData().equals("null")) {
             CallbackQuery query = update.getCallbackQuery();
             String chatId = query.getMessage().getChatId().toString();
-            if (update.hasCallbackQuery()) {
-                Method handler = handlers.get(update.getCallbackQuery().getData());
-                try {
-                    if (handler != null) {
-                        List<BotApiMethod<?>> answers = (List<BotApiMethod<?>>) handler.invoke(botActionListener,chatId,query);
-
-                        if (answers != null) {
-                            for (BotApiMethod<?> answer : answers) {
-                                execute(answer);
+            String data = update.getCallbackQuery().getData();
+            Method handler = handlers.get(data);
+            try {
+                if (handler != null) {
+                    List<PartialBotApiMethod<?>> answers = (List<PartialBotApiMethod<?>>) handler.invoke(botActionListener,chatId,query);
+                    if (answers != null) {
+                        for (PartialBotApiMethod<?> answer : answers) {
+                            if (answer instanceof BotApiMethod<?>) {
+                                execute((BotApiMethod<? extends Serializable>) answer);
+                            } else if (answer instanceof EditMessageMedia) {
+                                execute((EditMessageMedia) answer);
+                            } else if (answer instanceof SendPhoto) {
+                                execute((SendPhoto) answer);
                             }
                         }
-                        /*if (answer instanceof SendMessage) {
-                            execute((SendMessage)answer);
-                        } else if (answer instanceof SendPhoto) {
-
-                        }*/
-                    } else {
-                        log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
                     }
-                } catch (IllegalAccessException | InvocationTargetException | TelegramApiException e) {
-                    e.printStackTrace();
+                } else {
+                    log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
                 }
+            } catch (IllegalAccessException | InvocationTargetException | TelegramApiException e) {
+                e.printStackTrace();
             }
         }
 
@@ -96,12 +100,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             switch (text) {
                 case "/start": {
                     SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
-                    sendMessage.setReplyMarkup(getMainMenuButtons());
+                    sendMessage.setReplyMarkup(getMainMenuMarkup());
                     return sendMessage;
                 }
                 default : {
                     SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage"));
-                    sendMessage.setReplyMarkup(getMainMenuButtons());
+                    sendMessage.setReplyMarkup(getMainMenuMarkup());
                     return sendMessage;
                 }
             }
@@ -180,7 +184,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
 
-    private InlineKeyboardMarkup getMainMenuButtons() {
+    private InlineKeyboardMarkup getMainMenuMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.clubCardsButton"));

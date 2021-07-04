@@ -1,13 +1,11 @@
-package com.camper.yantarniytelegrambot.handlers;
+package com.camper.yantarniytelegrambot.handlers.ClubCards;
 
+import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -18,24 +16,24 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class ClubCardButtonHandler implements BotButtonHandler{
+public class ClubCardButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
 
     @Override
-    public List<BotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        List<BotApiMethod<?>> answers = new ArrayList<>();
+    public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
+        List<PartialBotApiMethod<?>> answers = new ArrayList<>();
 
         EditMessageText newText = new EditMessageText();
         newText.setText(localeMessageSource.getMessage("onAction.clubCardsButton"));
         newText.setChatId(chatId);
         newText.setMessageId(query.getMessage().getMessageId());
-        newText.setReplyMarkup(getClubCartsMenuButtons());
+        newText.setReplyMarkup(getClubCartsMenuMarkup());
 
         answers.add(newText);
         return answers;
     }
 
-    private InlineKeyboardMarkup getClubCartsMenuButtons() {
+    private InlineKeyboardMarkup getClubCartsMenuMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton typesButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCartMenu.typesButton"));

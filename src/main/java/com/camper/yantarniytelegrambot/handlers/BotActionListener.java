@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -17,19 +18,33 @@ import java.util.List;
 public class BotActionListener {
     private HandlersFacade handlersFacade;
 
-    public List<BotApiMethod<?>> handleClubCardButton(String chatId, CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> handleClubCardButton(String chatId, CallbackQuery query) {
         return handlersFacade.getClubCardButtonHandler().handle(chatId,query);
     }
 
-    public List<BotApiMethod<?>> handleClubCardsTypesButton(String chatId,CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> handleClubCardsTypesButton(String chatId,CallbackQuery query) {
         return handlersFacade.getClubCardTypeButtonHandler().handle(chatId, query);
     }
 
-    public List<BotApiMethod<?>> handleClubCardsSalesButton(String chatId,CallbackQuery query) {
+    //Sales menu start
+    public List<PartialBotApiMethod<?>> handleClubCardsSalesButton(String chatId,CallbackQuery query) {
+        return handlersFacade.getClubCardSalesButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleClubCardsSalesPrevButton(String chatId,CallbackQuery query) {
         return null;
     }
 
-    public List<BotApiMethod<?>> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> handleClubCardsSalesNextButton(String chatId,CallbackQuery query) {
+        return handlersFacade.getClubCardSalesButtonHandler().nextSale(chatId,query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleClubCardsSalesReturnButton(String chatId,CallbackQuery query) {
+        return null;
+    }
+
+    //Sales menu end
+    public List<Object> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
         return null;
     }
 
