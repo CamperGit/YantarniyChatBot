@@ -158,6 +158,6 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
     @Autowired
     public void setLocationService(LocationService locationService) {
         this.locationService = locationService;
-        location = locationService.findLocationByTitle("ClubCards");
+        location = locationService.findLocationByTitle("CLUB_CARDS");
     }
 }

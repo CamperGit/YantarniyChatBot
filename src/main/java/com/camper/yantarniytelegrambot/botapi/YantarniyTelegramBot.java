@@ -1,7 +1,13 @@
 package com.camper.yantarniytelegrambot.botapi;
 
+import com.camper.yantarniytelegrambot.entity.Employee;
+import com.camper.yantarniytelegrambot.entity.EmployeeType;
+import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
+import com.camper.yantarniytelegrambot.services.EmployeeService;
+import com.camper.yantarniytelegrambot.services.EmployeeTypeService;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
+import com.camper.yantarniytelegrambot.services.LocationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -13,14 +19,19 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Slf4j
@@ -32,6 +43,9 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String TOKEN;
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
+    private LocationService locationService;
+    private EmployeeService employeeService;
+    private EmployeeTypeService employeeTypeService;
 
     static {
         handlers = new HashMap<>();
@@ -101,41 +115,55 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                 case "/start": {
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
+                case "/test" : {
+                    /*List<Employee> employees = employeeService.findAll();
+                    for (Employee employee : employees) {
+                        SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
+                        builder.chatId(chatId);
+                        builder.photo(new InputFile(new ByteArrayInputStream(employee.getImage()),"filename"));
+                        try {
+                            execute(builder.build());
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }*/
+                    break;
+                }
                 default : {
+                    /*try {
+                        Location tz = locationService.findLocationByTitle("GYM");
+                        Location zpp = locationService.findLocationByTitle("GROUP_ACTIVITY");
+                        Location pool = locationService.findLocationByTitle("POOL");
+                        EmployeeType coach = employeeTypeService.findEmployeeTypeByType("COACH");
+                        EmployeeType master = employeeTypeService.findEmployeeTypeByType("MASTER_COACH");
+                        EmployeeType masterPl = employeeTypeService.findEmployeeTypeByType("MASTER_COACH_PLUS");
+                        Employee tz1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\tz\\gendlin.png")),
+                                null,"Евгений","Гендлин",tz,masterPl);
+                        Employee tz2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\tz\\kuszn.png")),
+                                null,"Роман","Кузнецов",tz,master);
+                        Employee zpp1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\zpp\\cheprasova.png")),
+                                null,"Роман","Кузнецов",zpp,coach);
+                        Employee zpp2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\zpp\\kamish.png")),
+                                null,"Роман","Кузнецов",zpp,master);
+                        Employee pool1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\pool\\avdeev.png")),
+                                null,"Александр","Авдеев",pool,coach);
+                        Employee pool2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\pool\\gusev.png")),
+                                null,"Андрей","Гусев",pool,master);
+
+                        employeeService.putIfAbsent(tz1);
+                        employeeService.putIfAbsent(tz2);
+                        employeeService.putIfAbsent(zpp1);
+                        employeeService.putIfAbsent(zpp2);
+                        employeeService.putIfAbsent(pool1);
+                        employeeService.putIfAbsent(pool2);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }*/
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("other.unknownNonCommandMessage"));
                 }
             }
         }
         return null;
-    }
-
-
-    private InlineKeyboardMarkup getMainMenuMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.clubCardsButton"));
-        InlineKeyboardButton fitnessButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.fitnessButton"));
-        InlineKeyboardButton spaButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.spaButton"));
-        InlineKeyboardButton contactUsButton = new InlineKeyboardButton(localeMessageSource.getMessage("mainMenu.contactUsButton"));
-
-        clubCartsButton.setCallbackData("handleClubCardButton");
-        fitnessButton.setCallbackData("fitnes");
-        spaButton.setCallbackData("spa");
-        contactUsButton.setCallbackData("contactUs");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(clubCartsButton);
-        firstRow.add(fitnessButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(spaButton);
-        secondRow.add(contactUsButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
     }
 
     public static SendMessage createMainMenuMessage(String chatId, String text) {
@@ -177,5 +205,20 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     @Autowired
     public void setBotActionListener(BotActionListener botActionListener) {
         this.botActionListener = botActionListener;
+    }
+
+    @Autowired
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
+    }
+
+    @Autowired
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @Autowired
+    public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
+        this.employeeTypeService = employeeTypeService;
     }
 }

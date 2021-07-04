@@ -16,6 +16,7 @@ import java.util.Objects;
 @Table(name = "employees_types")
 public class EmployeeType {
     private Integer typeId;
+    private String type;
     private String title;
     @JsonManagedReference
     private List<Employee> employees;
@@ -28,7 +29,13 @@ public class EmployeeType {
     }
 
     @Basic
-    @Column(name = "title", nullable = false, length = 50)
+    @Column(name = "type", nullable = false, length = 50)
+    public String getType() {
+        return type;
+    }
+
+    @Basic
+    @Column(name = "title", length = 50)
     public String getTitle() {
         return title;
     }

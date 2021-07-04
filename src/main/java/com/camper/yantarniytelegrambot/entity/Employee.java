@@ -19,9 +19,6 @@ public class Employee {
     private Integer emplId;
     private byte[] image;
     private String description;
-    private String firstname;
-    private String middlename;
-    private String lastname;
     @JsonBackReference
     private Location location;
     @JsonBackReference
@@ -41,27 +38,9 @@ public class Employee {
     }
 
     @Basic
-    @Column(name = "description", nullable = true, length = 500)
+    @Column(name = "description", length = 500)
     public String getDescription() {
         return description;
-    }
-
-    @Basic
-    @Column(name = "firstname", nullable = false, length = 25)
-    public String getFirstname() {
-        return firstname;
-    }
-
-    @Basic
-    @Column(name = "middlename", nullable = false, length = 25)
-    public String getMiddlename() {
-        return middlename;
-    }
-
-    @Basic
-    @Column(name = "lastname", nullable = false, length = 25)
-    public String getLastname() {
-        return lastname;
     }
 
     @ManyToOne
@@ -74,5 +53,12 @@ public class Employee {
     @JoinColumn(name = "empl_type_id", referencedColumnName = "type_id")
     public EmployeeType getEmployeeType() {
         return employeeType;
+    }
+
+    public Employee(byte[] image, String description, Location location, EmployeeType employeeType) {
+        this.image = image;
+        this.description = description;
+        this.location = location;
+        this.employeeType = employeeType;
     }
 }
