@@ -45,4 +45,10 @@ public class Schedule {
     public ScheduleType getType() {
         return type;
     }
+
+    public Schedule(byte[] image, String description, ScheduleType type) {
+        this.image = image;
+        this.description = description;
+        this.type = type;
+    }
 }

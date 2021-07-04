@@ -58,7 +58,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         this.cardTypeService = cardTypeService;
     }
 
-    public InlineKeyboardMarkup getCardTypesMarkup() {
+    private InlineKeyboardMarkup getCardTypesMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
         exitButton.setCallbackData("handleReturnMainMenuButton");

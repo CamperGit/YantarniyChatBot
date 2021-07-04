@@ -27,6 +27,8 @@ public class FitnessButtonHandler implements BotButtonHandler {
     private FitnessGymButtonHandler fitnessGymButtonHandler;
     @Getter
     private FitnessPoolButtonHandler fitnessPoolButtonHandler;
+    @Getter
+    private FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -115,7 +117,7 @@ public class FitnessButtonHandler implements BotButtonHandler {
         InlineKeyboardButton changesInSchedulesButton = new InlineKeyboardButton(localeMessageSource.getMessage("fitness.schedules.changes"));
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
-        groupsSchedulesButton.setCallbackData("handleFitnessCoachesButton");
+        groupsSchedulesButton.setCallbackData("handleFitnessCurrentScheduleButton");
         changesInSchedulesButton.setCallbackData("handleFitnessSchedulesButton");
         returnButton.setCallbackData("handleFitnessButton");
 
@@ -151,5 +153,10 @@ public class FitnessButtonHandler implements BotButtonHandler {
     @Autowired
     public void setFitnessPoolButtonHandler(FitnessPoolButtonHandler fitnessPoolButtonHandler) {
         this.fitnessPoolButtonHandler = fitnessPoolButtonHandler;
+    }
+
+    @Autowired
+    public void setFitnessSchedulesButtonHandler(FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler) {
+        this.fitnessSchedulesButtonHandler = fitnessSchedulesButtonHandler;
     }
 }

@@ -3,11 +3,10 @@ package com.camper.yantarniytelegrambot.botapi;
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.EmployeeType;
 import com.camper.yantarniytelegrambot.entity.Location;
+import com.camper.yantarniytelegrambot.entity.Schedule;
+import com.camper.yantarniytelegrambot.enums.ScheduleType;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
-import com.camper.yantarniytelegrambot.services.EmployeeService;
-import com.camper.yantarniytelegrambot.services.EmployeeTypeService;
-import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
-import com.camper.yantarniytelegrambot.services.LocationService;
+import com.camper.yantarniytelegrambot.services.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -43,9 +42,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String TOKEN;
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
-    private LocationService locationService;
-    private EmployeeService employeeService;
-    private EmployeeTypeService employeeTypeService;
+    private ScheduleService scheduleService;
 
     static {
         handlers = new HashMap<>();
@@ -116,20 +113,15 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/test" : {
-                    /*List<Employee> employees = employeeService.findAll();
-                    for (Employee employee : employees) {
-                        SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
-                        builder.chatId(chatId);
-                        builder.photo(new InputFile(new ByteArrayInputStream(employee.getImage()),"filename"));
-                        try {
-                            execute(builder.build());
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
-                        }
-                    }*/
                     break;
                 }
                 default : {
+                    try {
+                        Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule.jpeg")),null, ScheduleType.DEFAULT);
+                        scheduleService.putIfAbsent(schedule);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     /*try {
                         Location tz = locationService.findLocationByTitle("GYM");
                         Location zpp = locationService.findLocationByTitle("GROUP_ACTIVITY");
@@ -208,17 +200,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setLocationService(LocationService locationService) {
-        this.locationService = locationService;
-    }
-
-    @Autowired
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
-
-    @Autowired
-    public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
-        this.employeeTypeService = employeeTypeService;
+    public void setScheduleService(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
     }
 }
