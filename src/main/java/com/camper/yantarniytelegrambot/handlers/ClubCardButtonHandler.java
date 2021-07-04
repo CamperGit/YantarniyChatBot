@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Component
 public class ClubCardButtonHandler implements BotButtonHandler{
     private LocaleMessageSource localeMessageSource;
 
@@ -59,7 +60,8 @@ public class ClubCardButtonHandler implements BotButtonHandler{
         return inlineKeyboardMarkup;
     }
 
-    public ClubCardButtonHandler(LocaleMessageSource localeMessageSource) {
+    @Autowired
+    public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
         this.localeMessageSource = localeMessageSource;
     }
 }

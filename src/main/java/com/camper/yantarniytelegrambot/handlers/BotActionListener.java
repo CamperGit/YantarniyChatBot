@@ -15,14 +15,14 @@ import java.util.List;
 
 @Service
 public class BotActionListener {
-    private LocaleMessageSource localeMessageSource;
+    private HandlersFacade handlersFacade;
 
     public List<BotApiMethod<?>> handleClubCardButton(String chatId, CallbackQuery query) {
-        return new ClubCardButtonHandler(localeMessageSource).handle(chatId, query);
+        return handlersFacade.getClubCardButtonHandler().handle(chatId,query);
     }
 
     public List<BotApiMethod<?>> handleClubCardsTypesButton(String chatId,CallbackQuery query) {
-        return new ClubCardTypeButtonHandler(localeMessageSource).handle(chatId, query);
+        return handlersFacade.getClubCardTypeButtonHandler().handle(chatId, query);
     }
 
     public List<BotApiMethod<?>> handleClubCardsSalesButton(String chatId,CallbackQuery query) {
@@ -33,9 +33,8 @@ public class BotActionListener {
         return null;
     }
 
-
     @Autowired
-    public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
-        this.localeMessageSource = localeMessageSource;
+    public void setHandlersFacade(HandlersFacade handlersFacade) {
+        this.handlersFacade = handlersFacade;
     }
 }
