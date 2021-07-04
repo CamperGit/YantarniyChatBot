@@ -44,7 +44,11 @@ public class BotActionListener {
     }
     //Sales menu end
 
-    public List<Object> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> handleClubCardsTypesReturnButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getClubCardTypeButtonHandler().returnToMainMenu(chatId,query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
         return null;
     }
 

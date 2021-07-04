@@ -36,8 +36,8 @@ public class ClubCardButtonHandler implements BotButtonHandler {
     private InlineKeyboardMarkup getClubCartsMenuMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton typesButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCartMenu.typesButton"));
-        InlineKeyboardButton salesButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCartMenu.salesButton"));
+        InlineKeyboardButton typesButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCardMenu.typesButton"));
+        InlineKeyboardButton salesButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCardMenu.salesButton"));
         InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
         typesButton.setCallbackData("handleClubCardsTypesButton");
