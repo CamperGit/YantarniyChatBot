@@ -1,9 +1,6 @@
 package com.camper.yantarniytelegrambot.botapi;
 
-import com.camper.yantarniytelegrambot.entity.Employee;
-import com.camper.yantarniytelegrambot.entity.EmployeeType;
-import com.camper.yantarniytelegrambot.entity.Location;
-import com.camper.yantarniytelegrambot.entity.Schedule;
+import com.camper.yantarniytelegrambot.entity.*;
 import com.camper.yantarniytelegrambot.enums.ScheduleType;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.*;
@@ -42,7 +39,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String TOKEN;
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
-    private ScheduleService scheduleService;
+    private SaleService saleService;
+    private LocationService locationService;
 
     static {
         handlers = new HashMap<>();
@@ -113,38 +111,20 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/test" : {
+                    /*Location location = locationService.findLocationByTitle("SPA");
+                    Sale sale2 = new Sale(null,"❗Внимание акция! Только 3 дня❗\n" +
+                            "\n" +
+                            "Биоревитализация препаратами Meso-Xanthin, Meso-wharton, Mesoeye, по специальной цене \n" +
+                            "\n" +
+                            "\uD83D\uDD259900 руб., вместо 14 500 руб. \n" +
+                            "\n" +
+                            "Преобрести можно сейчас, а использовать в течении 60 дней. \n" +
+                            "\n" +
+                            "Подробности по телефону 202-07-02",location);
+                    saleService.putIfAbsent(sale2);*/
                     break;
                 }
                 default : {
-                    /*try {
-                        Location tz = locationService.findLocationByTitle("GYM");
-                        Location zpp = locationService.findLocationByTitle("GROUP_ACTIVITY");
-                        Location pool = locationService.findLocationByTitle("POOL");
-                        EmployeeType coach = employeeTypeService.findEmployeeTypeByType("COACH");
-                        EmployeeType master = employeeTypeService.findEmployeeTypeByType("MASTER_COACH");
-                        EmployeeType masterPl = employeeTypeService.findEmployeeTypeByType("MASTER_COACH_PLUS");
-                        Employee tz1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\tz\\gendlin.png")),
-                                null,"Евгений","Гендлин",tz,masterPl);
-                        Employee tz2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\tz\\kuszn.png")),
-                                null,"Роман","Кузнецов",tz,master);
-                        Employee zpp1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\zpp\\cheprasova.png")),
-                                null,"Роман","Кузнецов",zpp,coach);
-                        Employee zpp2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\zpp\\kamish.png")),
-                                null,"Роман","Кузнецов",zpp,master);
-                        Employee pool1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\pool\\avdeev.png")),
-                                null,"Александр","Авдеев",pool,coach);
-                        Employee pool2 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Coaches\\pool\\gusev.png")),
-                                null,"Андрей","Гусев",pool,master);
-
-                        employeeService.putIfAbsent(tz1);
-                        employeeService.putIfAbsent(tz2);
-                        employeeService.putIfAbsent(zpp1);
-                        employeeService.putIfAbsent(zpp2);
-                        employeeService.putIfAbsent(pool1);
-                        employeeService.putIfAbsent(pool2);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("other.unknownNonCommandMessage"));
                 }
             }
@@ -194,7 +174,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setScheduleService(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
+    public void setSaleService(SaleService saleService) {
+        this.saleService = saleService;
+    }
+
+    @Autowired
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
     }
 }

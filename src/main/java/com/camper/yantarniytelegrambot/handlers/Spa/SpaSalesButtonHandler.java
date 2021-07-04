@@ -1,6 +1,5 @@
-package com.camper.yantarniytelegrambot.handlers.ClubCards;
+package com.camper.yantarniytelegrambot.handlers.Spa;
 
-import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
@@ -9,7 +8,6 @@ import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.services.SaleService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,8 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Scope("singleton")
-public class ClubCardSalesButtonHandler implements BotButtonHandler {
+public class SpaSalesButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private SaleService saleService;
     private int currentPage = 1;
@@ -62,7 +59,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
                 answers.add(sendMessage);
             }
         } else {
-            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.clubCardsSalesButton"));
+            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.spaSalesButton"));
             sendMessage.setReplyMarkup(getEmptySalesMarkup());
             answers.add(sendMessage);
         }
@@ -110,24 +107,18 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
                 , selectedSale.getDescription()));
     }
 
-    public List<PartialBotApiMethod<?>> returnToMainMenu(String chatId, CallbackQuery query) {
-        currentPage = 1;
-        sales = null;
-        return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
-    }
-
     private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
         InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfSales == 0 ? 0 : currentPage) + "/" + numberOfSales);
         InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
+        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
-        prevButton.setCallbackData("handleClubCardsSalesPrevButton");
-        nextButton.setCallbackData("handleClubCardsSalesNextButton");
+        prevButton.setCallbackData("handleSpaSalesPrevButton");
+        nextButton.setCallbackData("handleSpaSalesNextButton");
         countButton.setCallbackData("null");
-        mainMenuButton.setCallbackData("handleClubCardsSalesReturnButton");
+        mainMenuButton.setCallbackData("handleSpaButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(prevButton);
@@ -146,8 +137,8 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
 
     private InlineKeyboardMarkup getEmptySalesMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleClubCardButton");
+        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
+        exitButton.setCallbackData("handleSpaButton");
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
@@ -167,6 +158,6 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
 
     @Autowired
     public void setLocationService(LocationService locationService) {
-        location = locationService.findLocationByTitle("CLUB_CARDS");
+        location = locationService.findLocationByTitle("SPA");
     }
 }

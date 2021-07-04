@@ -131,6 +131,19 @@ public class BotActionListener {
         return handlersFacade.getSpaButtonHandler().openSpecialistsMenu(chatId, query);
     }
 
+
+    public List<PartialBotApiMethod<?>> handleSpaSalesButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSpaSalesPrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().previousSale(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSpaSalesNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().nextSale(chatId, query);
+    }
+
     //Spa menu end
 
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId,CallbackQuery query) {

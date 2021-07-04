@@ -39,7 +39,7 @@ public class ClubCardButtonHandler implements BotButtonHandler {
 
         typesButton.setCallbackData("handleClubCardsTypesButton");
         salesButton.setCallbackData("handleClubCardsSalesButton");
-        exitButton.setCallbackData("handleClubCardsReturnButton");
+        exitButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(typesButton);

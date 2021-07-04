@@ -60,8 +60,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
 
     private InlineKeyboardMarkup getCardTypesMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
-        exitButton.setCallbackData("handleReturnMainMenuButton");
+        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
+        exitButton.setCallbackData("handleClubCardButton");
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));

@@ -3,6 +3,7 @@ package com.camper.yantarniytelegrambot.handlers.Spa;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -19,13 +20,17 @@ import java.util.List;
 @Service
 public class SpaButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
+    @Getter
+    private SpaSalesButtonHandler spaSalesButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("onAction.spaButton"),
-                chatId,
-                query.getMessage().getMessageId(),
-                getSpaMenuMarkup())));
+        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
+                SendMessage.builder()
+                        .chatId(chatId)
+                        .text(localeMessageSource.getMessage("onAction.spaSpecialistsButton"))
+                        .replyMarkup(getSpaMenuMarkup())
+                        .build()));
     }
 
     public List<PartialBotApiMethod<?>> openSpecialistsMenu(String chatId, CallbackQuery query) {
@@ -94,6 +99,11 @@ public class SpaButtonHandler implements BotButtonHandler {
         inlineKeyboardMarkup.setKeyboard(rowList);
 
         return inlineKeyboardMarkup;
+    }
+
+    @Autowired
+    public void setSpaSalesButtonHandler(SpaSalesButtonHandler spaSalesButtonHandler) {
+        this.spaSalesButtonHandler = spaSalesButtonHandler;
     }
 
     @Autowired
