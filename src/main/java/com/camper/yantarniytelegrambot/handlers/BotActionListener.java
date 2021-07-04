@@ -32,7 +32,7 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesPrevButton(String chatId,CallbackQuery query) {
-        return null;
+        return handlersFacade.getClubCardSalesButtonHandler().previousSale(chatId,query);
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesNextButton(String chatId,CallbackQuery query) {
@@ -40,10 +40,10 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesReturnButton(String chatId,CallbackQuery query) {
-        return null;
+        return handlersFacade.getClubCardSalesButtonHandler().returnToMainMenu(chatId, query);
     }
-
     //Sales menu end
+
     public List<Object> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
         return null;
     }

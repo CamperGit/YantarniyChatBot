@@ -99,86 +99,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
                 case "/start": {
-                    SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
-                    sendMessage.setReplyMarkup(getMainMenuMarkup());
-                    return sendMessage;
+                    return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 default : {
-                    SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage"));
-                    sendMessage.setReplyMarkup(getMainMenuMarkup());
-                    return sendMessage;
+                    return createMainMenuMessage(chatId,localeMessageSource.getMessage("other.unknownNonCommandMessage"));
                 }
             }
-            /*final List<PhotoSize> photos = update.getMessage().getPhoto();
-            if (photos != null) {
-
-                byte[] image = null;
-                String locationString = null;
-                String descriptionString = null;
-
-                Optional<PhotoSize> photoSize = photos.stream().max(Comparator.comparing(PhotoSize::getFileSize));
-                String photoId = photoSize.orElseThrow(IllegalStateException::new).getFileId();
-
-                URL url;
-                try {
-                    url = new URL("https://api.telegram.org/bot"+TOKEN+"/getFile?file_id="+photoId);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-
-                    JSONObject jResult = new JSONObject(in.readLine());
-                    JSONObject path = jResult.getJSONObject("result");
-                    String filePath = path.getString("file_path");
-
-                    File localFile = new File("uploadedFiles" );
-                    InputStream is = new URL("https://api.telegram.org/file/bot" + TOKEN + "/" + filePath).openStream();
-
-                    FileUtils.copyInputStreamToFile(is,localFile);
-                    image = Files.readAllBytes(Paths.get(localFile.getPath()));
-
-                    Files.delete(Paths.get(localFile.getPath()));
-
-                    is.close();
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (update.getMessage().hasText()) {
-                    String[] strings = update.getMessage().getText().split(";");
-                    if (strings.length != 0) {
-                        locationString = strings[0];
-                        descriptionString = strings[1];
-                    }
-                }
-
-                Location location = locationService.putIfAbsent(new Location("Клубная карта", new ArrayList<>(), new ArrayList<>()));
-                Sale sale = new Sale(image,descriptionString,location);
-                saleService.putIfAbsent(sale);
-            }*/
-
-            /*if (update.getMessage().hasText()) {
-                String chatId = update.getMessage().getChatId().toString();
-                try {
-                    execute(new SendMessage(chatId,"Hi " + update.getMessage().getText()));
-                    List<CardType> cards = cardTypeService.findAll();
-                    for (CardType card : cards) {
-                        execute(new SendMessage(chatId,card.getTitle()));
-                    }
-
-                    List<Sale> sales = saleService.findAll();
-                    for (Sale sale : sales) {
-                        if (sale.getImage() != null) {
-                            SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
-                            builder.chatId(chatId);
-                            builder.photo(new InputFile(new ByteArrayInputStream(sale.getImage()),"filename"));
-                            execute(builder.build());
-                        } else if (sale.getDescription() != null) {
-
-                        }
-                    }
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
-            }*/
         }
         return null;
     }
@@ -210,6 +136,37 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         inlineKeyboardMarkup.setKeyboard(rowList);
 
         return inlineKeyboardMarkup;
+    }
+
+    public static SendMessage createMainMenuMessage(String chatId, String text) {
+        SendMessage sendMessage = new SendMessage(chatId, text);
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
+        InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
+        InlineKeyboardButton spaButton = new InlineKeyboardButton("Спа");
+        InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+
+        clubCartsButton.setCallbackData("handleClubCardButton");
+        fitnessButton.setCallbackData("fitnes");
+        spaButton.setCallbackData("spa");
+        contactUsButton.setCallbackData("contactUs");
+
+        List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        firstRow.add(clubCartsButton);
+        firstRow.add(fitnessButton);
+
+        List<InlineKeyboardButton> secondRow = new ArrayList<>();
+        secondRow.add(spaButton);
+        secondRow.add(contactUsButton);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
+
+        inlineKeyboardMarkup.setKeyboard(rowList);
+
+        sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        return sendMessage;
     }
 
     @Autowired
