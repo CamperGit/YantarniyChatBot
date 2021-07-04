@@ -149,7 +149,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
 
         clubCartsButton.setCallbackData("handleClubCardButton");
-        fitnessButton.setCallbackData("fitnes");
+        fitnessButton.setCallbackData("handleFitnessButton");
         spaButton.setCallbackData("spa");
         contactUsButton.setCallbackData("contactUs");
 

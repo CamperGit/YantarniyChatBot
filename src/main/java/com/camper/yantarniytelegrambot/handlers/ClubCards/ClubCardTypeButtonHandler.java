@@ -33,7 +33,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
         StringBuilder messageBuilder = new StringBuilder();
 
-        messageBuilder.append(localeMessageSource.getMessage("onAction.clubCardsTypesButton") + "\n");
+        messageBuilder.append(localeMessageSource.getMessage("onAction.clubCardsTypesButton")).append("\n");
 
         List<CardType> cards = cardTypeService.findAll();
         for (CardType cardType : cards) {
@@ -46,11 +46,6 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         }
 
         return new ArrayList<>(Collections.singletonList(Utils.changeMessage(messageBuilder.toString(),chatId,query.getMessage().getMessageId(),getCardTypesMarkup())));
-    }
-
-    public List<PartialBotApiMethod<?>> returnToMainMenu(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
-                YantarniyTelegramBot.createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"))));
     }
 
     @Autowired
@@ -66,7 +61,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     public InlineKeyboardMarkup getCardTypesMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
-        exitButton.setCallbackData("handleClubCardsTypesReturnButton");
+        exitButton.setCallbackData("handleReturnMainMenuButton");
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));

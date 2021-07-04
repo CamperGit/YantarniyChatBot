@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.handlers.ClubCards;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
+import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -13,6 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -21,16 +23,11 @@ public class ClubCardButtonHandler implements BotButtonHandler {
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        List<PartialBotApiMethod<?>> answers = new ArrayList<>();
 
-        EditMessageText newText = new EditMessageText();
-        newText.setText(localeMessageSource.getMessage("onAction.clubCardsButton"));
-        newText.setChatId(chatId);
-        newText.setMessageId(query.getMessage().getMessageId());
-        newText.setReplyMarkup(getClubCartsMenuMarkup());
-
-        answers.add(newText);
-        return answers;
+        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("onAction.clubCardsButton"),
+                chatId,
+                query.getMessage().getMessageId(),
+                getClubCartsMenuMarkup())));
     }
 
     private InlineKeyboardMarkup getClubCartsMenuMarkup() {

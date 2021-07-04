@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.handlers;
 
 
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
+import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -44,12 +45,24 @@ public class BotActionListener {
     }
     //Sales menu end
 
-    public List<PartialBotApiMethod<?>> handleClubCardsTypesReturnButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getClubCardTypeButtonHandler().returnToMainMenu(chatId,query);
+    //Fitness menu start
+
+    public List<PartialBotApiMethod<?>> handleFitnessButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().handle(chatId, query);
     }
 
-    public List<PartialBotApiMethod<?>> handleClubCardsReturnButton(String chatId,CallbackQuery query) {
-        return null;
+    public List<PartialBotApiMethod<?>> handleFitnessCoachesButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().openCoachesMenu(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessSchedulesButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
+    }
+
+    //Fitness menu end
+
+    public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId,CallbackQuery query) {
+        return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
     }
 
     @Autowired

@@ -1,5 +1,6 @@
 package com.camper.yantarniytelegrambot.utils;
 
+import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -77,11 +78,12 @@ public class Utils {
 
     /**
      * Change previous image/message description on new image/description
-     * @param chatId - chat id
-     * @param messageId - message id
-     * @param query - callback query
-     * @param markup - markup
-     * @param image - new image
+     *
+     * @param chatId      - chat id
+     * @param messageId   - message id
+     * @param query       - callback query
+     * @param markup      - markup
+     * @param image       - new image
      * @param description - new message description
      * @return list with commands to execute
      */
@@ -91,9 +93,9 @@ public class Utils {
 
         if (image != null) {
             if (query.getMessage().hasPhoto()) {
-                answers.add(Utils.changeMessagePhoto(chatId,messageId,markup, image, description));
+                answers.add(Utils.changeMessagePhoto(chatId, messageId, markup, image, description));
             } else {
-                answers.add(Utils.deleteMessage(chatId,messageId));
+                answers.add(Utils.deleteMessage(chatId, messageId));
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(image), "filename"));
@@ -107,17 +109,29 @@ public class Utils {
 
         } else {
             if (query.getMessage().hasPhoto()) {
-                answers.add(Utils.deleteMessage(chatId,messageId));
-                SendMessage sendMessage = new SendMessage(chatId,description);
+                answers.add(Utils.deleteMessage(chatId, messageId));
+                SendMessage sendMessage = new SendMessage(chatId, description);
                 sendMessage.setReplyMarkup(markup);
                 answers.add(sendMessage);
             } else {
                 answers.add(Utils.changeMessage(description
-                        ,chatId
-                        ,messageId
-                        ,markup));
+                        , chatId
+                        , messageId
+                        , markup));
             }
         }
         return answers;
+    }
+
+    /**
+     * delete last message and create main menu message
+     *
+     * @param chatId    - chat id
+     * @param messageId - id of last message
+     * @return commands to delete last message and create main menu
+     */
+    public static List<PartialBotApiMethod<?>> moveToMainMenu(String chatId, Integer messageId) {
+        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId, messageId),
+                YantarniyTelegramBot.createMainMenuMessage(chatId, "Главное меню")));
     }
 }

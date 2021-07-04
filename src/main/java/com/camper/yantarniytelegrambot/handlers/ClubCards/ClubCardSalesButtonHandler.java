@@ -114,8 +114,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
     public List<PartialBotApiMethod<?>> returnToMainMenu(String chatId, CallbackQuery query) {
         currentPage = 1;
         sales = null;
-        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
-                YantarniyTelegramBot.createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"))));
+        return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
     }
 
     private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
