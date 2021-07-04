@@ -121,6 +121,18 @@ public class BotActionListener {
 
     //Fitness menu end
 
+
+    //Spa menu start
+    public List<PartialBotApiMethod<?>> handleSpaButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSpaSpecialistsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().openSpecialistsMenu(chatId, query);
+    }
+
+    //Spa menu end
+
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId,CallbackQuery query) {
         return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
     }
