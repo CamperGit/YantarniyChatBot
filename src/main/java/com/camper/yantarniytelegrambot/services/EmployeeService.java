@@ -1,6 +1,7 @@
 package com.camper.yantarniytelegrambot.services;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
+import com.camper.yantarniytelegrambot.entity.EmployeeType;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.repos.EmployeeRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,11 @@ public class EmployeeService {
     @Transactional(readOnly = true)
     public List<Employee> findAll() {
         return employeeRepo.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Employee> findAllByEmployeeType(EmployeeType employeeType) {
+        return employeeRepo.findAllByEmployeeType(employeeType);
     }
 
     @Autowired

@@ -41,6 +41,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private LocaleMessageSource localeMessageSource;
     private SaleService saleService;
     private LocationService locationService;
+    private EmployeeTypeService employeeTypeService;
+    private EmployeeService employeeService;
 
     static {
         handlers = new HashMap<>();
@@ -111,6 +113,16 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/test" : {
+                    Location spa = locationService.findLocationByTitle("SPA");
+                    EmployeeType nails_master = employeeTypeService.findEmployeeTypeByType("NAILS_MASTER");
+                    try {
+                        Employee spa1 = new Employee(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Spa\\Nails\\lubch.png")),
+                                null,spa,nails_master);
+                        employeeService.putIfAbsent(spa1);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                     /*Location location = locationService.findLocationByTitle("SPA");
                     Sale sale2 = new Sale(null,"❗Внимание акция! Только 3 дня❗\n" +
                             "\n" +
@@ -181,5 +193,15 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     @Autowired
     public void setLocationService(LocationService locationService) {
         this.locationService = locationService;
+    }
+
+    @Autowired
+    public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
+        this.employeeTypeService = employeeTypeService;
+    }
+
+    @Autowired
+    public void setEmployeeService(EmployeeService employeeService) {
+        this.employeeService = employeeService;
     }
 }
