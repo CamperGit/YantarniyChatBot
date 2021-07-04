@@ -1,9 +1,11 @@
 package com.camper.yantarniytelegrambot.handlers.ClubCards;
 
 import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
+import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
+import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.services.SaleService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,14 @@ import java.util.List;
 public class ClubCardSalesButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private SaleService saleService;
+    private LocationService locationService;
     private int currentPage = 1;
     private List<Sale> sales = null;
-
+    private Location location;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        sales = saleService.findAll();
+        sales = saleService.findAllByLocation(location);
         currentPage = 1;
 
         List<PartialBotApiMethod<?>> answers = new ArrayList<>();
@@ -72,7 +75,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
 
     public List<PartialBotApiMethod<?>> nextSale(String chatId, CallbackQuery query) {
         if (sales == null) {
-            sales = saleService.findAll();
+            sales = saleService.findAllByLocation(location);
         }
         if (sales.isEmpty() || currentPage == sales.size()) {
             return null;
@@ -91,7 +94,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
 
     public List<PartialBotApiMethod<?>> previousSale(String chatId, CallbackQuery query) {
         if (sales == null) {
-            sales = saleService.findAll();
+            sales = saleService.findAllByLocation(location);
         }
         if (sales.isEmpty() || currentPage == 1) {
             return null;
@@ -151,5 +154,11 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
     @Autowired
     public void setSaleService(SaleService saleService) {
         this.saleService = saleService;
+    }
+
+    @Autowired
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
+        location = locationService.findLocationByTitle("ClubCards");
     }
 }

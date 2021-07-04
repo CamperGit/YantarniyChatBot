@@ -1,5 +1,6 @@
 package com.camper.yantarniytelegrambot.services;
 
+import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.repos.SaleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class SaleService {
      */
     public Sale putIfAbsent(Sale sale) {
         return saleRepo.findOne(Example.of(sale)).orElseGet(()-> saleRepo.save(sale));
+    }
+
+    @Transactional(readOnly = true)
+    public List<Sale> findAllByLocation(Location location) {
+        return saleRepo.findAllByLocation(location);
     }
 
     @Transactional(readOnly = true)

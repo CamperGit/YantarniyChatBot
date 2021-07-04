@@ -23,6 +23,10 @@ public class LocationService {
         return locationRepo.findOne(Example.of(location)).orElseGet(()-> locationRepo.save(location));
     }
 
+    public Location findLocationByTitle(String title) {
+        return locationRepo.findLocationByTitle(title);
+    }
+
     @Autowired
     public void setLocationRepo(LocationRepo locationRepo) {
         this.locationRepo = locationRepo;
