@@ -54,9 +54,7 @@ public class BotActionListener {
         return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
     }
 
-    public List<PartialBotApiMethod<?>> handleFitnessGymButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessGymButtonHandler().handle(chatId, query);
-    }
+
 
     //GA Start
     public List<PartialBotApiMethod<?>> handleFitnessGroupsButton(String chatId, CallbackQuery query) {
@@ -73,9 +71,34 @@ public class BotActionListener {
     //GA End
 
 
+    //GYM Start
+    public List<PartialBotApiMethod<?>> handleFitnessGymButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGymButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessGymPrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGymButtonHandler().previousCoach(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessGymNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessGymButtonHandler().nextCoach(chatId, query);
+    }
+    //GYM End
+
+
+    //POOL Start
     public List<PartialBotApiMethod<?>> handleFitnessPoolButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().getFitnessPoolButtonHandler().handle(chatId, query);
     }
+
+    public List<PartialBotApiMethod<?>> handleFitnessPoolPrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessPoolButtonHandler().previousCoach(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleFitnessPoolNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessPoolButtonHandler().nextCoach(chatId, query);
+    }
+    //POOL End
 
     //Fitness menu end
 
