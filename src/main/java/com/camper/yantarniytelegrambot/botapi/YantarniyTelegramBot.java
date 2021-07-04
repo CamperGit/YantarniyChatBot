@@ -116,12 +116,6 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     break;
                 }
                 default : {
-                    try {
-                        Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule.jpeg")),null, ScheduleType.DEFAULT);
-                        scheduleService.putIfAbsent(schedule);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     /*try {
                         Location tz = locationService.findLocationByTitle("GYM");
                         Location zpp = locationService.findLocationByTitle("GROUP_ACTIVITY");

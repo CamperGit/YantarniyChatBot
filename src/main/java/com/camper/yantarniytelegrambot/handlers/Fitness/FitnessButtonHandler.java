@@ -5,7 +5,6 @@ import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -29,6 +28,8 @@ public class FitnessButtonHandler implements BotButtonHandler {
     private FitnessPoolButtonHandler fitnessPoolButtonHandler;
     @Getter
     private FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler;
+    @Getter
+    private FitnessChangesButtonHandler fitnessChangesButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -118,7 +119,7 @@ public class FitnessButtonHandler implements BotButtonHandler {
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
         groupsSchedulesButton.setCallbackData("handleFitnessCurrentScheduleButton");
-        changesInSchedulesButton.setCallbackData("handleFitnessSchedulesButton");
+        changesInSchedulesButton.setCallbackData("handleFitnessChangesButton");
         returnButton.setCallbackData("handleFitnessButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
@@ -158,5 +159,10 @@ public class FitnessButtonHandler implements BotButtonHandler {
     @Autowired
     public void setFitnessSchedulesButtonHandler(FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler) {
         this.fitnessSchedulesButtonHandler = fitnessSchedulesButtonHandler;
+    }
+
+    @Autowired
+    public void setFitnessChangesButtonHandler(FitnessChangesButtonHandler fitnessChangesButtonHandler) {
+        this.fitnessChangesButtonHandler = fitnessChangesButtonHandler;
     }
 }

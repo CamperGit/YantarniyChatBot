@@ -22,7 +22,7 @@ public class ScheduleService {
     }
 
     @Transactional(readOnly = true)
-    public List<Schedule> findScheduleChanges() {
+    public List<Schedule> findAllScheduleChanges() {
         return scheduleRepo.findAllByType(ScheduleType.CHANGES);
     }
 
