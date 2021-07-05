@@ -35,4 +35,9 @@ public class UserEntity {
     public String getUsername() {
         return username;
     }
+
+    public UserEntity(String chatId, String username) {
+        this.chatId = chatId;
+        this.username = username;
+    }
 }

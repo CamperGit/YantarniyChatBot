@@ -17,6 +17,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMe
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -39,10 +40,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private final String TOKEN;
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
-    private SaleService saleService;
-    private LocationService locationService;
-    private EmployeeTypeService employeeTypeService;
-    private EmployeeService employeeService;
+    private UserEntityService userEntityService;
 
     static {
         handlers = new HashMap<>();
@@ -110,6 +108,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
                 case "/start": {
+                    User user = update.getMessage().getFrom();
+                    String firstName = user.getFirstName();
+                    String lastName = user.getLastName();
+                    String username = user.getUserName();
+                    UserEntity newUser = new UserEntity(chatId,username);
+                    userEntityService.putIfAbsent(newUser);
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/test" : {
@@ -177,22 +181,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setSaleService(SaleService saleService) {
-        this.saleService = saleService;
-    }
-
-    @Autowired
-    public void setLocationService(LocationService locationService) {
-        this.locationService = locationService;
-    }
-
-    @Autowired
-    public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
-        this.employeeTypeService = employeeTypeService;
-    }
-
-    @Autowired
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public void setUserEntityService(UserEntityService userEntityService) {
+        this.userEntityService = userEntityService;
     }
 }
