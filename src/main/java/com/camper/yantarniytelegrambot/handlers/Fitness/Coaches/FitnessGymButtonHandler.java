@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.handlers.Fitness.Coaches;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Location;
+import com.camper.yantarniytelegrambot.enums.ScrollState;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.EmployeeService;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
@@ -23,13 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class FitnessGymButtonHandler implements BotButtonHandler {
-
-    private LocaleMessageSource localeMessageSource;
-    private EmployeeService employeeService;
-    private int currentPage = 1;
-    private List<Employee> coaches = null;
-    private Location location;
+public class FitnessGymButtonHandler extends FitnessCoachesButtonHandler {
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -45,7 +40,7 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedCoach.getImage()), "filename"));
-                builder.replyMarkup(getGymCoachesMarkup(coaches.size()));
+                builder.replyMarkup(getCoachesMarkup(coaches.size()));
 
                 String type = selectedCoach.getEmployeeType().getTitle();
                 if (type != null) {
@@ -56,7 +51,7 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedCoach.getDescription());
-                sendMessage.setReplyMarkup(getGymCoachesMarkup(coaches.size()));
+                sendMessage.setReplyMarkup(getCoachesMarkup(coaches.size()));
                 answers.add(sendMessage);
             }
         }
@@ -66,65 +61,12 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextCoach(String chatId, CallbackQuery query) {
-        if (coaches == null) {
-            coaches = employeeService.findAllByLocation(location);
-        }
-        if (coaches.isEmpty() || currentPage == coaches.size()) {
-            return null;
-        }
-        currentPage++;
-        Employee selectedCoach = coaches.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        String type = selectedCoach.getEmployeeType().getTitle();
-        String description = localeMessageSource.getMessage("fitness.coaches.category") + " " + type;
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getGymCoachesMarkup(coaches.size())
-                , selectedCoach.getImage()
-                , description));
-    }
-
-    public List<PartialBotApiMethod<?>> previousCoach(String chatId, CallbackQuery query) {
-        if (coaches == null) {
-            coaches = employeeService.findAllByLocation(location);
-        }
-        if (coaches.isEmpty() || currentPage == 1) {
-            return null;
-        }
-        currentPage--;
-        Employee selectedCoach = coaches.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        String type = selectedCoach.getEmployeeType().getTitle();
-        String description = localeMessageSource.getMessage("fitness.coaches.category") + " " + type;
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getGymCoachesMarkup(coaches.size())
-                , selectedCoach.getImage()
-                , description));
-    }
-
-    private InlineKeyboardMarkup getGymCoachesMarkup(int numberOfCoaches) {
+    @Override
+    protected InlineKeyboardMarkup getCoachesMarkup(int numberOfCoaches) {
         return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches,currentPage
                 ,"handleFitnessGymPrevButton"
                 ,"handleFitnessGymNextButton"
                 ,"handleFitnessCoachesButton");
-    }
-
-    @Autowired
-    public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
-        this.localeMessageSource = localeMessageSource;
-    }
-
-    @Autowired
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
     }
 
     @Autowired
