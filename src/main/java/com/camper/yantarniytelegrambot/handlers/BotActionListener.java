@@ -204,6 +204,10 @@ public class BotActionListener {
 
     //Spa menu end
 
+    public List<PartialBotApiMethod<?>> handleContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getCallManagerButtonHandler().handle(chatId, query);
+    }
+
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId,CallbackQuery query) {
         return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
     }
