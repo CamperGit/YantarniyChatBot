@@ -44,7 +44,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedSale.getImage()), "filename"));
-                builder.replyMarkup(getClubCardSalesMarkup(sales.size()));
+                builder.replyMarkup(getSpaCardSalesMarkup(sales.size()));
 
                 String description = selectedSale.getDescription();
                 if (description != null) {
@@ -55,7 +55,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedSale.getDescription());
-                sendMessage.setReplyMarkup(getClubCardSalesMarkup(sales.size()));
+                sendMessage.setReplyMarkup(getSpaCardSalesMarkup(sales.size()));
                 answers.add(sendMessage);
             }
         } else {
@@ -83,7 +83,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getClubCardSalesMarkup(sales.size())
+                , getSpaCardSalesMarkup(sales.size())
                 , selectedSale.getImage()
                 , selectedSale.getDescription()));
     }
@@ -102,37 +102,16 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getClubCardSalesMarkup(sales.size())
+                , getSpaCardSalesMarkup(sales.size())
                 , selectedSale.getImage()
                 , selectedSale.getDescription()));
     }
 
-    private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfSales == 0 ? 0 : currentPage) + "/" + numberOfSales);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        prevButton.setCallbackData("handleSpaSalesPrevButton");
-        nextButton.setCallbackData("handleSpaSalesNextButton");
-        countButton.setCallbackData("null");
-        mainMenuButton.setCallbackData("handleSpaButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(mainMenuButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+    private InlineKeyboardMarkup getSpaCardSalesMarkup(int numberOfSales) {
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSales,currentPage
+                ,"handleSpaSalesPrevButton"
+                ,"handleSpaSalesNextButton"
+                ,"handleSpaSpecialistsButton");
     }
 
     private InlineKeyboardMarkup getEmptySalesMarkup() {

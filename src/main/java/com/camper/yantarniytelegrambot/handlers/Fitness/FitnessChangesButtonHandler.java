@@ -100,32 +100,11 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
                 , selectedChange.getDescription()));
     }
 
-    private InlineKeyboardMarkup getScheduleChangesMarkup(int numberOfCoaches) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfCoaches == 0 ? 0 : currentPage) + "/" + numberOfCoaches);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        prevButton.setCallbackData("handleFitnessChangePrevButton");
-        nextButton.setCallbackData("handleFitnessChangeNextButton");
-        countButton.setCallbackData("null");
-        returnButton.setCallbackData("handleFitnessSchedulesButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+    private InlineKeyboardMarkup getScheduleChangesMarkup(int numberOfChanges) {
+        return BotButtonHandler.getScrollMenuMarkup(numberOfChanges,currentPage
+                ,"handleFitnessChangePrevButton"
+                ,"handleFitnessChangeNextButton"
+                ,"handleFitnessSchedulesButton");
     }
 
     private InlineKeyboardMarkup getChangesEmptyMarkup() {

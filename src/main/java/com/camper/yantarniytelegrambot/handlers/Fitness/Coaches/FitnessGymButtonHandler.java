@@ -111,31 +111,10 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
     }
 
     private InlineKeyboardMarkup getGymCoachesMarkup(int numberOfCoaches) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfCoaches == 0 ? 0 : currentPage) + "/" + numberOfCoaches);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        prevButton.setCallbackData("handleFitnessGymPrevButton");
-        nextButton.setCallbackData("handleFitnessGymNextButton");
-        countButton.setCallbackData("null");
-        returnButton.setCallbackData("handleFitnessCoachesButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+        return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches,currentPage
+                ,"handleFitnessGymPrevButton"
+                ,"handleFitnessGymNextButton"
+                ,"handleFitnessCoachesButton");
     }
 
     @Autowired

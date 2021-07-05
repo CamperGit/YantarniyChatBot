@@ -97,32 +97,11 @@ public class SpaNailsButtonHandler implements BotButtonHandler {
                 , selectedSpecialist.getDescription()));
     }
 
-    private InlineKeyboardMarkup getNailsSpecialistsMarkup(int numberOfCoaches) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfCoaches == 0 ? 0 : currentPage) + "/" + numberOfCoaches);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        prevButton.setCallbackData("handleSpaNailsPrevButton");
-        nextButton.setCallbackData("handleSpaNailsNextButton");
-        countButton.setCallbackData("null");
-        returnButton.setCallbackData("handleSpaSpecialistsButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+    private InlineKeyboardMarkup getNailsSpecialistsMarkup(int numberOfSpecialists) {
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists,currentPage
+                ,"handleSpaNailsPrevButton"
+                ,"handleSpaNailsNextButton"
+                ,"handleSpaSpecialistsButton");
     }
 
     @Autowired

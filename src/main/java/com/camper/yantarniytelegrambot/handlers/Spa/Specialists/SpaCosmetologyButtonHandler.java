@@ -44,12 +44,12 @@ public class SpaCosmetologyButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedCoach.getImage()), "filename"));
-                builder.replyMarkup(getNailsSpecialistsMarkup(specialists.size()));
+                builder.replyMarkup(getCosmetologySpecialistsMarkup(specialists.size()));
                 SendPhoto sendPhoto = builder.build();
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedCoach.getDescription());
-                sendMessage.setReplyMarkup(getNailsSpecialistsMarkup(specialists.size()));
+                sendMessage.setReplyMarkup(getCosmetologySpecialistsMarkup(specialists.size()));
                 answers.add(sendMessage);
             }
         }
@@ -73,7 +73,7 @@ public class SpaCosmetologyButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getNailsSpecialistsMarkup(specialists.size())
+                , getCosmetologySpecialistsMarkup(specialists.size())
                 , selectedSpecialist.getImage()
                 , selectedSpecialist.getDescription()));
     }
@@ -92,37 +92,16 @@ public class SpaCosmetologyButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getNailsSpecialistsMarkup(specialists.size())
+                , getCosmetologySpecialistsMarkup(specialists.size())
                 , selectedSpecialist.getImage()
                 , selectedSpecialist.getDescription()));
     }
 
-    private InlineKeyboardMarkup getNailsSpecialistsMarkup(int numberOfCoaches) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfCoaches == 0 ? 0 : currentPage) + "/" + numberOfCoaches);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        prevButton.setCallbackData("handleSpaCosmetologyPrevButton");
-        nextButton.setCallbackData("handleSpaCosmetologyNextButton");
-        countButton.setCallbackData("null");
-        returnButton.setCallbackData("handleSpaSpecialistsButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+    private InlineKeyboardMarkup getCosmetologySpecialistsMarkup(int numberOfSpecialists) {
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists,currentPage
+                ,"handleSpaCosmetologyPrevButton"
+                ,"handleSpaCosmetologyNextButton"
+                ,"handleSpaSpecialistsButton");
     }
 
     @Autowired

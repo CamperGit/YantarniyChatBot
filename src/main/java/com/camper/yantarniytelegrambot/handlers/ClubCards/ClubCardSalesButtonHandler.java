@@ -117,31 +117,10 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
     }
 
     private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
-        InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfSales == 0 ? 0 : currentPage) + "/" + numberOfSales);
-        InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
-
-        prevButton.setCallbackData("handleClubCardsSalesPrevButton");
-        nextButton.setCallbackData("handleClubCardsSalesNextButton");
-        countButton.setCallbackData("null");
-        mainMenuButton.setCallbackData("handleClubCardsSalesReturnButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(prevButton);
-        firstRow.add(countButton);
-        firstRow.add(nextButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(mainMenuButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSales,currentPage
+                ,"handleClubCardsSalesPrevButton"
+                ,"handleClubCardsSalesNextButton"
+                ,"handleClubCardsSalesReturnButton");
     }
 
     private InlineKeyboardMarkup getEmptySalesMarkup() {
