@@ -23,12 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class SpaStylistsButtonHandler implements BotButtonHandler {
-    private LocaleMessageSource localeMessageSource;
-    private EmployeeService employeeService;
-    private int currentPage = 1;
-    private List<Employee> specialists = null;
-    private EmployeeType employeeType;
+public class SpaStylistsButtonHandler extends SpaSpecialistsButtonHandler {
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -44,12 +39,12 @@ public class SpaStylistsButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedCoach.getImage()), "filename"));
-                builder.replyMarkup(getNailsSpecialistsMarkup(specialists.size()));
+                builder.replyMarkup(getSpecialistsMarkup(specialists.size()));
                 SendPhoto sendPhoto = builder.build();
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedCoach.getDescription());
-                sendMessage.setReplyMarkup(getNailsSpecialistsMarkup(specialists.size()));
+                sendMessage.setReplyMarkup(getSpecialistsMarkup(specialists.size()));
                 answers.add(sendMessage);
             }
         }
@@ -59,59 +54,12 @@ public class SpaStylistsButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextSpecialist(String chatId, CallbackQuery query) {
-        if (specialists == null) {
-            specialists = employeeService.findAllByEmployeeType(employeeType);
-        }
-        if (specialists.isEmpty() || currentPage == specialists.size()) {
-            return null;
-        }
-        currentPage++;
-        Employee selectedSpecialist = specialists.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getNailsSpecialistsMarkup(specialists.size())
-                , selectedSpecialist.getImage()
-                , selectedSpecialist.getDescription()));
-    }
-
-    public List<PartialBotApiMethod<?>> previousSpecialist(String chatId, CallbackQuery query) {
-        if (specialists == null) {
-            specialists = employeeService.findAllByEmployeeType(employeeType);
-        }
-        if (specialists.isEmpty() || currentPage == 1) {
-            return null;
-        }
-        currentPage--;
-        Employee selectedSpecialist = specialists.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getNailsSpecialistsMarkup(specialists.size())
-                , selectedSpecialist.getImage()
-                , selectedSpecialist.getDescription()));
-    }
-
-    private InlineKeyboardMarkup getNailsSpecialistsMarkup(int numberOfSpecialists) {
+    @Override
+    protected InlineKeyboardMarkup getSpecialistsMarkup(int numberOfSpecialists) {
         return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists,currentPage
                 ,"handleSpaStylistsPrevButton"
                 ,"handleSpaStylistsNextButton"
                 ,"handleSpaSpecialistsButton");
-    }
-
-    @Autowired
-    public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
-        this.localeMessageSource = localeMessageSource;
-    }
-
-    @Autowired
-    public void setEmployeeService(EmployeeService employeeService) {
-        this.employeeService = employeeService;
     }
 
     @Autowired
