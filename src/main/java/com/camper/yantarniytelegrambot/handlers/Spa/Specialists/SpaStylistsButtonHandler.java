@@ -1,4 +1,4 @@
-package com.camper.yantarniytelegrambot.handlers.Spa;
+package com.camper.yantarniytelegrambot.handlers.Spa.Specialists;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.EmployeeType;
@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class SpaNailsButtonHandler implements BotButtonHandler {
+public class SpaStylistsButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private EmployeeService employeeService;
     private int currentPage = 1;
@@ -105,8 +105,8 @@ public class SpaNailsButtonHandler implements BotButtonHandler {
         InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
-        prevButton.setCallbackData("handleSpaNailsPrevButton");
-        nextButton.setCallbackData("handleSpaNailsNextButton");
+        prevButton.setCallbackData("handleSpaStylistsPrevButton");
+        nextButton.setCallbackData("handleSpaStylistsNextButton");
         countButton.setCallbackData("null");
         returnButton.setCallbackData("handleSpaSpecialistsButton");
 
@@ -137,6 +137,6 @@ public class SpaNailsButtonHandler implements BotButtonHandler {
 
     @Autowired
     public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
-        this.employeeType = employeeTypeService.findEmployeeTypeByType("NAILS_MASTER");
+        this.employeeType = employeeTypeService.findEmployeeTypeByType("STYLIST");
     }
 }

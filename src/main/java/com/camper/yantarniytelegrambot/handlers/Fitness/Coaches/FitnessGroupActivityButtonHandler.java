@@ -1,4 +1,4 @@
-package com.camper.yantarniytelegrambot.handlers.Fitness;
+package com.camper.yantarniytelegrambot.handlers.Fitness.Coaches;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Location;

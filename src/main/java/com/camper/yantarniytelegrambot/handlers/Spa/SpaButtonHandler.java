@@ -1,6 +1,10 @@
 package com.camper.yantarniytelegrambot.handlers.Spa;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaCosmetologyButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaMassageButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaNailsButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaStylistsButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.Getter;
@@ -14,7 +18,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -22,6 +25,14 @@ public class SpaButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     @Getter
     private SpaSalesButtonHandler spaSalesButtonHandler;
+    @Getter
+    private SpaNailsButtonHandler spaNailsButtonHandler;
+    @Getter
+    private SpaMassageButtonHandler spaMassageButtonHandler;
+    @Getter
+    private SpaCosmetologyButtonHandler spaCosmetologyButtonHandler;
+    @Getter
+    private SpaStylistsButtonHandler spaStylistsButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -109,5 +120,25 @@ public class SpaButtonHandler implements BotButtonHandler {
     @Autowired
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
         this.localeMessageSource = localeMessageSource;
+    }
+
+    @Autowired
+    public void setSpaNailsButtonHandler(SpaNailsButtonHandler spaNailsButtonHandler) {
+        this.spaNailsButtonHandler = spaNailsButtonHandler;
+    }
+
+    @Autowired
+    public void setSpaMassageButtonHandler(SpaMassageButtonHandler spaMassageButtonHandler) {
+        this.spaMassageButtonHandler = spaMassageButtonHandler;
+    }
+
+    @Autowired
+    public void setSpaCosmetologyButtonHandler(SpaCosmetologyButtonHandler spaCosmetologyButtonHandler) {
+        this.spaCosmetologyButtonHandler = spaCosmetologyButtonHandler;
+    }
+
+    @Autowired
+    public void setSpaStylistsButtonHandler(SpaStylistsButtonHandler spaStylistsButtonHandler) {
+        this.spaStylistsButtonHandler = spaStylistsButtonHandler;
     }
 }

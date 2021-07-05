@@ -1,11 +1,11 @@
-package com.camper.yantarniytelegrambot.handlers.Fitness;
+package com.camper.yantarniytelegrambot.handlers.Spa.Specialists;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
-import com.camper.yantarniytelegrambot.entity.Location;
+import com.camper.yantarniytelegrambot.entity.EmployeeType;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.EmployeeService;
+import com.camper.yantarniytelegrambot.services.EmployeeTypeService;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
-import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,40 +23,33 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class FitnessGymButtonHandler implements BotButtonHandler {
-
+public class SpaMassageButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private EmployeeService employeeService;
     private int currentPage = 1;
-    private List<Employee> coaches = null;
-    private Location location;
+    private List<Employee> specialists = null;
+    private EmployeeType employeeType;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        coaches = employeeService.findAllByLocation(location);
+        specialists = employeeService.findAllByEmployeeType(employeeType);
         currentPage = 1;
 
         List<PartialBotApiMethod<?>> answers = new ArrayList<>();
 
-        if (coaches != null && !coaches.isEmpty()) {
-            Employee selectedCoach = coaches.get(0);
+        if (specialists != null && !specialists.isEmpty()) {
+            Employee selectedCoach = specialists.get(0);
 
             if (selectedCoach.getImage() != null) {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedCoach.getImage()), "filename"));
-                builder.replyMarkup(getGymCoachesMarkup(coaches.size()));
-
-                String type = selectedCoach.getEmployeeType().getTitle();
-                if (type != null) {
-                    builder.caption(localeMessageSource.getMessage("fitness.coaches.category") + " " + type);
-                }
-
+                builder.replyMarkup(getNailsSpecialistsMarkup(specialists.size()));
                 SendPhoto sendPhoto = builder.build();
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedCoach.getDescription());
-                sendMessage.setReplyMarkup(getGymCoachesMarkup(coaches.size()));
+                sendMessage.setReplyMarkup(getNailsSpecialistsMarkup(specialists.size()));
                 answers.add(sendMessage);
             }
         }
@@ -66,51 +59,45 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextCoach(String chatId, CallbackQuery query) {
-        if (coaches == null) {
-            coaches = employeeService.findAllByLocation(location);
+    public List<PartialBotApiMethod<?>> nextSpecialist(String chatId, CallbackQuery query) {
+        if (specialists == null) {
+            specialists = employeeService.findAllByEmployeeType(employeeType);
         }
-        if (coaches.isEmpty() || currentPage == coaches.size()) {
+        if (specialists.isEmpty() || currentPage == specialists.size()) {
             return null;
         }
         currentPage++;
-        Employee selectedCoach = coaches.get(currentPage - 1);
+        Employee selectedSpecialist = specialists.get(currentPage - 1);
         Integer messageId = query.getMessage().getMessageId();
-
-        String type = selectedCoach.getEmployeeType().getTitle();
-        String description = localeMessageSource.getMessage("fitness.coaches.category") + " " + type;
 
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getGymCoachesMarkup(coaches.size())
-                , selectedCoach.getImage()
-                , description));
+                , getNailsSpecialistsMarkup(specialists.size())
+                , selectedSpecialist.getImage()
+                , selectedSpecialist.getDescription()));
     }
 
-    public List<PartialBotApiMethod<?>> previousCoach(String chatId, CallbackQuery query) {
-        if (coaches == null) {
-            coaches = employeeService.findAllByLocation(location);
+    public List<PartialBotApiMethod<?>> previousSpecialist(String chatId, CallbackQuery query) {
+        if (specialists == null) {
+            specialists = employeeService.findAllByEmployeeType(employeeType);
         }
-        if (coaches.isEmpty() || currentPage == 1) {
+        if (specialists.isEmpty() || currentPage == 1) {
             return null;
         }
         currentPage--;
-        Employee selectedCoach = coaches.get(currentPage - 1);
+        Employee selectedSpecialist = specialists.get(currentPage - 1);
         Integer messageId = query.getMessage().getMessageId();
-
-        String type = selectedCoach.getEmployeeType().getTitle();
-        String description = localeMessageSource.getMessage("fitness.coaches.category") + " " + type;
 
         return new ArrayList<>(Utils.scrollMenuItem(chatId
                 , messageId
                 , query
-                , getGymCoachesMarkup(coaches.size())
-                , selectedCoach.getImage()
-                , description));
+                , getNailsSpecialistsMarkup(specialists.size())
+                , selectedSpecialist.getImage()
+                , selectedSpecialist.getDescription()));
     }
 
-    private InlineKeyboardMarkup getGymCoachesMarkup(int numberOfCoaches) {
+    private InlineKeyboardMarkup getNailsSpecialistsMarkup(int numberOfCoaches) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
@@ -118,10 +105,10 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
         InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
 
-        prevButton.setCallbackData("handleFitnessGymPrevButton");
-        nextButton.setCallbackData("handleFitnessGymNextButton");
+        prevButton.setCallbackData("handleSpaMassagePrevButton");
+        nextButton.setCallbackData("handleSpaMassageNextButton");
         countButton.setCallbackData("null");
-        returnButton.setCallbackData("handleFitnessCoachesButton");
+        returnButton.setCallbackData("handleSpaSpecialistsButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(prevButton);
@@ -149,7 +136,7 @@ public class FitnessGymButtonHandler implements BotButtonHandler {
     }
 
     @Autowired
-    public void setLocationService(LocationService locationService) {
-        location = locationService.findLocationByTitle("GYM");
+    public void setEmployeeTypeService(EmployeeTypeService employeeTypeService) {
+        this.employeeType = employeeTypeService.findEmployeeTypeByType("MASSAGE_MASTER");
     }
 }

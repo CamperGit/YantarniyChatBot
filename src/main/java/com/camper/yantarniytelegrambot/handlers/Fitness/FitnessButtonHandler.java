@@ -1,6 +1,9 @@
 package com.camper.yantarniytelegrambot.handlers.Fitness;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGroupActivityButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGymButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessPoolButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.Getter;
