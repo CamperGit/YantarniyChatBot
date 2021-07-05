@@ -53,7 +53,7 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
             }
         } else {
             SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("fitness.schedulesChanges.empty"));
-            sendMessage.setReplyMarkup(getChangesEmptyMarkup());
+            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleFitnessSchedulesButton"));
             answers.add(sendMessage);
         }
 
@@ -105,17 +105,6 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
                 ,"handleFitnessChangePrevButton"
                 ,"handleFitnessChangeNextButton"
                 ,"handleFitnessSchedulesButton");
-    }
-
-    private InlineKeyboardMarkup getChangesEmptyMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleFitnessSchedulesButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
     }
 
     @Autowired

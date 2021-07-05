@@ -8,6 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public interface BotButtonHandler {
@@ -38,6 +39,17 @@ public interface BotButtonHandler {
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 
+        return inlineKeyboardMarkup;
+    }
+
+    static InlineKeyboardMarkup getReturnMarkup(String exitCallbackData) {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton exitButton = new InlineKeyboardButton("Вернуться");
+        exitButton.setCallbackData(exitCallbackData);
+        List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        firstRow.add(exitButton);
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
+        inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;
     }
 }

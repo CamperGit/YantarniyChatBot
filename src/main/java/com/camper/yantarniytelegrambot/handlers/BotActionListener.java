@@ -29,11 +29,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesPrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getClubCardSalesButtonHandler().previousSale(chatId, query);
+        return handlersFacade.getClubCardSalesButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getClubCardSalesButtonHandler().nextSale(chatId, query);
+        return handlersFacade.getClubCardSalesButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesReturnButton(String chatId, CallbackQuery query) {
@@ -136,11 +136,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaSalesPrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().previousSale(chatId, query);
+        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSpaSalesNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().nextSale(chatId, query);
+        return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
     //Spa sales end
 
@@ -150,11 +150,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaNailsPrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaNailsButtonHandler().scrollItem(chatId, query,ScrollState.PREVIOUS);
+        return handlersFacade.getSpaButtonHandler().getSpaNailsButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSpaNailsNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaNailsButtonHandler().scrollItem(chatId, query,ScrollState.NEXT);
+        return handlersFacade.getSpaButtonHandler().getSpaNailsButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
     //Nails end
 
@@ -164,11 +164,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaMassagePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaMassageButtonHandler().scrollItem(chatId, query,ScrollState.PREVIOUS);
+        return handlersFacade.getSpaButtonHandler().getSpaMassageButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSpaMassageNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaMassageButtonHandler().scrollItem(chatId, query,ScrollState.NEXT);
+        return handlersFacade.getSpaButtonHandler().getSpaMassageButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
     //Massage end
 
@@ -178,11 +178,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaCosmetologyPrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaCosmetologyButtonHandler().scrollItem(chatId, query,ScrollState.PREVIOUS);
+        return handlersFacade.getSpaButtonHandler().getSpaCosmetologyButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSpaCosmetologyNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaCosmetologyButtonHandler().scrollItem(chatId, query,ScrollState.NEXT);
+        return handlersFacade.getSpaButtonHandler().getSpaCosmetologyButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
     //Cosmetology end
 
@@ -192,14 +192,14 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaStylistsPrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaStylistsButtonHandler().scrollItem(chatId, query,ScrollState.PREVIOUS);
+        return handlersFacade.getSpaButtonHandler().getSpaStylistsButtonHandler().scrollItem(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSpaStylistsNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaStylistsButtonHandler().scrollItem(chatId, query,ScrollState.NEXT);
+        return handlersFacade.getSpaButtonHandler().getSpaStylistsButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
     }
     //Stylists end
-    
+
 
     //Spa menu end
 

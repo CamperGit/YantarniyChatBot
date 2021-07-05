@@ -21,18 +21,10 @@ public class CallManagerButtonHandler implements BotButtonHandler {
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("other.callManager"), chatId,query.getMessage().getMessageId(),getCallManagerMarkup())));
-    }
-
-    private InlineKeyboardMarkup getCallManagerMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleReturnMainMenuButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
+        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("other.callManager")
+                , chatId
+                , query.getMessage().getMessageId()
+                , BotButtonHandler.getReturnMarkup("handleReturnMainMenuButton"))));
     }
 
     @Autowired

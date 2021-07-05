@@ -46,7 +46,10 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         }
         messageBuilder.append(localeMessageSource.getMessage("other.callManager"));
 
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(messageBuilder.toString(),chatId,query.getMessage().getMessageId(),getCardTypesMarkup())));
+        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(messageBuilder.toString()
+                , chatId
+                , query.getMessage().getMessageId()
+                , BotButtonHandler.getReturnMarkup("handleClubCardButton"))));
     }
 
     @Autowired
@@ -57,16 +60,5 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     @Autowired
     public void setCardTypeService(CardTypeService cardTypeService) {
         this.cardTypeService = cardTypeService;
-    }
-
-    private InlineKeyboardMarkup getCardTypesMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleClubCardButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
     }
 }

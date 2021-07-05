@@ -1,7 +1,9 @@
 package com.camper.yantarniytelegrambot.handlers.Spa;
 
+import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
+import com.camper.yantarniytelegrambot.enums.ScrollState;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.services.LocationService;
@@ -60,7 +62,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
             }
         } else {
             SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.spaSalesButton"));
-            sendMessage.setReplyMarkup(getEmptySalesMarkup());
+            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleSpaButton"));
             answers.add(sendMessage);
         }
 
@@ -69,33 +71,21 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextSale(String chatId, CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> scrollItem(String chatId, CallbackQuery query, ScrollState scrollState) {
         if (sales == null) {
             sales = saleService.findAllByLocation(location);
         }
-        if (sales.isEmpty() || currentPage == sales.size()) {
-            return null;
+        if (scrollState.equals(ScrollState.NEXT)) {
+            if (sales.isEmpty() || currentPage == sales.size()) {
+                return null;
+            }
+            currentPage++;
+        } else {
+            if (sales.isEmpty() || currentPage == 1) {
+                return null;
+            }
+            currentPage--;
         }
-        currentPage++;
-        Sale selectedSale = sales.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getSpaCardSalesMarkup(sales.size())
-                , selectedSale.getImage()
-                , selectedSale.getDescription()));
-    }
-
-    public List<PartialBotApiMethod<?>> previousSale(String chatId, CallbackQuery query) {
-        if (sales == null) {
-            sales = saleService.findAllByLocation(location);
-        }
-        if (sales.isEmpty() || currentPage == 1) {
-            return null;
-        }
-        currentPage--;
         Sale selectedSale = sales.get(currentPage - 1);
         Integer messageId = query.getMessage().getMessageId();
 
@@ -112,17 +102,6 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 ,"handleSpaSalesPrevButton"
                 ,"handleSpaSalesNextButton"
                 ,"handleSpaSpecialistsButton");
-    }
-
-    private InlineKeyboardMarkup getEmptySalesMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.mainMenu"));
-        exitButton.setCallbackData("handleSpaButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
     }
 
     @Autowired

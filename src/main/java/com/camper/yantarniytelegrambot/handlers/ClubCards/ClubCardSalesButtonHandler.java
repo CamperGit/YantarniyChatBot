@@ -3,6 +3,7 @@ package com.camper.yantarniytelegrambot.handlers.ClubCards;
 import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
+import com.camper.yantarniytelegrambot.enums.ScrollState;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.services.LocationService;
@@ -72,33 +73,22 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextSale(String chatId, CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> scrollItem(String chatId, CallbackQuery query, ScrollState scrollState) {
         if (sales == null) {
             sales = saleService.findAllByLocation(location);
         }
-        if (sales.isEmpty() || currentPage == sales.size()) {
-            return null;
+        if (scrollState.equals(ScrollState.NEXT)) {
+            if (sales.isEmpty() || currentPage == sales.size()) {
+                return null;
+            }
+            currentPage++;
+        } else {
+            if (sales.isEmpty() || currentPage == 1) {
+                return null;
+            }
+            currentPage--;
         }
-        currentPage++;
-        Sale selectedSale = sales.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getClubCardSalesMarkup(sales.size())
-                , selectedSale.getImage()
-                , selectedSale.getDescription()));
-    }
-
-    public List<PartialBotApiMethod<?>> previousSale(String chatId, CallbackQuery query) {
-        if (sales == null) {
-            sales = saleService.findAllByLocation(location);
-        }
-        if (sales.isEmpty() || currentPage == 1) {
-            return null;
-        }
-        currentPage--;
         Sale selectedSale = sales.get(currentPage - 1);
         Integer messageId = query.getMessage().getMessageId();
 

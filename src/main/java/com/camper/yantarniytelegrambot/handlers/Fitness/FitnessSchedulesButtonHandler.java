@@ -35,21 +35,10 @@ public class FitnessSchedulesButtonHandler implements BotButtonHandler {
         SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
         builder.chatId(chatId);
         builder.photo(new InputFile(new ByteArrayInputStream(schedule.getImage()), "filename"));
-        builder.replyMarkup(getScheduleMarkup());
+        builder.replyMarkup(BotButtonHandler.getReturnMarkup("handleFitnessSchedulesButton"));
         builder.caption(localeMessageSource.getMessage("fitness.schedules.current"));
         answers.add(builder.build());
         return answers;
-    }
-
-    private InlineKeyboardMarkup getScheduleMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleFitnessSchedulesButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
     }
 
     @Autowired
