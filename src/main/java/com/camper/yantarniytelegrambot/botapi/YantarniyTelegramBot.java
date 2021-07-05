@@ -109,10 +109,11 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             switch (text) {
                 case "/start": {
                     User user = update.getMessage().getFrom();
+                    String result;
                     String firstName = user.getFirstName();
                     String lastName = user.getLastName();
                     String username = user.getUserName();
-                    UserEntity newUser = new UserEntity(chatId,username);
+                    UserEntity newUser = new UserEntity(chatId,firstName);
                     userEntityService.putIfAbsent(newUser);
                     return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
