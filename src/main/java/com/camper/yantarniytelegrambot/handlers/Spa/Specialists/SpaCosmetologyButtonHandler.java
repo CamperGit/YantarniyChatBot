@@ -60,7 +60,7 @@ public class SpaCosmetologyButtonHandler extends SpaSpecialistsButtonHandler {
                 "handleSpaCosmetologyPrevButton",
                 "handleSpaCosmetologyNextButton",
                 "handleSpaSpecialistsButton",
-                localeMessageSource.getMessage("other.contactUsSpa"),
+                localeMessageSource.getMessage("spa.contactUs"),
                 "handleSpaContactUsButton");
     }
 

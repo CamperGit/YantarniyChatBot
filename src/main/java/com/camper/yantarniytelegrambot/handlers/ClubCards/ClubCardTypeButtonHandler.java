@@ -31,21 +31,6 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        /*StringBuilder messageBuilder = new StringBuilder();
-
-        messageBuilder.append(localeMessageSource.getMessage("onAction.clubCardsTypesButton")).append("\n");
-
-        List<CardType> cards = cardTypeService.findAll();
-        for (CardType cardType : cards) {
-            messageBuilder.append(cardType.getTitle());
-            if (cardType.getDescription() != null) {
-                messageBuilder.append("Описание: ");
-                messageBuilder.append(cardType.getDescription());
-            }
-            messageBuilder.append("\n\n");
-        }
-        messageBuilder.append(localeMessageSource.getMessage("other.callManager"));*/
-
         return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("onAction.clubCardsTypesButton"),
                 chatId,
                 query.getMessage(),
@@ -58,10 +43,10 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "3 месяца.\n" +
                 "6 месяцев.\n" +
                 "12 месяцев.\n" +
-                "<b>Время посещения\n</b>" +
-                "<i>В рабочие дни:</i> с 7:00 до 23:00\n" +
-                "<i>В выходные дни:</i> с 9:00 до 23:00\n" +
-                "<b>В клубную карту входит:</b>\n" +
+                "\n<b>Время посещения\n</b>" +
+                "<i>Рабочие дни:</i> с 7:00 до 23:00\n" +
+                "<i>Выходные дни:</i> с 9:00 до 23:00\n" +
+                "\n<b>В клубную карту включено:</b>\n" +
                 "1. Тренажерный зал\n" +
                 "2. Зал групповых программ\n" +
                 "3. Бассейн\n" +
@@ -70,7 +55,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
                 "8. Гостевой визит\n" +
-                "<b>Связаться с менеджером</b>: 2020302\n";
+                "9. Заморозка клубной карты\n" +
+                "\n<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
@@ -81,10 +67,10 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         String message = "<b><u>Дневная GOLD</u></b>\n" +
                 "6 месяцев.\n" +
                 "12 месяцев.\n" +
-                "<b>Время посещения\n</b>" +
-                "<i>В рабочие дни:</i> с 7:00 до 16:00\n" +
-                "<i>В выходные дни:</i> с 9:00 до 16:00\n" +
-                "<b>В клубную карту входит:</b>\n" +
+                "\n<b>Время посещения\n</b>" +
+                "<i>Рабочие дни:</i> с 7:00 до 16:00\n" +
+                "<i>Выходные дни:</i> с 9:00 до 16:00\n" +
+                "\n<b>В клубную карту включено:</b>\n" +
                 "1. Тренажерный зал\n" +
                 "2. Зал групповых программ\n" +
                 "3. Бассейн\n" +
@@ -93,7 +79,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
                 "8. Гостевой визит\n" +
-                "<b>Связаться с менеджером</b>: 2020302\n";
+                "9. Заморозка клубной карты\n" +
+                "\n<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
@@ -103,9 +90,9 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     public List<PartialBotApiMethod<?>> weekendCard(String chatId, CallbackQuery query) {
         String message = "<b><u>Карта выходного дня</u></b>\n" +
                 "12 месяцев.\n" +
-                "<b>Время посещения\n</b>" +
-                "<i>В выходные и праздничные дни:</i> с 9:00 до 23:00\n" +
-                "<b>В клубную карту входит:</b>\n" +
+                "\n<b>Время посещения\n</b>" +
+                "<i>Выходные и праздничные дни:</i> с 9:00 до 23:00\n" +
+                "\n<b>В клубную карту включено:</b>\n" +
                 "1. Тренажерный зал\n" +
                 "2. Зал групповых программ\n" +
                 "3. Бассейн\n" +
@@ -114,7 +101,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
                 "8. Гостевой визит\n" +
-                "<b>Связаться с менеджером</b>: 2020302\n";
+                "9. Заморозка клубной карты\n" +
+                "\n<b>Связаться с менеджером</b>: 2020302\n";
 
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
@@ -125,18 +113,18 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     public List<PartialBotApiMethod<?>> poolCard(String chatId, CallbackQuery query) {
         String message = "<b><u>Бассейн</u></b>\n" +
                 "6 месяцев.\n" +
-                "<b>Время посещения\n</b>" +
-                "<i>В рабочие дни:</i> с 7:00 до 17:00 или с 20:00 до 23:00\n" +
-                "<i>В выходные дни:</i> с 16:00 до 23:00\n" +
-                "<b>В клубную карту включено:</b>\n" +
+                "\n<b>Время посещения\n</b>" +
+                "<i>Рабочие дни:</i> с 7:00 до 17:00 или с 20:00 до 23:00\n" +
+                "<i>Выходные дни:</i> с 16:00 до 23:00\n" +
+                "\n<b>В клубную карту включено:</b>\n" +
                 "1. Бассейн\n" +
                 "2. Финская сауна\n" +
                 "3. Турецкий хамам\n" +
                 "4. Фитнес диагностика\n" +
                 "5. Велнес консультация\n" +
                 "6. Гостевой визит\n" +
-                "7. Заморозка\n" +
-                "<b>Связаться с менеджером</b>: 2020302\n";
+                "7. Заморозка клубной карты\n" +
+                "\n<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
