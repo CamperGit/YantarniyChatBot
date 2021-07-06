@@ -160,11 +160,13 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
         InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+        InlineKeyboardButton sberQrButton = new InlineKeyboardButton("Плати QR от Сбера");
 
         clubCartsButton.setCallbackData("handleClubCardButton");
         fitnessButton.setCallbackData("handleFitnessButton");
         spaButton.setCallbackData("handleSpaButton");
         contactUsButton.setCallbackData("handleContactUsButton");
+        sberQrButton.setCallbackData("handleQrSberButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(clubCartsButton);
@@ -174,7 +176,10 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         secondRow.add(spaButton);
         secondRow.add(contactUsButton);
 
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
+        List<InlineKeyboardButton> thirdRow = new ArrayList<>();
+        thirdRow.add(sberQrButton);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 

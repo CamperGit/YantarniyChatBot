@@ -20,11 +20,13 @@ public class HandlersFacade {
     private final FitnessButtonHandler fitnessButtonHandler;
     private final SpaButtonHandler spaButtonHandler;
     private final CallManagerButtonHandler callManagerButtonHandler;
+    private final SberQRButtonHandler sberQRButtonHandler;
 
     @Autowired
     public HandlersFacade(ClubCardButtonHandler clubCardButtonHandler, ClubCardTypeButtonHandler clubCardTypeButtonHandler,
                           ClubCardSalesButtonHandler clubCardSalesButtonHandler, CCSalesContactUsButtonHandler ccSalesContactUsButtonHandler,
-                          FitnessButtonHandler fitnessButtonHandler, SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler) {
+                          FitnessButtonHandler fitnessButtonHandler, SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler,
+                          SberQRButtonHandler sberQRButtonHandler) {
         this.clubCardButtonHandler = clubCardButtonHandler;
         this.clubCardTypeButtonHandler = clubCardTypeButtonHandler;
         this.clubCardSalesButtonHandler = clubCardSalesButtonHandler;
@@ -32,5 +34,6 @@ public class HandlersFacade {
         this.fitnessButtonHandler = fitnessButtonHandler;
         this.spaButtonHandler = spaButtonHandler;
         this.callManagerButtonHandler = callManagerButtonHandler;
+        this.sberQRButtonHandler = sberQRButtonHandler;
     }
 }

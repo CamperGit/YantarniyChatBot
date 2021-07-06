@@ -246,6 +246,10 @@ public class BotActionListener {
         return handlersFacade.getCallManagerButtonHandler().handle(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleQrSberButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSberQRButtonHandler().handle(chatId, query);
+    }
+
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId, CallbackQuery query) {
         return Utils.moveToMainMenu(chatId, query.getMessage().getMessageId());
     }
