@@ -42,6 +42,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
     private UserEntityService userEntityService;
+    private SaleService saleService;
 
     static {
         handlers = new HashMap<>();
@@ -118,15 +119,25 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/auto": {
-                    List<UserEntity> userEntities = userEntityService.findAll();
-                    for (UserEntity userEntity : userEntities) {
-                        SendMessage test = new SendMessage(userEntity.getChatId(), userEntity.getUsername());
-                        try {
-                            execute(test);
-                        } catch (TelegramApiException e) {
-                            e.printStackTrace();
+                    /*List<Sale> sales = saleService.findAll();
+                    List<UserEntity> users = userEntityService.findAll();
+                    for (UserEntity user : users) {
+                        if (user.getRole().equals(UserRole.ADMIN)) {
+                            continue;
                         }
-                    }
+                        for (Sale sale : sales) {
+                            if (sale.getImage() != null) {
+                                SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
+                                builder.chatId(user.getChatId());
+                                builder.photo(new InputFile(new ByteArrayInputStream(sale.getImage()), "filename"));
+                                try {
+                                    execute(builder.build());
+                                } catch (TelegramApiException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                    }*/
                     break;
                 }
                 case "/test": {
@@ -169,6 +180,11 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
         return sendMessage;
+    }
+
+    @Autowired
+    public void setSaleService(SaleService saleService) {
+        this.saleService = saleService;
     }
 
     @Autowired
