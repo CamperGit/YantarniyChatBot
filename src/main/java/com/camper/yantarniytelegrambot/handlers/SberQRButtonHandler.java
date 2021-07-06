@@ -27,13 +27,8 @@ public class SberQRButtonHandler implements BotButtonHandler{
         answers.add(Utils.deleteMessage(chatId,query.getMessage().getMessageId()));
 
         SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
-        File qr = new File(SberQRButtonHandler.class.getClassLoader().getResource("other/sberqr.png").getFile());
         builder.chatId(chatId);
-        try {
-            builder.photo(new InputFile(new ByteArrayInputStream(Files.readAllBytes(Paths.get(qr.getPath()))), "sberqr.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        builder.photo(new InputFile(Thread.currentThread().getContextClassLoader().getResourceAsStream("other/sberqr.png"), "sberqr.png"));
         String caption = "Инструкция для «Плати QR» от Сбера:\n " +
                 "1. Сохранить QR код в галерею или сделать скриншот\n " +
         "2. Открыть мобильное приложение Сбербанк Онлайн, выбрать «Платежи» и далее — «Оплата по QR или штрих коду»\n" +
