@@ -69,7 +69,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "5. Фитнес диагностика\n" +
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
-                "8. Гостевой визит\n";
+                "8. Гостевой визит\n" +
+                "<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
@@ -91,7 +92,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "5. Фитнес диагностика\n" +
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
-                "8. Гостевой визит\n";
+                "8. Гостевой визит\n" +
+                "<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
@@ -111,7 +113,9 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "5. Фитнес диагностика\n" +
                 "6. Велнес консультация\n" +
                 "7. Турецкий хамам\n" +
-                "8. Гостевой визит\n";
+                "8. Гостевой визит\n" +
+                "<b>Связаться с менеджером</b>: 2020302\n";
+
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
@@ -131,7 +135,8 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
                 "4. Фитнес диагностика\n" +
                 "5. Велнес консультация\n" +
                 "6. Гостевой визит\n" +
-                "7. Заморозка\n";
+                "7. Заморозка\n" +
+                "<b>Связаться с менеджером</b>: 2020302\n";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
