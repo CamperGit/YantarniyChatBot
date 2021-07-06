@@ -18,9 +18,33 @@ public class BotActionListener {
         return handlersFacade.getClubCardButtonHandler().handle(chatId, query);
     }
 
+    //Card types menu Start
     public List<PartialBotApiMethod<?>> handleClubCardsTypesButton(String chatId, CallbackQuery query) {
         return handlersFacade.getClubCardTypeButtonHandler().handle(chatId, query);
     }
+
+    public List<PartialBotApiMethod<?>> handleIndGoldClubCardButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getClubCardTypeButtonHandler().individualGoldCard(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleDayGoldClubCardButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getClubCardTypeButtonHandler().dayGoldCard(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleWeekendClubCardButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getClubCardTypeButtonHandler().weekendCard(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handlePoolClubCardButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getClubCardTypeButtonHandler().poolCard(chatId, query);
+    }
+
+    //handleIndGoldClubCardButton
+    //handleDayGoldClubCardButton
+    //handleWeekendClubCardButton
+    //handlePoolClubCardButton
+
+    //Card types menu End
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesContactUsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getCcSalesContactUsButtonHandler().handle(chatId, query);

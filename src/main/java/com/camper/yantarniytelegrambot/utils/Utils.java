@@ -36,10 +36,12 @@ public class Utils {
             result.add(deleteMessage(chatId, message.getMessageId()));
 
             SendMessage newMessage = new SendMessage(chatId,text);
+            newMessage.enableHtml(true);
             newMessage.setReplyMarkup(markup);
             result.add(newMessage);
         } else {
             EditMessageText newText = new EditMessageText();
+            newText.enableHtml(true);
             newText.setText(text);
             newText.setChatId(chatId);
             newText.setMessageId(message.getMessageId());
