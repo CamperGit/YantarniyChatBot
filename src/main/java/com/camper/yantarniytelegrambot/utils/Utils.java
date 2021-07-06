@@ -9,6 +9,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMe
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
+import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.media.InputMedia;
 import org.telegram.telegrambots.meta.api.objects.media.InputMediaPhoto;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -21,21 +22,31 @@ import java.util.List;
 
 public class Utils {
     /**
-     * Change message text
+     * Change message text. If message have photo, delete this message and send new message with new text
      *
      * @param text      - new text
      * @param chatId    - chat id
-     * @param messageId - message id
+     * @param message - message
      * @param markup    - menu markup
      * @return object to change text of message after executing
      */
-    public static EditMessageText changeMessage(String text, String chatId, Integer messageId, InlineKeyboardMarkup markup) {
-        EditMessageText newText = new EditMessageText();
-        newText.setText(text);
-        newText.setChatId(chatId);
-        newText.setMessageId(messageId);
-        newText.setReplyMarkup(markup);
-        return newText;
+    public static List<PartialBotApiMethod<?>> changeMessage(String text, String chatId, Message message, InlineKeyboardMarkup markup) {
+        List<PartialBotApiMethod<?>> result = new ArrayList<>();
+        if (message.hasPhoto()) {
+            result.add(deleteMessage(chatId, message.getMessageId()));
+
+            SendMessage newMessage = new SendMessage(chatId,text);
+            newMessage.setReplyMarkup(markup);
+            result.add(newMessage);
+        } else {
+            EditMessageText newText = new EditMessageText();
+            newText.setText(text);
+            newText.setChatId(chatId);
+            newText.setMessageId(message.getMessageId());
+            newText.setReplyMarkup(markup);
+            result.add(newText);
+        }
+        return result;
     }
 
     /**
@@ -80,17 +91,17 @@ public class Utils {
      * Change previous image/message description on new image/description
      *
      * @param chatId      - chat id
-     * @param messageId   - message id
+     * @param message   - message
      * @param query       - callback query
      * @param markup      - markup
      * @param image       - new image
      * @param description - new message description
      * @return list with commands to execute
      */
-    public static List<PartialBotApiMethod<?>> scrollMenuItem(String chatId, Integer messageId, CallbackQuery query
+    public static List<PartialBotApiMethod<?>> scrollMenuItem(String chatId, Message message, CallbackQuery query
             , InlineKeyboardMarkup markup, byte[] image, String description) {
         List<PartialBotApiMethod<?>> answers = new ArrayList<>();
-
+        int messageId = message.getMessageId();
         if (image != null) {
             if (query.getMessage().hasPhoto()) {
                 answers.add(Utils.changeMessagePhoto(chatId, messageId, markup, image, description));
@@ -114,9 +125,9 @@ public class Utils {
                 sendMessage.setReplyMarkup(markup);
                 answers.add(sendMessage);
             } else {
-                answers.add(Utils.changeMessage(description
+                answers.addAll(Utils.changeMessage(description
                         , chatId
-                        , messageId
+                        , message
                         , markup));
             }
         }

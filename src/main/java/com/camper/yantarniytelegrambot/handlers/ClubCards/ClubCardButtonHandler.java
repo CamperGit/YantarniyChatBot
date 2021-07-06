@@ -24,10 +24,10 @@ public class ClubCardButtonHandler implements BotButtonHandler {
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
 
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("onAction.clubCardsButton"),
+        return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("onAction.clubCardsButton"),
                 chatId,
-                query.getMessage().getMessageId(),
-                getClubCartsMenuMarkup())));
+                query.getMessage(),
+                getClubCartsMenuMarkup()));
     }
 
     private InlineKeyboardMarkup getClubCartsMenuMarkup() {

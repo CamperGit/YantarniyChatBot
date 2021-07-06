@@ -41,17 +41,16 @@ public abstract class FitnessCoachesButtonHandler implements BotButtonHandler {
             currentPage--;
         }
         Employee selectedCoach = coaches.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
         String type = selectedCoach.getEmployeeType().getTitle();
         String description = localeMessageSource.getMessage("fitness.coaches.category") + " " + type;
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getCoachesMarkup(coaches.size())
-                , selectedCoach.getImage()
-                , description));
+        return new ArrayList<>(Utils.scrollMenuItem(chatId,
+                query.getMessage(),
+                query,
+                getCoachesMarkup(coaches.size()),
+                selectedCoach.getImage(),
+                description));
     }
 
     protected abstract InlineKeyboardMarkup getCoachesMarkup(int numberOfCoaches);

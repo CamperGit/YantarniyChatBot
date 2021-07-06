@@ -90,27 +90,29 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
         }
 
         Sale selectedSale = sales.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getClubCardSalesMarkup(sales.size())
-                , selectedSale.getImage()
-                , selectedSale.getDescription()));
+
+        return new ArrayList<>(Utils.scrollMenuItem(chatId,
+                query.getMessage(),
+                query,
+                getClubCardSalesMarkup(sales.size()),
+                selectedSale.getImage(),
+                selectedSale.getDescription()));
     }
 
     public List<PartialBotApiMethod<?>> returnToMainMenu(String chatId, CallbackQuery query) {
         currentPage = 1;
         sales = null;
-        return Utils.moveToMainMenu(chatId,query.getMessage().getMessageId());
+        return Utils.moveToMainMenu(chatId, query.getMessage().getMessageId());
     }
 
     private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfSales,currentPage
-                ,"handleClubCardsSalesPrevButton"
-                ,"handleClubCardsSalesNextButton"
-                ,"handleClubCardsSalesReturnButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSales, currentPage,
+                "handleClubCardsSalesPrevButton",
+                "handleClubCardsSalesNextButton",
+                "handleClubCardsSalesReturnButton",
+                null,
+                null);
     }
 
     private InlineKeyboardMarkup getEmptySalesMarkup() {

@@ -56,10 +56,12 @@ public class SpaNailsButtonHandler extends SpaSpecialistsButtonHandler {
 
     @Override
     protected InlineKeyboardMarkup getSpecialistsMarkup(int numberOfSpecialists) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists,currentPage
-                ,"handleSpaNailsPrevButton"
-                ,"handleSpaNailsNextButton"
-                ,"handleSpaSpecialistsButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists, currentPage,
+                "handleSpaNailsPrevButton",
+                "handleSpaNailsNextButton",
+                "handleSpaSpecialistsButton",
+                null,
+                null);
     }
 
     @Autowired

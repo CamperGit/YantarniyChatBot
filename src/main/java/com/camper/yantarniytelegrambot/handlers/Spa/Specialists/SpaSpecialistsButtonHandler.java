@@ -43,14 +43,13 @@ public abstract class SpaSpecialistsButtonHandler implements BotButtonHandler {
         }
 
         Employee selectedSpecialist = specialists.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getSpecialistsMarkup(specialists.size())
-                , selectedSpecialist.getImage()
-                , selectedSpecialist.getDescription()));
+        return new ArrayList<>(Utils.scrollMenuItem(chatId,
+                query.getMessage(),
+                query,
+                getSpecialistsMarkup(specialists.size()),
+                selectedSpecialist.getImage(),
+                selectedSpecialist.getDescription()));
     }
 
     protected abstract InlineKeyboardMarkup getSpecialistsMarkup(int numberOfSpecialists);

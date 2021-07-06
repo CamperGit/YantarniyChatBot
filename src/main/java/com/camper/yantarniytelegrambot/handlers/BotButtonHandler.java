@@ -14,7 +14,9 @@ import java.util.List;
 public interface BotButtonHandler {
     List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query);
 
-    static InlineKeyboardMarkup getScrollMenuMarkup(int numberOfItems, int currentItem, String prevButCallbackData, String nextButCallbackData, String exitButCallbackData) {
+    static InlineKeyboardMarkup getScrollMenuMarkup(int numberOfItems, int currentItem,
+                                                    String prevButCallbackData, String nextButCallbackData, String exitButCallbackData,
+                                                    String textOfContactUsButton, String contactUsCallbackData) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
@@ -32,10 +34,20 @@ public interface BotButtonHandler {
         firstRow.add(countButton);
         firstRow.add(nextButton);
 
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
+        List<InlineKeyboardButton> thirdRow = new ArrayList<>();
+        thirdRow.add(returnButton);
 
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+
+        rowList.add(firstRow);
+        if (textOfContactUsButton != null && contactUsCallbackData != null) {
+            InlineKeyboardButton contactUsButton = new InlineKeyboardButton(textOfContactUsButton);
+            contactUsButton.setCallbackData(contactUsCallbackData);
+            List<InlineKeyboardButton> secondRow = new ArrayList<>();
+            secondRow.add(contactUsButton);
+            rowList.add(secondRow);
+        }
+        rowList.add(thirdRow);
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 

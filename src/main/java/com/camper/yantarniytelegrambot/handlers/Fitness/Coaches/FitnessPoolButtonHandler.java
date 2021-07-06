@@ -63,10 +63,12 @@ public class FitnessPoolButtonHandler extends FitnessCoachesButtonHandler {
 
     @Override
     protected InlineKeyboardMarkup getCoachesMarkup(int numberOfCoaches) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches,currentPage
-                ,"handleFitnessPoolPrevButton"
-                ,"handleFitnessPoolNextButton"
-                ,"handleFitnessCoachesButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches, currentPage,
+                "handleFitnessPoolPrevButton",
+                "handleFitnessPoolNextButton",
+                "handleFitnessCoachesButton",
+                localeMessageSource.getMessage("fitness.coaches.contactUs"),
+                "handleFitnessContactUsButton");
     }
 
     @Autowired

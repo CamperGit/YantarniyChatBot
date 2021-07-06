@@ -55,6 +55,10 @@ public class BotActionListener {
         return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleFitnessContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessContactUsButtonHandler().handle(chatId, query);
+    }
+
     //GA Start
     public List<PartialBotApiMethod<?>> handleFitnessGroupsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().getFitnessGroupActivityButtonHandler().handle(chatId, query);
@@ -110,11 +114,11 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleFitnessChangePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().previousChange(chatId, query);
+        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().scrollChange(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleFitnessChangeNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().nextChange(chatId, query);
+        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().scrollChange(chatId, query, ScrollState.NEXT);
     }
     //Changes End
 

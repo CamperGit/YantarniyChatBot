@@ -87,21 +87,22 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
             currentPage--;
         }
         Sale selectedSale = sales.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getSpaCardSalesMarkup(sales.size())
-                , selectedSale.getImage()
-                , selectedSale.getDescription()));
+        return new ArrayList<>(Utils.scrollMenuItem(chatId,
+                query.getMessage(),
+                query,
+                getSpaCardSalesMarkup(sales.size()),
+                selectedSale.getImage(),
+                selectedSale.getDescription()));
     }
 
     private InlineKeyboardMarkup getSpaCardSalesMarkup(int numberOfSales) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfSales,currentPage
-                ,"handleSpaSalesPrevButton"
-                ,"handleSpaSalesNextButton"
-                ,"handleSpaSpecialistsButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSales, currentPage,
+                "handleSpaSalesPrevButton",
+                "handleSpaSalesNextButton",
+                "handleSpaSpecialistsButton",
+                null,
+                null);
     }
 
     @Autowired

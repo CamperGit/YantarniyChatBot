@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.handlers.Fitness;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Schedule;
+import com.camper.yantarniytelegrambot.enums.ScrollState;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.services.ScheduleService;
@@ -62,49 +63,39 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
         return answers;
     }
 
-    public List<PartialBotApiMethod<?>> nextChange(String chatId, CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> scrollChange(String chatId, CallbackQuery query, ScrollState state) {
         if (changes == null) {
             changes = scheduleService.findAllScheduleChanges();
         }
-        if (changes.isEmpty() || currentPage == changes.size()) {
-            return null;
+        if (state.equals(ScrollState.NEXT)) {
+            if (changes.isEmpty() || currentPage == changes.size()) {
+                return null;
+            }
+            currentPage++;
+        } else {
+            if (changes.isEmpty() || currentPage == 1) {
+                return null;
+            }
+            currentPage--;
         }
-        currentPage++;
+
         Schedule selectedChange = changes.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
 
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getScheduleChangesMarkup(changes.size())
-                , selectedChange.getImage()
-                , selectedChange.getDescription()));
-    }
-
-    public List<PartialBotApiMethod<?>> previousChange(String chatId, CallbackQuery query) {
-        if (changes == null) {
-            changes = scheduleService.findAllScheduleChanges();
-        }
-        if (changes.isEmpty() || currentPage == 1) {
-            return null;
-        }
-        currentPage--;
-        Schedule selectedChange = changes.get(currentPage - 1);
-        Integer messageId = query.getMessage().getMessageId();
-
-        return new ArrayList<>(Utils.scrollMenuItem(chatId
-                , messageId
-                , query
-                , getScheduleChangesMarkup(changes.size())
-                , selectedChange.getImage()
-                , selectedChange.getDescription()));
+        return new ArrayList<>(Utils.scrollMenuItem(chatId,
+                query.getMessage(),
+                query,
+                getScheduleChangesMarkup(changes.size()),
+                selectedChange.getImage(),
+                selectedChange.getDescription()));
     }
 
     private InlineKeyboardMarkup getScheduleChangesMarkup(int numberOfChanges) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfChanges,currentPage
-                ,"handleFitnessChangePrevButton"
-                ,"handleFitnessChangeNextButton"
-                ,"handleFitnessSchedulesButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfChanges, currentPage,
+                "handleFitnessChangePrevButton",
+                "handleFitnessChangeNextButton",
+                "handleFitnessSchedulesButton",
+                null,
+                null);
     }
 
     @Autowired

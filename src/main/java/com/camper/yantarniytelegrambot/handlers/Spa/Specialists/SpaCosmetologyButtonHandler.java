@@ -56,10 +56,12 @@ public class SpaCosmetologyButtonHandler extends SpaSpecialistsButtonHandler {
 
     @Override
     protected InlineKeyboardMarkup getSpecialistsMarkup(int numberOfSpecialists) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists,currentPage
-                ,"handleSpaCosmetologyPrevButton"
-                ,"handleSpaCosmetologyNextButton"
-                ,"handleSpaSpecialistsButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfSpecialists, currentPage,
+                "handleSpaCosmetologyPrevButton",
+                "handleSpaCosmetologyNextButton",
+                "handleSpaSpecialistsButton",
+                null,
+                null);
     }
 
     @Autowired

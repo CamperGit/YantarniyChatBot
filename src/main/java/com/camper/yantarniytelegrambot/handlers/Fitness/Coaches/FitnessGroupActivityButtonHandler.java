@@ -65,10 +65,12 @@ public class FitnessGroupActivityButtonHandler extends FitnessCoachesButtonHandl
 
     @Override
     protected InlineKeyboardMarkup getCoachesMarkup(int numberOfCoaches) {
-        return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches,currentPage
-                ,"handleFitnessGAPrevButton"
-                ,"handleFitnessGANextButton"
-                ,"handleFitnessCoachesButton");
+        return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches, currentPage,
+                "handleFitnessGAPrevButton",
+                "handleFitnessGANextButton",
+                "handleFitnessCoachesButton",
+                localeMessageSource.getMessage("fitness.coaches.contactUs"),
+                "handleFitnessContactUsButton");
     }
 
     @Autowired

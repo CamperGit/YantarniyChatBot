@@ -39,7 +39,7 @@ public class SpaButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
                 SendMessage.builder()
                         .chatId(chatId)
-                        .text(localeMessageSource.getMessage("onAction.spaSpecialistsButton"))
+                        .text(localeMessageSource.getMessage("onAction.spaButton"))
                         .replyMarkup(getSpaMenuMarkup())
                         .build()));
     }

@@ -1,6 +1,7 @@
 package com.camper.yantarniytelegrambot.handlers.Fitness;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessContactUsButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGroupActivityButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGymButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessPoolButtonHandler;
@@ -33,18 +34,20 @@ public class FitnessButtonHandler implements BotButtonHandler {
     private FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler;
     @Getter
     private FitnessChangesButtonHandler fitnessChangesButtonHandler;
+    @Getter
+    private FitnessContactUsButtonHandler fitnessContactUsButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
 
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(localeMessageSource.getMessage("onAction.fitnessButton"),
+        return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("onAction.fitnessButton"),
                 chatId,
-                query.getMessage().getMessageId(),
-                getFitnessMenuMarkup())));
+                query.getMessage(),
+                getFitnessMenuMarkup()));
     }
 
     public List<PartialBotApiMethod<?>> openCoachesMenu(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
+        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId, query.getMessage().getMessageId()),
                 SendMessage.builder()
                         .chatId(chatId)
                         .text(localeMessageSource.getMessage("onAction.fitnessCoachesButton"))
@@ -53,7 +56,7 @@ public class FitnessButtonHandler implements BotButtonHandler {
     }
 
     public List<PartialBotApiMethod<?>> openSchedulesMenu(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
+        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId, query.getMessage().getMessageId()),
                 SendMessage.builder()
                         .chatId(chatId)
                         .text(localeMessageSource.getMessage("onAction.fitnessScheduleButton"))
@@ -101,13 +104,15 @@ public class FitnessButtonHandler implements BotButtonHandler {
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(gymButton);
-        firstRow.add(groupsButton);
         firstRow.add(poolButton);
 
         List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
+        secondRow.add(groupsButton);
 
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
+        List<InlineKeyboardButton> thirdRow = new ArrayList<>();
+        thirdRow.add(returnButton);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 
@@ -167,5 +172,10 @@ public class FitnessButtonHandler implements BotButtonHandler {
     @Autowired
     public void setFitnessChangesButtonHandler(FitnessChangesButtonHandler fitnessChangesButtonHandler) {
         this.fitnessChangesButtonHandler = fitnessChangesButtonHandler;
+    }
+
+    @Autowired
+    public void setFitnessContactUsButtonHandler(FitnessContactUsButtonHandler fitnessContactUsButtonHandler) {
+        this.fitnessContactUsButtonHandler = fitnessContactUsButtonHandler;
     }
 }

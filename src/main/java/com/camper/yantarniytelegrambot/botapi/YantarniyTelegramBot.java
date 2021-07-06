@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.botapi;
 
 import com.camper.yantarniytelegrambot.entity.*;
 import com.camper.yantarniytelegrambot.enums.ScheduleType;
+import com.camper.yantarniytelegrambot.enums.UserRole;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.*;
 import lombok.extern.slf4j.Slf4j;
@@ -45,11 +46,11 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     static {
         handlers = new HashMap<>();
         for (Method m : BotActionListener.class.getDeclaredMethods()) {
-            handlers.put(m.getName(),m);
+            handlers.put(m.getName(), m);
         }
     }
 
-    public YantarniyTelegramBot(DefaultBotOptions options,String WEB_HOOK_PATH, String USERNAME, String TOKEN) {
+    public YantarniyTelegramBot(DefaultBotOptions options, String WEB_HOOK_PATH, String USERNAME, String TOKEN) {
         super(options);
         this.WEB_HOOK_PATH = WEB_HOOK_PATH;
         this.USERNAME = USERNAME;
@@ -82,7 +83,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             Method handler = handlers.get(data);
             try {
                 if (handler != null) {
-                    List<PartialBotApiMethod<?>> answers = (List<PartialBotApiMethod<?>>) handler.invoke(botActionListener,chatId,query);
+                    List<PartialBotApiMethod<?>> answers = (List<PartialBotApiMethod<?>>) handler.invoke(botActionListener, chatId, query);
                     if (answers != null) {
                         for (PartialBotApiMethod<?> answer : answers) {
                             if (answer instanceof BotApiMethod<?>) {
@@ -109,31 +110,30 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             switch (text) {
                 case "/start": {
                     User user = update.getMessage().getFrom();
-                    String result;
                     String firstName = user.getFirstName();
                     String lastName = user.getLastName();
                     String username = user.getUserName();
-                    UserEntity newUser = new UserEntity(chatId,firstName);
+                    UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER);
                     userEntityService.putIfAbsent(newUser);
-                    return createMainMenuMessage(chatId,localeMessageSource.getMessage("mainMenu.menuLabel"));
+                    return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
-                case "/test" : {
-
-                    /*Location location = locationService.findLocationByTitle("SPA");
-                    Sale sale2 = new Sale(null,"❗Внимание акция! Только 3 дня❗\n" +
-                            "\n" +
-                            "Биоревитализация препаратами Meso-Xanthin, Meso-wharton, Mesoeye, по специальной цене \n" +
-                            "\n" +
-                            "\uD83D\uDD259900 руб., вместо 14 500 руб. \n" +
-                            "\n" +
-                            "Преобрести можно сейчас, а использовать в течении 60 дней. \n" +
-                            "\n" +
-                            "Подробности по телефону 202-07-02",location);
-                    saleService.putIfAbsent(sale2);*/
+                case "/auto": {
+                    List<UserEntity> userEntities = userEntityService.findAll();
+                    for (UserEntity userEntity : userEntities) {
+                        SendMessage test = new SendMessage(userEntity.getChatId(), userEntity.getUsername());
+                        try {
+                            execute(test);
+                        } catch (TelegramApiException e) {
+                            e.printStackTrace();
+                        }
+                    }
                     break;
                 }
-                default : {
-                    return createMainMenuMessage(chatId,localeMessageSource.getMessage("other.unknownNonCommandMessage"));
+                case "/test": {
+                    break;
+                }
+                default: {
+                    return createMainMenuMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage"));
                 }
             }
         }
@@ -147,7 +147,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
 
         InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
         InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
-        InlineKeyboardButton spaButton = new InlineKeyboardButton("Спа");
+        InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
 
         clubCartsButton.setCallbackData("handleClubCardButton");

@@ -46,10 +46,10 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         }
         messageBuilder.append(localeMessageSource.getMessage("other.callManager"));
 
-        return new ArrayList<>(Collections.singletonList(Utils.changeMessage(messageBuilder.toString()
+        return new ArrayList<>(Utils.changeMessage(messageBuilder.toString()
                 , chatId
-                , query.getMessage().getMessageId()
-                , BotButtonHandler.getReturnMarkup("handleClubCardButton"))));
+                , query.getMessage()
+                , BotButtonHandler.getReturnMarkup("handleClubCardButton")));
     }
 
     @Autowired
