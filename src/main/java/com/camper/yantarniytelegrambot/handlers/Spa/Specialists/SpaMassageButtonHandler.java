@@ -58,8 +58,8 @@ public class SpaMassageButtonHandler extends SpaSpecialistsButtonHandler {
                 "handleSpaMassagePrevButton",
                 "handleSpaMassageNextButton",
                 "handleSpaSpecialistsButton",
-                null,
-                null);
+                localeMessageSource.getMessage("spa.contactUs"),
+                "handleSpaContactUsButton");
     }
 
     @Autowired

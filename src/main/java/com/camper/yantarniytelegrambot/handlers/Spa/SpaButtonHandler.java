@@ -1,10 +1,7 @@
 package com.camper.yantarniytelegrambot.handlers.Spa;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaCosmetologyButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaMassageButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaNailsButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.SpaStylistsButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.*;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.Getter;
@@ -33,6 +30,8 @@ public class SpaButtonHandler implements BotButtonHandler {
     private SpaCosmetologyButtonHandler spaCosmetologyButtonHandler;
     @Getter
     private SpaStylistsButtonHandler spaStylistsButtonHandler;
+    @Getter
+    private SpaContactUsButtonHandler spaContactUsButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -140,5 +139,10 @@ public class SpaButtonHandler implements BotButtonHandler {
     @Autowired
     public void setSpaStylistsButtonHandler(SpaStylistsButtonHandler spaStylistsButtonHandler) {
         this.spaStylistsButtonHandler = spaStylistsButtonHandler;
+    }
+
+    @Autowired
+    public void setSpaContactUsButtonHandler(SpaContactUsButtonHandler spaContactUsButtonHandler) {
+        this.spaContactUsButtonHandler = spaContactUsButtonHandler;
     }
 }

@@ -134,6 +134,10 @@ public class BotActionListener {
         return handlersFacade.getSpaButtonHandler().openSpecialistsMenu(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleSpaContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().getSpaContactUsButtonHandler().handle(chatId, query);
+    }
+
     //Spa sales start
     public List<PartialBotApiMethod<?>> handleSpaSalesButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().handle(chatId, query);
