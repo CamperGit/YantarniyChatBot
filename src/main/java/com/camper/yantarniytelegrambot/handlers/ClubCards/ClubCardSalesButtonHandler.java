@@ -111,8 +111,8 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
                 "handleClubCardsSalesPrevButton",
                 "handleClubCardsSalesNextButton",
                 "handleClubCardsSalesReturnButton",
-                null,
-                null);
+                localeMessageSource.getMessage("clubCard.sales.contactUs"),
+                "handleClubCardsSalesContactUsButton");
     }
 
     private InlineKeyboardMarkup getEmptySalesMarkup() {

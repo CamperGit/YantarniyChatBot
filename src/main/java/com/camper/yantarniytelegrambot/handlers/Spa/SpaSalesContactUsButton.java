@@ -1,4 +1,4 @@
-package com.camper.yantarniytelegrambot.handlers.Spa.Specialists;
+package com.camper.yantarniytelegrambot.handlers.Spa;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
@@ -12,15 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class SpaContactUsButtonHandler implements BotButtonHandler {
+public class SpaSalesContactUsButton implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("other.contactUsSpa"),
+        return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("other.contactUsSpaSale"),
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleSpaSpecialistsButton")));
+                BotButtonHandler.getReturnMarkup("handleSpaSalesButton")));
     }
 
     @Autowired

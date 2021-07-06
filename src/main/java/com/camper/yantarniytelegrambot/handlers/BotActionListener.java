@@ -6,7 +6,6 @@ import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 import java.util.List;
@@ -21,6 +20,10 @@ public class BotActionListener {
 
     public List<PartialBotApiMethod<?>> handleClubCardsTypesButton(String chatId, CallbackQuery query) {
         return handlersFacade.getClubCardTypeButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleClubCardsSalesContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getCcSalesContactUsButtonHandler().handle(chatId, query);
     }
 
     //Sales menu start
@@ -135,7 +138,7 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleSpaContactUsButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaButtonHandler().getSpaContactUsButtonHandler().handle(chatId, query);
+        return handlersFacade.getSpaButtonHandler().getSpaSpecContactUsButtonHandler().handle(chatId, query);
     }
 
     //Spa sales start
@@ -149,6 +152,10 @@ public class BotActionListener {
 
     public List<PartialBotApiMethod<?>> handleSpaSalesNextButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaButtonHandler().getSpaSalesButtonHandler().scrollItem(chatId, query, ScrollState.NEXT);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSpaSalesContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaButtonHandler().getSpaSalesContactUsButton().handle(chatId, query);
     }
     //Spa sales end
 

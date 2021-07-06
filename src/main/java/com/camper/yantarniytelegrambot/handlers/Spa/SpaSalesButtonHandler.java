@@ -101,8 +101,8 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 "handleSpaSalesPrevButton",
                 "handleSpaSalesNextButton",
                 "handleSpaSpecialistsButton",
-                null,
-                null);
+                localeMessageSource.getMessage("clubCard.sales.contactUs"),
+                "handleSpaSalesContactUsButton");
     }
 
     @Autowired

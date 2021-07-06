@@ -31,7 +31,9 @@ public class SpaButtonHandler implements BotButtonHandler {
     @Getter
     private SpaStylistsButtonHandler spaStylistsButtonHandler;
     @Getter
-    private SpaContactUsButtonHandler spaContactUsButtonHandler;
+    private SpaSpecContactUsButtonHandler spaSpecContactUsButtonHandler;
+    @Getter
+    private SpaSalesContactUsButton spaSalesContactUsButton;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -142,7 +144,12 @@ public class SpaButtonHandler implements BotButtonHandler {
     }
 
     @Autowired
-    public void setSpaContactUsButtonHandler(SpaContactUsButtonHandler spaContactUsButtonHandler) {
-        this.spaContactUsButtonHandler = spaContactUsButtonHandler;
+    public void setSpaSpecContactUsButtonHandler(SpaSpecContactUsButtonHandler spaSpecContactUsButtonHandler) {
+        this.spaSpecContactUsButtonHandler = spaSpecContactUsButtonHandler;
+    }
+
+    @Autowired
+    public void setSpaSalesContactUsButton(SpaSalesContactUsButton spaSalesContactUsButton) {
+        this.spaSalesContactUsButton = spaSalesContactUsButton;
     }
 }
