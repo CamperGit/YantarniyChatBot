@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -20,7 +21,10 @@ public class PingTask {
 
     @Scheduled(fixedRateString = "${pingtask.period}")
     public void pingGoogle() {
-        try {
+        log.debug("Heroku not idle execution");
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getForObject("https://yantarniy.herokuapp.com/", Object.class);
+        /*try {
             URL url = new URL(getUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
@@ -29,6 +33,6 @@ public class PingTask {
         } catch (IOException e) {
             log.error("Ping failed");
             e.printStackTrace();
-        }
+        }*/
     }
 }
