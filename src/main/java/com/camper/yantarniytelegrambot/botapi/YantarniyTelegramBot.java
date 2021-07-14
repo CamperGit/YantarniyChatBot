@@ -119,14 +119,14 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/auto": {
-                    Schedule schedule = scheduleService.findByType(ScheduleType.DEFAULT);
+                    /*Schedule schedule = scheduleService.findByType(ScheduleType.DEFAULT);
                     try {
                         schedule.setImage(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")));
                         scheduleService.saveSchedule(schedule);
                         int x = 0;
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     /*List<Sale> sales = saleService.findAll();
                     List<UserEntity> users = userEntityService.findAll();
                     for (UserEntity user : users) {
