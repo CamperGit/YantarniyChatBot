@@ -3,6 +3,7 @@ package com.camper.yantarniytelegrambot.handlers;
 
 import com.camper.yantarniytelegrambot.enums.ScrollState;
 import com.camper.yantarniytelegrambot.utils.Utils;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
@@ -78,6 +79,7 @@ public class BotActionListener {
         return handlersFacade.getFitnessButtonHandler().openCoachesMenu(chatId, query);
     }
 
+
     public List<PartialBotApiMethod<?>> handleFitnessSchedulesButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
     }
@@ -131,9 +133,22 @@ public class BotActionListener {
     //POOL End
 
 
+    //Schedules start
     public List<PartialBotApiMethod<?>> handleFitnessCurrentScheduleButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().handle(chatId, query);
     }
+
+    @SneakyThrows
+    public List<PartialBotApiMethod<?>> handleSchedulePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.PREVIOUS);
+    }
+
+    @SneakyThrows
+    public List<PartialBotApiMethod<?>> handleScheduleNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.NEXT);
+    }
+    //Schedules end
+
 
     //Changes Start
     public List<PartialBotApiMethod<?>> handleFitnessChangesButton(String chatId, CallbackQuery query) {

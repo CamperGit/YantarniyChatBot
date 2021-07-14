@@ -26,6 +26,10 @@ public class ScheduleService {
         return scheduleRepo.findAllByType(ScheduleType.CHANGES);
     }
 
+    public void saveSchedule(Schedule schedule) {
+        scheduleRepo.save(schedule);
+    }
+
     /**
      * retrieve an entity from the database if it exists or else put schedule in database
      * @param schedule an example entity to retrieve from the database or a candidate to add to the database

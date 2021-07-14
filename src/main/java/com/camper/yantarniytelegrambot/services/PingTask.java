@@ -21,10 +21,7 @@ public class PingTask {
 
     @Scheduled(fixedRateString = "${pingtask.period}")
     public void pingGoogle() {
-        log.debug("Heroku not idle execution");
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForObject("https://yantarniy.herokuapp.com/", Object.class);
-        /*try {
+        try {
             URL url = new URL(getUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
@@ -33,6 +30,6 @@ public class PingTask {
         } catch (IOException e) {
             log.error("Ping failed");
             e.printStackTrace();
-        }*/
+        }
     }
 }

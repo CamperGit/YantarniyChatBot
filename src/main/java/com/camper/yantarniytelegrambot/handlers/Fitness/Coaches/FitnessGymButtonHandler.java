@@ -25,7 +25,6 @@ import java.util.List;
 
 @Component
 public class FitnessGymButtonHandler extends FitnessCoachesButtonHandler {
-
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
         coaches = employeeService.findAllByLocation(location);
