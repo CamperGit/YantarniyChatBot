@@ -112,15 +112,19 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
                 case "/start": {
-                    User user = update.getMessage().getFrom();
-                    String firstName = user.getFirstName();
-                    String lastName = user.getLastName();
-                    String username = user.getUserName();
                     if (userEntityService.findUserByChatId(chatId) == null) {
+                        User user = update.getMessage().getFrom();
+                        String firstName = user.getFirstName();
+                        String lastName = user.getLastName();
+                        String username = user.getUserName();
                         UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER,
                                 new Timestamp(System.currentTimeMillis()),
                                 new Timestamp(System.currentTimeMillis()));
                         userEntityService.putIfAbsent(newUser);
+                    } else {
+                        UserEntity user = userEntityService.findUserByChatId(chatId);
+                        user.setLastEntry(new Timestamp(System.currentTimeMillis()));
+                        userEntityService.saveUser(user);
                     }
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
@@ -152,9 +156,6 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                             }
                         }
                     }*/
-                    break;
-                }
-                case "/test": {
                     break;
                 }
                 default: {

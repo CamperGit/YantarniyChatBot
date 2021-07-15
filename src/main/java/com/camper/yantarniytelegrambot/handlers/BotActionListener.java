@@ -1,7 +1,9 @@
 package com.camper.yantarniytelegrambot.handlers;
 
 
+import com.camper.yantarniytelegrambot.entity.UserEntity;
 import com.camper.yantarniytelegrambot.enums.ScrollState;
+import com.camper.yantarniytelegrambot.services.UserEntityService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
 public class BotActionListener {
     private HandlersFacade handlersFacade;
+    private UserEntityService userEntityService;
 
     public List<PartialBotApiMethod<?>> handleClubCardButton(String chatId, CallbackQuery query) {
         return handlersFacade.getClubCardButtonHandler().handle(chatId, query);
@@ -259,11 +263,19 @@ public class BotActionListener {
     }
 
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId, CallbackQuery query) {
+        UserEntity user = userEntityService.findUserByChatId(chatId);
+        user.setLastEntry(new Timestamp(System.currentTimeMillis()));
+        userEntityService.saveUser(user);
         return Utils.moveToMainMenu(chatId, query.getMessage().getMessageId());
     }
 
     @Autowired
     public void setHandlersFacade(HandlersFacade handlersFacade) {
         this.handlersFacade = handlersFacade;
+    }
+
+    @Autowired
+    public void setUserEntityService(UserEntityService userEntityService) {
+        this.userEntityService = userEntityService;
     }
 }
