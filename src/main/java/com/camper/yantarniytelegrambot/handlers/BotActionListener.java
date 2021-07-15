@@ -256,6 +256,31 @@ public class BotActionListener {
 
     //Schedules end
 
+    //SpaService menu start
+
+    public List<PartialBotApiMethod<?>> handleSpaServiceMenuButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().handle(chatId, query);
+    }
+    /*
+
+    handleSCHairButton
+
+    handleSCBathhouseButton
+    */
+
+    public List<PartialBotApiMethod<?>> handleSCNailsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().openNailsMenu(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSCFaceButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().openFaceMenu(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSCBodyButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().openBodyMenu(chatId, query);
+    }
+
+    //SpaService menu end
 
     public List<PartialBotApiMethod<?>> handleContactUsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getCallManagerButtonHandler().handle(chatId, query);

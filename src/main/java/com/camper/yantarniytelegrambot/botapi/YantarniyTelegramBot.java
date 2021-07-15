@@ -178,32 +178,36 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton salesButton = new InlineKeyboardButton("Акции");
-        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
         InlineKeyboardButton scheduleButton = new InlineKeyboardButton("Расписание");
-        InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+        InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
+        InlineKeyboardButton spaServicesButton = new InlineKeyboardButton("Услуги-СПА");
         InlineKeyboardButton employeesButton = new InlineKeyboardButton("Сотрудники");
         InlineKeyboardButton sberQrButton = new InlineKeyboardButton("Плати QR от Сбера");
+        InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+
 
         salesButton.setCallbackData("handleSalesButton");
-        clubCartsButton.setCallbackData("handleClubCardButton");
         scheduleButton.setCallbackData("handleSchedulesMenuButton");
-        contactUsButton.setCallbackData("handleContactUsButton");
+        clubCartsButton.setCallbackData("handleClubCardButton");
+        spaServicesButton.setCallbackData("handleSpaServiceMenuButton");
         employeesButton.setCallbackData("handleEmployeeMenuButton");
         sberQrButton.setCallbackData("handleQrSberButton");
+        contactUsButton.setCallbackData("handleContactUsButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(salesButton);
-        firstRow.add(clubCartsButton);
         firstRow.add(scheduleButton);
 
         List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(contactUsButton);
+        secondRow.add(clubCartsButton);
+        secondRow.add(spaServicesButton);
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
         thirdRow.add(employeesButton);
+        thirdRow.add(sberQrButton);
 
         List<InlineKeyboardButton> fourthRow = new ArrayList<>();
-        fourthRow.add(sberQrButton);
+        fourthRow.add(contactUsButton);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow, fourthRow));
 

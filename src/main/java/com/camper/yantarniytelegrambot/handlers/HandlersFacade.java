@@ -6,6 +6,7 @@ import com.camper.yantarniytelegrambot.handlers.Fitness.FitnessButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Sales.SalesMenuButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Schedule.ScheduleMenuButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Spa.SpaButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.SpaService.SpaServiceMenuButtonHandler;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,15 @@ public class HandlersFacade {
     private final SpaButtonHandler spaButtonHandler;
     private final CallManagerButtonHandler callManagerButtonHandler;
     private final SberQRButtonHandler sberQRButtonHandler;
+    private final SpaServiceMenuButtonHandler spaServiceMenuButtonHandler;
 
     @Autowired
-    public HandlersFacade(SalesMenuButtonHandler salesMenuButtonHandler, EmployeeMenuButtonHandler employeeMenuButtonHandler, ClubCardButtonHandler clubCardButtonHandler, FitnessButtonHandler fitnessButtonHandler, ScheduleMenuButtonHandler scheduleMenuButtonHandler, SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler, SberQRButtonHandler sberQRButtonHandler) {
+
+    public HandlersFacade(SalesMenuButtonHandler salesMenuButtonHandler, EmployeeMenuButtonHandler employeeMenuButtonHandler,
+                          ClubCardButtonHandler clubCardButtonHandler, FitnessButtonHandler fitnessButtonHandler,
+                          ScheduleMenuButtonHandler scheduleMenuButtonHandler, SpaButtonHandler spaButtonHandler,
+                          CallManagerButtonHandler callManagerButtonHandler, SberQRButtonHandler sberQRButtonHandler,
+                          SpaServiceMenuButtonHandler spaServiceMenuButtonHandler) {
         this.salesMenuButtonHandler = salesMenuButtonHandler;
         this.employeeMenuButtonHandler = employeeMenuButtonHandler;
         this.clubCardButtonHandler = clubCardButtonHandler;
@@ -32,5 +39,6 @@ public class HandlersFacade {
         this.spaButtonHandler = spaButtonHandler;
         this.callManagerButtonHandler = callManagerButtonHandler;
         this.sberQRButtonHandler = sberQRButtonHandler;
+        this.spaServiceMenuButtonHandler = spaServiceMenuButtonHandler;
     }
 }

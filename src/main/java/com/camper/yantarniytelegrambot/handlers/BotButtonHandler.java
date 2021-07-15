@@ -23,7 +23,7 @@ public interface BotButtonHandler {
         InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfItems == 0 ? 0 : currentItem) + "/" + numberOfItems);
         InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
         InlineKeyboardButton returnButton = new InlineKeyboardButton("Назад");
-        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В меню");
+        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В главное меню");
 
         prevButton.setCallbackData(prevButCallbackData);
         nextButton.setCallbackData(nextButCallbackData);
@@ -64,7 +64,7 @@ public interface BotButtonHandler {
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
         if (createMainMenuButton) {
-            InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В меню");
+            InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В главное меню");
             mainMenuButton.setCallbackData("handleReturnMainMenuButton");
             firstRow.add(mainMenuButton);
         }

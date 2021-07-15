@@ -24,10 +24,10 @@ public class Utils {
     /**
      * Change message text. If message have photo, delete this message and send new message with new text
      *
-     * @param text      - new text
-     * @param chatId    - chat id
+     * @param text    - new text
+     * @param chatId  - chat id
      * @param message - message
-     * @param markup    - menu markup
+     * @param markup  - menu markup
      * @return object to change text of message after executing
      */
     public static List<PartialBotApiMethod<?>> changeMessage(String text, String chatId, Message message, InlineKeyboardMarkup markup) {
@@ -35,7 +35,7 @@ public class Utils {
         if (message.hasPhoto()) {
             result.add(deleteMessage(chatId, message.getMessageId()));
 
-            SendMessage newMessage = new SendMessage(chatId,text);
+            SendMessage newMessage = new SendMessage(chatId, text);
             newMessage.enableHtml(true);
             newMessage.setReplyMarkup(markup);
             result.add(newMessage);
@@ -93,7 +93,7 @@ public class Utils {
      * Change previous image/message description on new image/description
      *
      * @param chatId      - chat id
-     * @param message   - message
+     * @param message     - message
      * @param query       - callback query
      * @param markup      - markup
      * @param image       - new image
@@ -127,10 +127,10 @@ public class Utils {
                 sendMessage.setReplyMarkup(markup);
                 answers.add(sendMessage);
             } else {
-                answers.addAll(Utils.changeMessage(description
-                        , chatId
-                        , message
-                        , markup));
+                answers.addAll(Utils.changeMessage(description,
+                        chatId,
+                        message,
+                        markup));
             }
         }
         return answers;
