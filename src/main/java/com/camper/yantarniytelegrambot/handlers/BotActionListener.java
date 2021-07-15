@@ -70,15 +70,6 @@ public class BotActionListener {
         return handlersFacade.getFitnessButtonHandler().handle(chatId, query);
     }
 
-    public List<PartialBotApiMethod<?>> handleFitnessCoachesButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().openCoachesMenu(chatId, query);
-    }
-
-
-    public List<PartialBotApiMethod<?>> handleFitnessSchedulesButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().openSchedulesMenu(chatId, query);
-    }
-
     public List<PartialBotApiMethod<?>> handleFitnessContactUsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getFitnessButtonHandler().getFitnessContactUsButtonHandler().handle(chatId, query);
     }
@@ -129,35 +120,42 @@ public class BotActionListener {
 
 
     //Schedules start
+    public List<PartialBotApiMethod<?>> handleSchedulesMenuButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getScheduleMenuButtonHandler().handle(chatId, query);
+    }
+
     public List<PartialBotApiMethod<?>> handleFitnessCurrentScheduleButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().handle(chatId, query);
+        return handlersFacade.getScheduleMenuButtonHandler().getSchedulesButtonHandler().handle(chatId, query);
     }
 
     @SneakyThrows
     public List<PartialBotApiMethod<?>> handleSchedulePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.PREVIOUS);
+        return handlersFacade.getScheduleMenuButtonHandler().getSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.PREVIOUS);
     }
 
     @SneakyThrows
     public List<PartialBotApiMethod<?>> handleScheduleNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.NEXT);
+        return handlersFacade.getScheduleMenuButtonHandler().getSchedulesButtonHandler().scrollSchedule(chatId, query, ScrollState.NEXT);
     }
-    //Schedules end
-
 
     //Changes Start
     public List<PartialBotApiMethod<?>> handleFitnessChangesButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().handle(chatId, query);
+        return handlersFacade.getScheduleMenuButtonHandler().getScheduleChangesButtonHandler().handle(chatId, query);
     }
 
     public List<PartialBotApiMethod<?>> handleFitnessChangePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().scrollChange(chatId, query, ScrollState.PREVIOUS);
+        return handlersFacade.getScheduleMenuButtonHandler().getScheduleChangesButtonHandler().scrollChange(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleFitnessChangeNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getFitnessButtonHandler().getFitnessChangesButtonHandler().scrollChange(chatId, query, ScrollState.NEXT);
+        return handlersFacade.getScheduleMenuButtonHandler().getScheduleChangesButtonHandler().scrollChange(chatId, query, ScrollState.NEXT);
     }
     //Changes End
+
+    //Schedules end
+
+
+
 
     //Fitness menu end
 

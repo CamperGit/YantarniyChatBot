@@ -66,7 +66,7 @@ public class FitnessPoolButtonHandler extends FitnessCoachesButtonHandler {
         return BotButtonHandler.getScrollMenuMarkup(numberOfCoaches, currentPage,
                 "handleFitnessPoolPrevButton",
                 "handleFitnessPoolNextButton",
-                "handleFitnessCoachesButton",
+                "handleFitnessButton",
                 localeMessageSource.getMessage("fitness.coaches.contactUs"),
                 "handleFitnessContactUsButton");
     }

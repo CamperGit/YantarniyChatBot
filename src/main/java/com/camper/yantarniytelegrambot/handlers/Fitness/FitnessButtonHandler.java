@@ -5,6 +5,8 @@ import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessContactUs
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGroupActivityButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessGymButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.Coaches.FitnessPoolButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Schedule.ScheduleChangesButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Schedule.SchedulesButtonHandler;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.Getter;
@@ -18,7 +20,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,22 +32,19 @@ public class FitnessButtonHandler implements BotButtonHandler {
     @Getter
     private FitnessPoolButtonHandler fitnessPoolButtonHandler;
     @Getter
-    private FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler;
-    @Getter
-    private FitnessChangesButtonHandler fitnessChangesButtonHandler;
-    @Getter
     private FitnessContactUsButtonHandler fitnessContactUsButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-
-        return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("onAction.fitnessButton"),
-                chatId,
-                query.getMessage(),
-                getFitnessMenuMarkup()));
+        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId, query.getMessage().getMessageId()),
+                SendMessage.builder()
+                        .chatId(chatId)
+                        .text(localeMessageSource.getMessage("onAction.fitnessCoachesButton"))
+                        .replyMarkup(getCoachesMenuMarkup())
+                        .build()));
     }
 
-    public List<PartialBotApiMethod<?>> openCoachesMenu(String chatId, CallbackQuery query) {
+    /*public List<PartialBotApiMethod<?>> openCoachesMenu(String chatId, CallbackQuery query) {
         return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId, query.getMessage().getMessageId()),
                 SendMessage.builder()
                         .chatId(chatId)
@@ -62,32 +60,7 @@ public class FitnessButtonHandler implements BotButtonHandler {
                         .text(localeMessageSource.getMessage("onAction.fitnessScheduleButton"))
                         .replyMarkup(getSchedulesMenuMarkup())
                         .build()));
-    }
-
-    private InlineKeyboardMarkup getFitnessMenuMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton coachesButton = new InlineKeyboardButton(localeMessageSource.getMessage("fitness.coaches"));
-        InlineKeyboardButton schedulesButton = new InlineKeyboardButton(localeMessageSource.getMessage("fitness.schedules"));
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        coachesButton.setCallbackData("handleFitnessCoachesButton");
-        schedulesButton.setCallbackData("handleFitnessSchedulesButton");
-        exitButton.setCallbackData("handleReturnMainMenuButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(coachesButton);
-        firstRow.add(schedulesButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(exitButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
-    }
+    }*/
 
     private InlineKeyboardMarkup getCoachesMenuMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -100,7 +73,7 @@ public class FitnessButtonHandler implements BotButtonHandler {
         gymButton.setCallbackData("handleFitnessGymButton");
         groupsButton.setCallbackData("handleFitnessGroupsButton");
         poolButton.setCallbackData("handleFitnessPoolButton");
-        returnButton.setCallbackData("handleFitnessButton");
+        returnButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(gymButton);
@@ -113,31 +86,6 @@ public class FitnessButtonHandler implements BotButtonHandler {
         thirdRow.add(returnButton);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
-    }
-
-    private InlineKeyboardMarkup getSchedulesMenuMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton groupsSchedulesButton = new InlineKeyboardButton(localeMessageSource.getMessage("fitness.schedules.groupsCourses"));
-        InlineKeyboardButton changesInSchedulesButton = new InlineKeyboardButton(localeMessageSource.getMessage("fitness.schedules.changes"));
-        InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        groupsSchedulesButton.setCallbackData("handleFitnessCurrentScheduleButton");
-        changesInSchedulesButton.setCallbackData("handleFitnessChangesButton");
-        returnButton.setCallbackData("handleFitnessButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(groupsSchedulesButton);
-        firstRow.add(changesInSchedulesButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(returnButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 
@@ -162,16 +110,6 @@ public class FitnessButtonHandler implements BotButtonHandler {
     @Autowired
     public void setFitnessPoolButtonHandler(FitnessPoolButtonHandler fitnessPoolButtonHandler) {
         this.fitnessPoolButtonHandler = fitnessPoolButtonHandler;
-    }
-
-    @Autowired
-    public void setFitnessSchedulesButtonHandler(FitnessSchedulesButtonHandler fitnessSchedulesButtonHandler) {
-        this.fitnessSchedulesButtonHandler = fitnessSchedulesButtonHandler;
-    }
-
-    @Autowired
-    public void setFitnessChangesButtonHandler(FitnessChangesButtonHandler fitnessChangesButtonHandler) {
-        this.fitnessChangesButtonHandler = fitnessChangesButtonHandler;
     }
 
     @Autowired

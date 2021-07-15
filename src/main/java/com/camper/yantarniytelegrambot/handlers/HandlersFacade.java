@@ -5,6 +5,7 @@ import com.camper.yantarniytelegrambot.handlers.ClubCards.ClubCardButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.ClubCards.ClubCardSalesButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.ClubCards.ClubCardTypeButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.FitnessButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Schedule.ScheduleMenuButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Spa.SpaButtonHandler;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,20 +19,24 @@ public class HandlersFacade {
     private final ClubCardSalesButtonHandler clubCardSalesButtonHandler;
     private final CCSalesContactUsButtonHandler ccSalesContactUsButtonHandler;
     private final FitnessButtonHandler fitnessButtonHandler;
+    private final ScheduleMenuButtonHandler scheduleMenuButtonHandler;
     private final SpaButtonHandler spaButtonHandler;
     private final CallManagerButtonHandler callManagerButtonHandler;
     private final SberQRButtonHandler sberQRButtonHandler;
 
     @Autowired
+
     public HandlersFacade(ClubCardButtonHandler clubCardButtonHandler, ClubCardTypeButtonHandler clubCardTypeButtonHandler,
                           ClubCardSalesButtonHandler clubCardSalesButtonHandler, CCSalesContactUsButtonHandler ccSalesContactUsButtonHandler,
-                          FitnessButtonHandler fitnessButtonHandler, SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler,
+                          FitnessButtonHandler fitnessButtonHandler, ScheduleMenuButtonHandler scheduleMenuButtonHandler,
+                          SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler,
                           SberQRButtonHandler sberQRButtonHandler) {
         this.clubCardButtonHandler = clubCardButtonHandler;
         this.clubCardTypeButtonHandler = clubCardTypeButtonHandler;
         this.clubCardSalesButtonHandler = clubCardSalesButtonHandler;
         this.ccSalesContactUsButtonHandler = ccSalesContactUsButtonHandler;
         this.fitnessButtonHandler = fitnessButtonHandler;
+        this.scheduleMenuButtonHandler = scheduleMenuButtonHandler;
         this.spaButtonHandler = spaButtonHandler;
         this.callManagerButtonHandler = callManagerButtonHandler;
         this.sberQRButtonHandler = sberQRButtonHandler;

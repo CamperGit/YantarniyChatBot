@@ -21,7 +21,7 @@ public class FitnessContactUsButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("other.contactUsFitness"),
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleFitnessCoachesButton", true)));
+                BotButtonHandler.getReturnMarkup("handleFitnessButton", true)));
     }
 
     @Autowired

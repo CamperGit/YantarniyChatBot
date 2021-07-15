@@ -1,4 +1,4 @@
-package com.camper.yantarniytelegrambot.handlers.Fitness;
+package com.camper.yantarniytelegrambot.handlers.Schedule;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Schedule;
@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class FitnessChangesButtonHandler implements BotButtonHandler {
+public class ScheduleChangesButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private ScheduleService scheduleService;
     private int currentPage = 1;
@@ -93,7 +93,7 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
         return BotButtonHandler.getScrollMenuMarkup(numberOfChanges, currentPage,
                 "handleFitnessChangePrevButton",
                 "handleFitnessChangeNextButton",
-                "handleFitnessSchedulesButton",
+                "handleSchedulesMenuButton",
                 null,
                 null);
     }

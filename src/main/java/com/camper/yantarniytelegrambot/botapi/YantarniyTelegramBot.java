@@ -171,29 +171,34 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
         InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
-        InlineKeyboardButton fitnessButton = new InlineKeyboardButton("Фитнес");
+        InlineKeyboardButton scheduleButton = new InlineKeyboardButton("Расписание");
         InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
+        InlineKeyboardButton coachesButton = new InlineKeyboardButton("Тренерский состав");
         InlineKeyboardButton sberQrButton = new InlineKeyboardButton("Плати QR от Сбера");
 
         clubCartsButton.setCallbackData("handleClubCardButton");
-        fitnessButton.setCallbackData("handleFitnessButton");
+        scheduleButton.setCallbackData("handleSchedulesMenuButton");
         spaButton.setCallbackData("handleSpaButton");
         contactUsButton.setCallbackData("handleContactUsButton");
+        coachesButton.setCallbackData("handleFitnessButton");
         sberQrButton.setCallbackData("handleQrSberButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(clubCartsButton);
-        firstRow.add(fitnessButton);
+        firstRow.add(scheduleButton);
 
         List<InlineKeyboardButton> secondRow = new ArrayList<>();
         secondRow.add(spaButton);
         secondRow.add(contactUsButton);
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
-        thirdRow.add(sberQrButton);
+        thirdRow.add(coachesButton);
 
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
+        List<InlineKeyboardButton> fourthRow = new ArrayList<>();
+        fourthRow.add(sberQrButton);
+
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow, fourthRow));
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 
