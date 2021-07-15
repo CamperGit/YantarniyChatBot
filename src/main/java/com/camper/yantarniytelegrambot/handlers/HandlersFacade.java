@@ -1,9 +1,7 @@
 package com.camper.yantarniytelegrambot.handlers;
 
-import com.camper.yantarniytelegrambot.handlers.Sales.CCSalesContactUsButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.ClubCards.ClubCardButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Sales.ClubCardSalesButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.ClubCards.ClubCardTypeButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Employees.EmployeeMenuButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Fitness.FitnessButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Sales.SalesMenuButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Schedule.ScheduleMenuButtonHandler;
@@ -16,8 +14,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class HandlersFacade {
     private final SalesMenuButtonHandler salesMenuButtonHandler;
+    private final EmployeeMenuButtonHandler employeeMenuButtonHandler;
     private final ClubCardButtonHandler clubCardButtonHandler;
-    private final ClubCardTypeButtonHandler clubCardTypeButtonHandler;
     private final FitnessButtonHandler fitnessButtonHandler;
     private final ScheduleMenuButtonHandler scheduleMenuButtonHandler;
     private final SpaButtonHandler spaButtonHandler;
@@ -25,14 +23,10 @@ public class HandlersFacade {
     private final SberQRButtonHandler sberQRButtonHandler;
 
     @Autowired
-
-    public HandlersFacade(SalesMenuButtonHandler salesMenuButtonHandler, ClubCardButtonHandler clubCardButtonHandler,
-                          ClubCardTypeButtonHandler clubCardTypeButtonHandler, FitnessButtonHandler fitnessButtonHandler,
-                          ScheduleMenuButtonHandler scheduleMenuButtonHandler, SpaButtonHandler spaButtonHandler,
-                          CallManagerButtonHandler callManagerButtonHandler, SberQRButtonHandler sberQRButtonHandler) {
+    public HandlersFacade(SalesMenuButtonHandler salesMenuButtonHandler, EmployeeMenuButtonHandler employeeMenuButtonHandler, ClubCardButtonHandler clubCardButtonHandler, FitnessButtonHandler fitnessButtonHandler, ScheduleMenuButtonHandler scheduleMenuButtonHandler, SpaButtonHandler spaButtonHandler, CallManagerButtonHandler callManagerButtonHandler, SberQRButtonHandler sberQRButtonHandler) {
         this.salesMenuButtonHandler = salesMenuButtonHandler;
+        this.employeeMenuButtonHandler = employeeMenuButtonHandler;
         this.clubCardButtonHandler = clubCardButtonHandler;
-        this.clubCardTypeButtonHandler = clubCardTypeButtonHandler;
         this.fitnessButtonHandler = fitnessButtonHandler;
         this.scheduleMenuButtonHandler = scheduleMenuButtonHandler;
         this.spaButtonHandler = spaButtonHandler;

@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component

@@ -1,8 +1,6 @@
 package com.camper.yantarniytelegrambot.handlers.Spa;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Sales.SpaSalesButtonHandler;
-import com.camper.yantarniytelegrambot.handlers.Sales.SpaSalesContactUsButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.*;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
@@ -38,44 +36,9 @@ public class SpaButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
                 SendMessage.builder()
                         .chatId(chatId)
-                        .text(localeMessageSource.getMessage("onAction.spaButton"))
-                        .replyMarkup(getSpaMenuMarkup())
-                        .build()));
-    }
-
-    public List<PartialBotApiMethod<?>> openSpecialistsMenu(String chatId, CallbackQuery query) {
-        return new ArrayList<>(Arrays.asList(Utils.deleteMessage(chatId,query.getMessage().getMessageId()),
-                SendMessage.builder()
-                        .chatId(chatId)
                         .text(localeMessageSource.getMessage("onAction.spaSpecialistsButton"))
                         .replyMarkup(getSpaSpecialistsMarkup())
                         .build()));
-
-    }
-
-    private InlineKeyboardMarkup getSpaMenuMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-
-        InlineKeyboardButton specialistsButton = new InlineKeyboardButton(localeMessageSource.getMessage("spa.specialists"));
-        InlineKeyboardButton spaSalesButton = new InlineKeyboardButton(localeMessageSource.getMessage("spa.sales"));
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-
-        specialistsButton.setCallbackData("handleSpaSpecialistsButton");
-        spaSalesButton.setCallbackData("handleSpaSalesButton");
-        exitButton.setCallbackData("handleReturnMainMenuButton");
-
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(specialistsButton);
-        firstRow.add(spaSalesButton);
-
-        List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(exitButton);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow));
-
-        inlineKeyboardMarkup.setKeyboard(rowList);
-
-        return inlineKeyboardMarkup;
     }
 
     private InlineKeyboardMarkup getSpaSpecialistsMarkup() {
@@ -92,7 +55,7 @@ public class SpaButtonHandler implements BotButtonHandler {
         massageButton.setCallbackData("handleSpaMassageButton");
         cosmetologyButton.setCallbackData("handleSpaCosmetologyButton");
         stylistsButton.setCallbackData("handleSpaStylistsButton");
-        returnButton.setCallbackData("handleSpaButton");
+        returnButton.setCallbackData("handleEmployeeMenuButton");
         mainMenuButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();

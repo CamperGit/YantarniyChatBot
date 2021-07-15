@@ -1,11 +1,8 @@
 package com.camper.yantarniytelegrambot.handlers.Spa.Specialists;
 
 import com.camper.yantarniytelegrambot.entity.Employee;
-import com.camper.yantarniytelegrambot.entity.EmployeeType;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
-import com.camper.yantarniytelegrambot.services.EmployeeService;
 import com.camper.yantarniytelegrambot.services.EmployeeTypeService;
-import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,11 +12,9 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Component

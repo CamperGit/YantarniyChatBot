@@ -180,17 +180,15 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardButton salesButton = new InlineKeyboardButton("Акции");
         InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
         InlineKeyboardButton scheduleButton = new InlineKeyboardButton("Расписание");
-        InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
         InlineKeyboardButton contactUsButton = new InlineKeyboardButton("Связаться с менеджером");
-        InlineKeyboardButton coachesButton = new InlineKeyboardButton("Тренерский состав");
+        InlineKeyboardButton employeesButton = new InlineKeyboardButton("Сотрудники");
         InlineKeyboardButton sberQrButton = new InlineKeyboardButton("Плати QR от Сбера");
 
         salesButton.setCallbackData("handleSalesButton");
         clubCartsButton.setCallbackData("handleClubCardButton");
         scheduleButton.setCallbackData("handleSchedulesMenuButton");
-        spaButton.setCallbackData("handleSpaButton");
         contactUsButton.setCallbackData("handleContactUsButton");
-        coachesButton.setCallbackData("handleFitnessButton");
+        employeesButton.setCallbackData("handleEmployeeMenuButton");
         sberQrButton.setCallbackData("handleQrSberButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
@@ -199,11 +197,10 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         firstRow.add(scheduleButton);
 
         List<InlineKeyboardButton> secondRow = new ArrayList<>();
-        secondRow.add(spaButton);
         secondRow.add(contactUsButton);
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
-        thirdRow.add(coachesButton);
+        thirdRow.add(employeesButton);
 
         List<InlineKeyboardButton> fourthRow = new ArrayList<>();
         fourthRow.add(sberQrButton);

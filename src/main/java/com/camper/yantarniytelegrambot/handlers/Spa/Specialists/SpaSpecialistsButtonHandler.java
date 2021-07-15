@@ -7,7 +7,6 @@ import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import com.camper.yantarniytelegrambot.services.EmployeeService;
 import com.camper.yantarniytelegrambot.services.EmployeeTypeService;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
-import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
