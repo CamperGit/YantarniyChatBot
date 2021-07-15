@@ -37,7 +37,7 @@ public class SberQRButtonHandler implements BotButtonHandler{
         "5. По номеру телефона +74732020302 сообщить ФИО покупателя, код авторизации и название оплаченной услуги\n" +
         "6. Покупка оформлена\n";
         builder.caption(caption);
-        builder.replyMarkup(BotButtonHandler.getReturnMarkup("handleReturnMainMenuButton"));
+        builder.replyMarkup(BotButtonHandler.getReturnMarkup("handleReturnMainMenuButton", false));
         answers.add(builder.build());
         return answers;
     }

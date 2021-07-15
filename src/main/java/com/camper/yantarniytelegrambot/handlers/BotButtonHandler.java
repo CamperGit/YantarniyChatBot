@@ -22,12 +22,14 @@ public interface BotButtonHandler {
         InlineKeyboardButton prevButton = new InlineKeyboardButton("<--");
         InlineKeyboardButton countButton = new InlineKeyboardButton((numberOfItems == 0 ? 0 : currentItem) + "/" + numberOfItems);
         InlineKeyboardButton nextButton = new InlineKeyboardButton("-->");
-        InlineKeyboardButton returnButton = new InlineKeyboardButton("Вернуться");
+        InlineKeyboardButton returnButton = new InlineKeyboardButton("Назад");
+        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В меню");
 
         prevButton.setCallbackData(prevButCallbackData);
         nextButton.setCallbackData(nextButCallbackData);
         countButton.setCallbackData("null");
         returnButton.setCallbackData(exitButCallbackData);
+        mainMenuButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(prevButton);
@@ -36,6 +38,7 @@ public interface BotButtonHandler {
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
         thirdRow.add(returnButton);
+        thirdRow.add(mainMenuButton);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 
@@ -54,12 +57,17 @@ public interface BotButtonHandler {
         return inlineKeyboardMarkup;
     }
 
-    static InlineKeyboardMarkup getReturnMarkup(String exitCallbackData) {
+    static InlineKeyboardMarkup getReturnMarkup(String exitCallbackData, boolean createMainMenuButton) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton("Вернуться");
+        InlineKeyboardButton exitButton = new InlineKeyboardButton("Назад");
         exitButton.setCallbackData(exitCallbackData);
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
+        if (createMainMenuButton) {
+            InlineKeyboardButton mainMenuButton = new InlineKeyboardButton("В меню");
+            mainMenuButton.setCallbackData("handleReturnMainMenuButton");
+            firstRow.add(mainMenuButton);
+        }
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
         inlineKeyboardMarkup.setKeyboard(rowList);
         return inlineKeyboardMarkup;

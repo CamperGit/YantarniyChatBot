@@ -88,12 +88,14 @@ public class SpaButtonHandler implements BotButtonHandler {
         InlineKeyboardButton cosmetologyButton = new InlineKeyboardButton(localeMessageSource.getMessage("spa.specialists.cosmetology"));
         InlineKeyboardButton stylistsButton = new InlineKeyboardButton(localeMessageSource.getMessage("spa.specialists.stylists"));
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
+        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveMainMenu"));
 
         nailsButton.setCallbackData("handleSpaNailsButton");
         massageButton.setCallbackData("handleSpaMassageButton");
         cosmetologyButton.setCallbackData("handleSpaCosmetologyButton");
         stylistsButton.setCallbackData("handleSpaStylistsButton");
         returnButton.setCallbackData("handleSpaButton");
+        mainMenuButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(nailsButton);
@@ -105,6 +107,7 @@ public class SpaButtonHandler implements BotButtonHandler {
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
         thirdRow.add(returnButton);
+        thirdRow.add(mainMenuButton);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow,thirdRow));
 

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -21,6 +22,8 @@ public class UserEntity {
     private String username;
     private String number;
     private UserRole role;
+    private Timestamp createTime;
+    private Timestamp lastEntry;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,12 +69,27 @@ public class UserEntity {
         return role;
     }
 
-    public UserEntity(String chatId, String firstname, String lastname, String username, String number, UserRole role) {
+    @Basic
+    @Column(name = "create_time", nullable = false)
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    @Basic
+    @Column(name = "last_entry", nullable = false)
+    public Timestamp getLastEntry() {
+        return lastEntry;
+    }
+
+    public UserEntity(String chatId, String firstname, String lastname, String username, String number, UserRole role,
+                      Timestamp createTime, Timestamp lastEntry) {
         this.chatId = chatId;
         this.firstname = firstname;
         this.lastname = lastname;
         this.username = username;
         this.number = number;
         this.role = role;
+        this.createTime = createTime;
+        this.lastEntry = lastEntry;
     }
 }

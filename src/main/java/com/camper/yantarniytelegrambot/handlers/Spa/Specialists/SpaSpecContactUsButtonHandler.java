@@ -20,7 +20,7 @@ public class SpaSpecContactUsButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("other.contactUsSpa"),
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleSpaSpecialistsButton")));
+                BotButtonHandler.getReturnMarkup("handleSpaSpecialistsButton", true)));
     }
 
     @Autowired

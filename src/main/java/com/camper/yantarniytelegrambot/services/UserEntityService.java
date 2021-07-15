@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.services;
 
 import com.camper.yantarniytelegrambot.entity.Schedule;
 import com.camper.yantarniytelegrambot.entity.UserEntity;
+import com.camper.yantarniytelegrambot.enums.UserRole;
 import com.camper.yantarniytelegrambot.repos.UserEntityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -21,7 +22,21 @@ public class UserEntityService {
      * @return user from database
      */
     public UserEntity putIfAbsent(UserEntity user) {
-        return userEntityRepo.findOne(Example.of(user)).orElseGet(()-> userEntityRepo.save(user));
+        UserEntity userFromDB = findUserByChatId(user.getChatId());
+        if (userFromDB != null) {
+            return userFromDB;
+        } else {
+            return saveUser(user);
+        }
+    }
+
+    public UserEntity saveUser(UserEntity user) {
+        return userEntityRepo.save(user);
+    }
+
+    @Transactional(readOnly = true)
+    public UserEntity findUserByChatId(String chatId) {
+        return userEntityRepo.findByChatId(chatId);
     }
 
     @Transactional(readOnly = true)

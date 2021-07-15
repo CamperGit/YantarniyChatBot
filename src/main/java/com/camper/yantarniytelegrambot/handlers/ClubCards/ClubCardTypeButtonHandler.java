@@ -1,32 +1,21 @@
 package com.camper.yantarniytelegrambot.handlers.ClubCards;
 
-import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
-import com.camper.yantarniytelegrambot.entity.CardType;
-import com.camper.yantarniytelegrambot.entity.Location;
-import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
-import com.camper.yantarniytelegrambot.services.CardTypeService;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
-import com.camper.yantarniytelegrambot.services.LocationService;
-import com.camper.yantarniytelegrambot.services.SaleService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Component
 public class ClubCardTypeButtonHandler implements BotButtonHandler {
-    private CardTypeService cardTypeService;
     private LocaleMessageSource localeMessageSource;
 
     @Override
@@ -60,7 +49,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton")));
+                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton", true)));
     }
 
     public List<PartialBotApiMethod<?>> dayGoldCard(String chatId, CallbackQuery query) {
@@ -84,7 +73,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton")));
+                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton", true)));
     }
 
     public List<PartialBotApiMethod<?>> weekendCard(String chatId, CallbackQuery query) {
@@ -107,7 +96,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton")));
+                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton", true)));
     }
 
     public List<PartialBotApiMethod<?>> poolCard(String chatId, CallbackQuery query) {
@@ -128,7 +117,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton")));
+                BotButtonHandler.getReturnMarkup("handleClubCardsTypesButton", true)));
     }
 
     private InlineKeyboardMarkup getCardTypesMarkup() {
@@ -139,12 +128,14 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
         InlineKeyboardButton weekendButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCard.type.weekend"));
         InlineKeyboardButton poolButton = new InlineKeyboardButton(localeMessageSource.getMessage("clubCard.type.pool"));
         InlineKeyboardButton returnButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
+        InlineKeyboardButton mainMenuButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveMainMenu"));
 
         individualGoldButton.setCallbackData("handleIndGoldClubCardButton");
         dayGoldButton.setCallbackData("handleDayGoldClubCardButton");
         weekendButton.setCallbackData("handleWeekendClubCardButton");
         poolButton.setCallbackData("handlePoolClubCardButton");
-        returnButton.setCallbackData("handleReturnMainMenuButton");
+        returnButton.setCallbackData("handleClubCardButton");
+        mainMenuButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(individualGoldButton);
@@ -156,6 +147,7 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
 
         List<InlineKeyboardButton> thirdRow = new ArrayList<>();
         thirdRow.add(returnButton);
+        thirdRow.add(mainMenuButton);
 
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Arrays.asList(firstRow, secondRow, thirdRow));
 
@@ -169,10 +161,5 @@ public class ClubCardTypeButtonHandler implements BotButtonHandler {
     @Autowired
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
         this.localeMessageSource = localeMessageSource;
-    }
-
-    @Autowired
-    public void setCardTypeService(CardTypeService cardTypeService) {
-        this.cardTypeService = cardTypeService;
     }
 }

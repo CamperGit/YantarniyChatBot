@@ -20,7 +20,7 @@ public class CCSalesContactUsButtonHandler implements BotButtonHandler {
         return new ArrayList<>(Utils.changeMessage(localeMessageSource.getMessage("other.contactUsClubCardsSales"),
                 chatId,
                 query.getMessage(),
-                BotButtonHandler.getReturnMarkup("handleClubCardsSalesButton")));
+                BotButtonHandler.getReturnMarkup("handleClubCardsSalesButton", true)));
     }
 
     @Autowired

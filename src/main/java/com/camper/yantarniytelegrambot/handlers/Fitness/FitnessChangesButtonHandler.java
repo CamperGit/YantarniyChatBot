@@ -54,7 +54,7 @@ public class FitnessChangesButtonHandler implements BotButtonHandler {
             }
         } else {
             SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("fitness.schedulesChanges.empty"));
-            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleFitnessSchedulesButton"));
+            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleFitnessSchedulesButton", true));
             answers.add(sendMessage);
         }
 

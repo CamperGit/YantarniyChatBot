@@ -30,6 +30,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -114,8 +116,12 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     String firstName = user.getFirstName();
                     String lastName = user.getLastName();
                     String username = user.getUserName();
-                    UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER);
-                    userEntityService.putIfAbsent(newUser);
+                    if (userEntityService.findUserByChatId(chatId) == null) {
+                        UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER,
+                                new Timestamp(System.currentTimeMillis()),
+                                new Timestamp(System.currentTimeMillis()));
+                        userEntityService.putIfAbsent(newUser);
+                    }
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/auto": {

@@ -40,11 +40,6 @@ public class BotActionListener {
         return handlersFacade.getClubCardTypeButtonHandler().poolCard(chatId, query);
     }
 
-    //handleIndGoldClubCardButton
-    //handleDayGoldClubCardButton
-    //handleWeekendClubCardButton
-    //handlePoolClubCardButton
-
     //Card types menu End
 
     public List<PartialBotApiMethod<?>> handleClubCardsSalesContactUsButton(String chatId, CallbackQuery query) {
