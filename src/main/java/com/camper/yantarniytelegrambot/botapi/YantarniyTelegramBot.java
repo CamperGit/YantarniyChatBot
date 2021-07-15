@@ -5,6 +5,8 @@ import com.camper.yantarniytelegrambot.enums.ScheduleType;
 import com.camper.yantarniytelegrambot.enums.UserRole;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.*;
+import com.camper.yantarniytelegrambot.utils.Utils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
@@ -14,13 +16,14 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.InputFile;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.ByteArrayInputStream;
@@ -75,6 +78,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         return WEB_HOOK_PATH;
     }
 
+    @SneakyThrows
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
@@ -111,6 +115,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             String text = update.getMessage().getText();
             String chatId = update.getMessage().getChatId().toString();
             switch (text) {
+                case "Главное меню":
                 case "/start": {
                     if (userEntityService.findUserByChatId(chatId) == null) {
                         User user = update.getMessage().getFrom();
@@ -121,6 +126,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                                 new Timestamp(System.currentTimeMillis()),
                                 new Timestamp(System.currentTimeMillis()));
                         userEntityService.putIfAbsent(newUser);
+                        execute(sendReplyMarkup(chatId));
                     } else {
                         UserEntity user = userEntityService.findUserByChatId(chatId);
                         user.setLastEntry(new Timestamp(System.currentTimeMillis()));
@@ -204,6 +210,26 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         inlineKeyboardMarkup.setKeyboard(rowList);
 
         sendMessage.setReplyMarkup(inlineKeyboardMarkup);
+        return sendMessage;
+    }
+
+    public static SendMessage sendReplyMarkup(String chatId) {
+        SendMessage sendMessage = new SendMessage(chatId,"При необходимости открыть главное меню воспользуйтесь " +
+                "командой /start или соответствующей кнопкой в нижней части экрана");
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+
+        List<KeyboardRow> keyboard = new ArrayList<>();
+
+        KeyboardRow firstRow = new KeyboardRow();
+        KeyboardButton button = new KeyboardButton("Главное меню");
+        firstRow.add(button);
+
+        keyboard.add(firstRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+
         return sendMessage;
     }
 
