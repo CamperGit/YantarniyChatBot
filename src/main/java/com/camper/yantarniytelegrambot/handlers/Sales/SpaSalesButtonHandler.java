@@ -1,6 +1,6 @@
-package com.camper.yantarniytelegrambot.handlers.ClubCards;
+package com.camper.yantarniytelegrambot.handlers.Sales;
 
-import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
+import com.camper.yantarniytelegrambot.entity.Employee;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.enums.ScrollState;
@@ -10,7 +10,6 @@ import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.services.SaleService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -27,8 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-@Scope("singleton")
-public class ClubCardSalesButtonHandler implements BotButtonHandler {
+public class SpaSalesButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private SaleService saleService;
     private int currentPage = 1;
@@ -48,7 +46,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedSale.getImage()), "filename"));
-                builder.replyMarkup(getClubCardSalesMarkup(sales.size()));
+                builder.replyMarkup(getSpaCardSalesMarkup(sales.size()));
 
                 String description = selectedSale.getDescription();
                 if (description != null) {
@@ -59,12 +57,12 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedSale.getDescription());
-                sendMessage.setReplyMarkup(getClubCardSalesMarkup(sales.size()));
+                sendMessage.setReplyMarkup(getSpaCardSalesMarkup(sales.size()));
                 answers.add(sendMessage);
             }
         } else {
-            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.clubCardsSalesButton"));
-            sendMessage.setReplyMarkup(getEmptySalesMarkup());
+            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.spaSalesButtonEmpty"));
+            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleSpaButton", true));
             answers.add(sendMessage);
         }
 
@@ -88,42 +86,23 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
             }
             currentPage--;
         }
-
         Sale selectedSale = sales.get(currentPage - 1);
-
 
         return new ArrayList<>(Utils.scrollMenuItem(chatId,
                 query.getMessage(),
                 query,
-                getClubCardSalesMarkup(sales.size()),
+                getSpaCardSalesMarkup(sales.size()),
                 selectedSale.getImage(),
                 selectedSale.getDescription()));
     }
 
-    public List<PartialBotApiMethod<?>> returnToMainMenu(String chatId, CallbackQuery query) {
-        currentPage = 1;
-        sales = null;
-        return Utils.moveToMainMenu(chatId, query.getMessage().getMessageId());
-    }
-
-    private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
+    private InlineKeyboardMarkup getSpaCardSalesMarkup(int numberOfSales) {
         return BotButtonHandler.getScrollMenuMarkup(numberOfSales, currentPage,
-                "handleClubCardsSalesPrevButton",
-                "handleClubCardsSalesNextButton",
-                "handleClubCardsSalesReturnButton",
+                "handleSpaSalesPrevButton",
+                "handleSpaSalesNextButton",
+                "handleSalesButton",
                 localeMessageSource.getMessage("clubCard.sales.contactUs"),
-                "handleClubCardsSalesContactUsButton");
-    }
-
-    private InlineKeyboardMarkup getEmptySalesMarkup() {
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleClubCardButton");
-        List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(exitButton);
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
+                "handleSpaSalesContactUsButton");
     }
 
     @Autowired
@@ -138,6 +117,6 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
 
     @Autowired
     public void setLocationService(LocationService locationService) {
-        location = locationService.findLocationByTitle("CLUB_CARDS");
+        location = locationService.findLocationByTitle("SPA");
     }
 }

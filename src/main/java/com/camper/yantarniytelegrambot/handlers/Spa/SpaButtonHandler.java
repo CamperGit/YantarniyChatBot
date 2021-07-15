@@ -1,6 +1,8 @@
 package com.camper.yantarniytelegrambot.handlers.Spa;
 
 import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Sales.SpaSalesButtonHandler;
+import com.camper.yantarniytelegrambot.handlers.Sales.SpaSalesContactUsButtonHandler;
 import com.camper.yantarniytelegrambot.handlers.Spa.Specialists.*;
 import com.camper.yantarniytelegrambot.services.LocaleMessageSource;
 import com.camper.yantarniytelegrambot.utils.Utils;
@@ -21,8 +23,6 @@ import java.util.List;
 public class SpaButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     @Getter
-    private SpaSalesButtonHandler spaSalesButtonHandler;
-    @Getter
     private SpaNailsButtonHandler spaNailsButtonHandler;
     @Getter
     private SpaMassageButtonHandler spaMassageButtonHandler;
@@ -32,8 +32,6 @@ public class SpaButtonHandler implements BotButtonHandler {
     private SpaStylistsButtonHandler spaStylistsButtonHandler;
     @Getter
     private SpaSpecContactUsButtonHandler spaSpecContactUsButtonHandler;
-    @Getter
-    private SpaSalesContactUsButton spaSalesContactUsButton;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -117,11 +115,6 @@ public class SpaButtonHandler implements BotButtonHandler {
     }
 
     @Autowired
-    public void setSpaSalesButtonHandler(SpaSalesButtonHandler spaSalesButtonHandler) {
-        this.spaSalesButtonHandler = spaSalesButtonHandler;
-    }
-
-    @Autowired
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {
         this.localeMessageSource = localeMessageSource;
     }
@@ -149,10 +142,5 @@ public class SpaButtonHandler implements BotButtonHandler {
     @Autowired
     public void setSpaSpecContactUsButtonHandler(SpaSpecContactUsButtonHandler spaSpecContactUsButtonHandler) {
         this.spaSpecContactUsButtonHandler = spaSpecContactUsButtonHandler;
-    }
-
-    @Autowired
-    public void setSpaSalesContactUsButton(SpaSalesContactUsButton spaSalesContactUsButton) {
-        this.spaSalesContactUsButton = spaSalesContactUsButton;
     }
 }

@@ -117,7 +117,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
             switch (text) {
                 case "Главное меню":
                 case "/start": {
-                    if (userEntityService.findUserByChatId(chatId) == null) {
+                    UserEntity userEntity = userEntityService.findUserByChatId(chatId);
+                    if (userEntity == null) {
                         User user = update.getMessage().getFrom();
                         String firstName = user.getFirstName();
                         String lastName = user.getLastName();
@@ -128,9 +129,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                         userEntityService.putIfAbsent(newUser);
                         execute(sendReplyMarkup(chatId));
                     } else {
-                        UserEntity user = userEntityService.findUserByChatId(chatId);
-                        user.setLastEntry(new Timestamp(System.currentTimeMillis()));
-                        userEntityService.saveUser(user);
+                        userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
+                        userEntityService.saveUser(userEntity);
                     }
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
@@ -177,6 +177,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
+        InlineKeyboardButton salesButton = new InlineKeyboardButton("Акции");
         InlineKeyboardButton clubCartsButton = new InlineKeyboardButton("Клубные карты");
         InlineKeyboardButton scheduleButton = new InlineKeyboardButton("Расписание");
         InlineKeyboardButton spaButton = new InlineKeyboardButton("СПА");
@@ -184,6 +185,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         InlineKeyboardButton coachesButton = new InlineKeyboardButton("Тренерский состав");
         InlineKeyboardButton sberQrButton = new InlineKeyboardButton("Плати QR от Сбера");
 
+        salesButton.setCallbackData("handleSalesButton");
         clubCartsButton.setCallbackData("handleClubCardButton");
         scheduleButton.setCallbackData("handleSchedulesMenuButton");
         spaButton.setCallbackData("handleSpaButton");
@@ -192,6 +194,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         sberQrButton.setCallbackData("handleQrSberButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        firstRow.add(salesButton);
         firstRow.add(clubCartsButton);
         firstRow.add(scheduleButton);
 

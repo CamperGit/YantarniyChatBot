@@ -1,6 +1,6 @@
-package com.camper.yantarniytelegrambot.handlers.Spa;
+package com.camper.yantarniytelegrambot.handlers.Sales;
 
-import com.camper.yantarniytelegrambot.entity.Employee;
+import com.camper.yantarniytelegrambot.botapi.YantarniyTelegramBot;
 import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.entity.Sale;
 import com.camper.yantarniytelegrambot.enums.ScrollState;
@@ -10,6 +10,7 @@ import com.camper.yantarniytelegrambot.services.LocationService;
 import com.camper.yantarniytelegrambot.services.SaleService;
 import com.camper.yantarniytelegrambot.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,7 +27,8 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
-public class SpaSalesButtonHandler implements BotButtonHandler {
+@Scope("singleton")
+public class ClubCardSalesButtonHandler implements BotButtonHandler {
     private LocaleMessageSource localeMessageSource;
     private SaleService saleService;
     private int currentPage = 1;
@@ -46,7 +48,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
                 builder.photo(new InputFile(new ByteArrayInputStream(selectedSale.getImage()), "filename"));
-                builder.replyMarkup(getSpaCardSalesMarkup(sales.size()));
+                builder.replyMarkup(getClubCardSalesMarkup(sales.size()));
 
                 String description = selectedSale.getDescription();
                 if (description != null) {
@@ -57,12 +59,12 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
                 answers.add(sendPhoto);
             } else {
                 SendMessage sendMessage = new SendMessage(chatId, selectedSale.getDescription());
-                sendMessage.setReplyMarkup(getSpaCardSalesMarkup(sales.size()));
+                sendMessage.setReplyMarkup(getClubCardSalesMarkup(sales.size()));
                 answers.add(sendMessage);
             }
         } else {
-            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.spaSalesButtonEmpty"));
-            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleSpaButton", true));
+            SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.clubCardsSalesButton"));
+            sendMessage.setReplyMarkup(getEmptySalesMarkup());
             answers.add(sendMessage);
         }
 
@@ -86,23 +88,36 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
             }
             currentPage--;
         }
+
         Sale selectedSale = sales.get(currentPage - 1);
+
 
         return new ArrayList<>(Utils.scrollMenuItem(chatId,
                 query.getMessage(),
                 query,
-                getSpaCardSalesMarkup(sales.size()),
+                getClubCardSalesMarkup(sales.size()),
                 selectedSale.getImage(),
                 selectedSale.getDescription()));
     }
 
-    private InlineKeyboardMarkup getSpaCardSalesMarkup(int numberOfSales) {
+    private InlineKeyboardMarkup getClubCardSalesMarkup(int numberOfSales) {
         return BotButtonHandler.getScrollMenuMarkup(numberOfSales, currentPage,
-                "handleSpaSalesPrevButton",
-                "handleSpaSalesNextButton",
-                "handleSpaSpecialistsButton",
+                "handleClubCardsSalesPrevButton",
+                "handleClubCardsSalesNextButton",
+                "handleSalesButton",
                 localeMessageSource.getMessage("clubCard.sales.contactUs"),
-                "handleSpaSalesContactUsButton");
+                "handleClubCardsSalesContactUsButton");
+    }
+
+    private InlineKeyboardMarkup getEmptySalesMarkup() {
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
+        exitButton.setCallbackData("handleClubCardButton");
+        List<InlineKeyboardButton> firstRow = new ArrayList<>();
+        firstRow.add(exitButton);
+        List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));
+        inlineKeyboardMarkup.setKeyboard(rowList);
+        return inlineKeyboardMarkup;
     }
 
     @Autowired
@@ -117,6 +132,6 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
 
     @Autowired
     public void setLocationService(LocationService locationService) {
-        location = locationService.findLocationByTitle("SPA");
+        location = locationService.findLocationByTitle("CLUB_CARDS");
     }
 }
