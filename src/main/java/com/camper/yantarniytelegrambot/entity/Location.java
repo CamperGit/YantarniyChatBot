@@ -1,6 +1,5 @@
 package com.camper.yantarniytelegrambot.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -23,7 +21,7 @@ public class Location {
     @JsonManagedReference
     private List<Sale> sales;
     @JsonManagedReference
-    private List<SpaServiceCategory> categories;
+    private List<SpaPrice> services;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,14 +47,14 @@ public class Location {
     }
 
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
-    public List<SpaServiceCategory> getCategories() {
-        return categories;
+    public List<SpaPrice> getServices() {
+        return services;
     }
 
-    public Location(String title, List<Employee> employees, List<Sale> sales, List<SpaServiceCategory> categories) {
+    public Location(String title, List<Employee> employees, List<Sale> sales, List<SpaPrice> services) {
         this.title = title;
         this.employees = employees;
         this.sales = sales;
-        this.categories = categories;
+        this.services = services;
     }
 }

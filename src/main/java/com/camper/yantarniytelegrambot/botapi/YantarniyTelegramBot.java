@@ -1,11 +1,10 @@
 package com.camper.yantarniytelegrambot.botapi;
 
 import com.camper.yantarniytelegrambot.entity.*;
-import com.camper.yantarniytelegrambot.enums.ScheduleType;
+import com.camper.yantarniytelegrambot.entity.Location;
 import com.camper.yantarniytelegrambot.enums.UserRole;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.*;
-import com.camper.yantarniytelegrambot.utils.Utils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +12,8 @@ import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.groupadministration.SetChatPhoto;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.DeleteMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageMedia;
 import org.telegram.telegrambots.meta.api.objects.*;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,15 +23,12 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.*;
 
 @Slf4j
@@ -47,7 +41,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
     private UserEntityService userEntityService;
-    private ScheduleService scheduleService;
+    private LocationService locationService;
+    private SpaPriceService spaPriceService;
 
     static {
         handlers = new HashMap<>();
@@ -238,8 +233,13 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setScheduleService(ScheduleService scheduleService) {
-        this.scheduleService = scheduleService;
+    public void setSpaPriceService(SpaPriceService spaPriceService) {
+        this.spaPriceService = spaPriceService;
+    }
+
+    @Autowired
+    public void setLocationService(LocationService locationService) {
+        this.locationService = locationService;
     }
 
     @Autowired
