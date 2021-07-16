@@ -12,35 +12,41 @@ import java.util.List;
 @NoArgsConstructor
 @Setter
 @EqualsAndHashCode
-@Table(name = "spa_service_type")
+@Table(name = "spa_service_category")
 public class SpaServiceType {
-    private Integer spaServTypeId;
-    private String type;
-    private String title;
+    private Integer categoryId;
+    private String category;
+    private String description;
     @JsonManagedReference
     private List<SpaService> services;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "spa_serv_type_id", nullable = false)
-    public Integer getSpaServTypeId() {
-        return spaServTypeId;
+    @Column(name = "category_id", nullable = false)
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
     @Basic
-    @Column(name = "type", nullable = false, length = 50)
-    public String getType() {
-        return type;
+    @Column(name = "category", nullable = false, length = 120)
+    public String getCategory() {
+        return category;
     }
 
     @Basic
-    @Column(name = "title", length = 50)
-    public String getTitle() {
-        return title;
+    @Column(name = "description", length = 500)
+    public String getDescription() {
+        return description;
     }
 
     @OneToMany(mappedBy = "spaServiceType",fetch = FetchType.LAZY)
     public List<SpaService> getServices() {
         return services;
+    }
+
+    public SpaServiceType(String category, String description, List<SpaService> services) {
+        this.category = category;
+        this.description = description;
+        this.services = services;
     }
 }
