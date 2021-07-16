@@ -18,7 +18,7 @@ public class SpaService {
     private String price;
     private String description;
     @JsonBackReference
-    private SpaServiceType spaServiceType;
+    private SpaServiceCategory spaServiceCategory;
     @JsonBackReference
     private Location location;
 
@@ -49,8 +49,8 @@ public class SpaService {
 
     @ManyToOne
     @JoinColumn(name="category_id", referencedColumnName = "category_id")
-    public SpaServiceType getSpaServiceType() {
-        return spaServiceType;
+    public SpaServiceCategory getSpaServiceCategory() {
+        return spaServiceCategory;
     }
 
     @ManyToOne
@@ -59,11 +59,11 @@ public class SpaService {
         return location;
     }
 
-    public SpaService(String name, String price, String description, SpaServiceType spaServiceType, Location location) {
+    public SpaService(String name, String price, String description, SpaServiceCategory spaServiceCategory, Location location) {
         this.name = name;
         this.price = price;
         this.description = description;
-        this.spaServiceType = spaServiceType;
+        this.spaServiceCategory = spaServiceCategory;
         this.location = location;
     }
 }

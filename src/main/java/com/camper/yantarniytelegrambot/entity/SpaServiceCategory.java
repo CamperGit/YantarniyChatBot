@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Table(name = "spa_service_category")
-public class SpaServiceType {
+public class SpaServiceCategory {
     private Integer categoryId;
     private String category;
     private String description;
@@ -39,12 +39,12 @@ public class SpaServiceType {
         return description;
     }
 
-    @OneToMany(mappedBy = "spaServiceType",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "spaServiceCategory",fetch = FetchType.LAZY)
     public List<SpaService> getServices() {
         return services;
     }
 
-    public SpaServiceType(String category, String description, List<SpaService> services) {
+    public SpaServiceCategory(String category, String description, List<SpaService> services) {
         this.category = category;
         this.description = description;
         this.services = services;

@@ -261,23 +261,25 @@ public class BotActionListener {
     public List<PartialBotApiMethod<?>> handleSpaServiceMenuButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().handle(chatId, query);
     }
-    /*
 
-    handleSCHairButton
-
-    handleSCBathhouseButton
-    */
-
-    public List<PartialBotApiMethod<?>> handleSCNailsButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().openNailsMenu(chatId, query);
+    public List<PartialBotApiMethod<?>> handleSSNailsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().handle(chatId, query);
     }
 
-    public List<PartialBotApiMethod<?>> handleSCFaceButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().openFaceMenu(chatId, query);
+    public List<PartialBotApiMethod<?>> handleSSCosmetologyButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getCosmetologySSButtonHandler().handle(chatId, query);
     }
 
-    public List<PartialBotApiMethod<?>> handleSCBodyButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().openBodyMenu(chatId, query);
+    public List<PartialBotApiMethod<?>> handleSSStylistsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getStylistsSSButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSMassageButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getMassageSSButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSBathhouseButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getBathhouseSSButtonHandler().handle(chatId, query);
     }
 
     //SpaService menu end
