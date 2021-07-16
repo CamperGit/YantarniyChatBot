@@ -20,21 +20,8 @@ import java.util.stream.Collectors;
 @Component
 public class NailsSSButtonHandler extends AbstractSpaServiceButtonHandler {
     @Override
-    public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        currentPage = 1;
-        List<SpaService> services = spaServService.findAll();
-        servicesMap = new TreeMap<>(services.stream()
-                .filter(s->s.getSpaServiceCategory()
-                        .getLocation()
-                        .getTitle().equals("NAILS"))
-                .collect(Collectors.groupingByConcurrent(s->s.getSpaServiceCategory().getCategory())));
-
-        if (servicesMap.size() != 0) {
-            String categoryName = servicesMap.firstKey();
-            List<SpaService> firstPage = servicesMap.get(categoryName);
-            return Utils.changeMessage(createPriceMessage(categoryName, firstPage), chatId, query.getMessage(), getPriceScrollMarkup(servicesMap.keySet().size()));
-        }
-        return null;
+    protected String getLocationName() {
+        return "NAILS";
     }
 
     protected InlineKeyboardMarkup getPriceScrollMarkup(int numberOfCategory) {

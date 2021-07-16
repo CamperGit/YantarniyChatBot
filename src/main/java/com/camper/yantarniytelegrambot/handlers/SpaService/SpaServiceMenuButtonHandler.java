@@ -105,4 +105,9 @@ public class SpaServiceMenuButtonHandler implements BotButtonHandler {
     public void setBathhouseSSButtonHandler(BathhouseSSButtonHandler bathhouseSSButtonHandler) {
         this.bathhouseSSButtonHandler = bathhouseSSButtonHandler;
     }
+
+    @Autowired
+    public void setSSContactUsButtonHandler(com.camper.yantarniytelegrambot.handlers.SpaService.Services.SSContactUsButtonHandler SSContactUsButtonHandler) {
+        this.SSContactUsButtonHandler = SSContactUsButtonHandler;
+    }
 }

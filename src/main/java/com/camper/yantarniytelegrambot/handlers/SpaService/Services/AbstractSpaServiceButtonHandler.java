@@ -27,13 +27,13 @@ public abstract class AbstractSpaServiceButtonHandler implements BotButtonHandle
     protected NavigableMap<String, List<SpaService>> servicesMap = null;
     protected int currentPage = 1;
 
-    public List<PartialBotApiMethod<?>> scrollPrice(String chatId, CallbackQuery query, String location,ScrollState scrollState) {
+    public List<PartialBotApiMethod<?>> scrollPrice(String chatId, CallbackQuery query,ScrollState scrollState) {
         if (servicesMap == null) {
             List<SpaService> services = spaServService.findAll();
             servicesMap = new TreeMap<>(services.stream()
                     .filter(s->s.getSpaServiceCategory()
                             .getLocation()
-                            .getTitle().equals(location))
+                            .getTitle().equals(getLocationName()))
                     .collect(Collectors.groupingByConcurrent(s->s.getSpaServiceCategory().getCategory())));
         }
         if (scrollState.equals(ScrollState.NEXT)) {
@@ -69,7 +69,23 @@ public abstract class AbstractSpaServiceButtonHandler implements BotButtonHandle
                 description));
     }
 
-    protected abstract InlineKeyboardMarkup getPriceScrollMarkup(int numberOfCategory);
+    @Override
+    public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
+        currentPage = 1;
+        List<SpaService> services = spaServService.findAll();
+        servicesMap = new TreeMap<>(services.stream()
+                .filter(s->s.getSpaServiceCategory()
+                        .getLocation()
+                        .getTitle().equals(getLocationName()))
+                .collect(Collectors.groupingByConcurrent(s->s.getSpaServiceCategory().getCategory())));
+
+        if (servicesMap.size() != 0) {
+            String categoryName = servicesMap.firstKey();
+            List<SpaService> firstPage = servicesMap.get(categoryName);
+            return Utils.changeMessage(createPriceMessage(categoryName, firstPage), chatId, query.getMessage(), getPriceScrollMarkup(servicesMap.keySet().size()));
+        }
+        return null;
+    }
 
     protected String createPriceMessage(String category, List<SpaService> services) {
         StringBuilder priceMessageBuilder = new StringBuilder();
@@ -87,6 +103,9 @@ public abstract class AbstractSpaServiceButtonHandler implements BotButtonHandle
         }
         return priceMessageBuilder.toString();
     }
+
+    protected abstract String getLocationName();
+    protected abstract InlineKeyboardMarkup getPriceScrollMarkup(int numberOfCategory);
 
     @Autowired
     public void setLocaleMessageSource(LocaleMessageSource localeMessageSource) {

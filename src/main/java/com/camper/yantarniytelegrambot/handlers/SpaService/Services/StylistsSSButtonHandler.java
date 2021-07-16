@@ -4,13 +4,24 @@ import com.camper.yantarniytelegrambot.handlers.BotButtonHandler;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.List;
 
 @Component
-public class StylistsSSButtonHandler implements BotButtonHandler {
+public class StylistsSSButtonHandler extends AbstractSpaServiceButtonHandler {
     @Override
-    public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
-        return null;
+    protected String getLocationName() {
+        return "STYLISTS";
+    }
+
+    @Override
+    protected InlineKeyboardMarkup getPriceScrollMarkup(int numberOfCategory) {
+        return BotButtonHandler.getScrollMenuMarkup(numberOfCategory, currentPage,
+                "handleSSStylistsPricePrevButton",
+                "handleSSStylistsPriceNextButton",
+                "handleSpaServiceMenuButton",
+                localeMessageSource.getMessage("spa.contactUs"),
+                "handleSSContactUsButton");
     }
 }

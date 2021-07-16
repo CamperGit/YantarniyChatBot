@@ -266,42 +266,71 @@ public class BotActionListener {
         return handlersFacade.getSpaServiceMenuButtonHandler().getSSContactUsButtonHandler().handle(chatId, query);
     }
 
+    //Nails serv
     public List<PartialBotApiMethod<?>> handleSSNailsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().handle(chatId, query);
     }
 
     public List<PartialBotApiMethod<?>> handleSSNailsPricePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query,"NAILS", ScrollState.PREVIOUS);
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSSNailsPriceNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query, "NAILS",ScrollState.NEXT);
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query,ScrollState.NEXT);
     }
-
+    //Nails serv
+    //Cosmetology serv
     public List<PartialBotApiMethod<?>> handleSSCosmetologyButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getCosmetologySSButtonHandler().handle(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleSSCosmetologyPricePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getCosmetologySSButtonHandler().scrollPrice(chatId, query, ScrollState.PREVIOUS);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSCosmetologyPriceNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getCosmetologySSButtonHandler().scrollPrice(chatId, query,ScrollState.NEXT);
+    }
+    //Cosmetology serv
+    //Stylists serv
     public List<PartialBotApiMethod<?>> handleSSStylistsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getStylistsSSButtonHandler().handle(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleSSStylistsPricePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getStylistsSSButtonHandler().scrollPrice(chatId, query, ScrollState.PREVIOUS);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSStylistsPriceNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getStylistsSSButtonHandler().scrollPrice(chatId, query,ScrollState.NEXT);
+    }
+    //Stylists serv
+    //Massage serv
     public List<PartialBotApiMethod<?>> handleSSMassageButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getMassageSSButtonHandler().handle(chatId, query);
     }
 
     public List<PartialBotApiMethod<?>> handleSSMassagePricePrevButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query,"MASSAGE", ScrollState.PREVIOUS);
+        return handlersFacade.getSpaServiceMenuButtonHandler().getMassageSSButtonHandler().scrollPrice(chatId, query, ScrollState.PREVIOUS);
     }
 
     public List<PartialBotApiMethod<?>> handleSSMassagePriceNextButton(String chatId, CallbackQuery query) {
-        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query, "MASSAGE",ScrollState.NEXT);
+        return handlersFacade.getSpaServiceMenuButtonHandler().getMassageSSButtonHandler().scrollPrice(chatId, query,ScrollState.NEXT);
     }
-
+    //Massage serv
+    //Bathhouse serv
     public List<PartialBotApiMethod<?>> handleSSBathhouseButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getBathhouseSSButtonHandler().handle(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleSSBathhousePricePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getBathhouseSSButtonHandler().scrollPrice(chatId, query, ScrollState.PREVIOUS);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSBathhousePriceNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getBathhouseSSButtonHandler().scrollPrice(chatId, query,ScrollState.NEXT);
+    }
+    //Bathhouse serv
     //SpaService menu end
 
     public List<PartialBotApiMethod<?>> handleContactUsButton(String chatId, CallbackQuery query) {
