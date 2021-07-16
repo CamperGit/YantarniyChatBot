@@ -29,6 +29,8 @@ public class SpaServiceMenuButtonHandler implements BotButtonHandler {
     private MassageSSButtonHandler massageSSButtonHandler;
     @Getter
     private BathhouseSSButtonHandler bathhouseSSButtonHandler;
+    @Getter
+    private SSContactUsButtonHandler SSContactUsButtonHandler;
 
     @Override
     public List<PartialBotApiMethod<?>> handle(String chatId, CallbackQuery query) {
@@ -56,7 +58,6 @@ public class SpaServiceMenuButtonHandler implements BotButtonHandler {
         returnButton.setCallbackData("handleReturnMainMenuButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
-        firstRow.add(nailsButton);
         firstRow.add(nailsButton);
         firstRow.add(cosmetologyButton);
 

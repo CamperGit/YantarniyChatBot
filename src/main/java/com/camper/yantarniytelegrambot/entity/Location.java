@@ -23,7 +23,7 @@ public class Location {
     @JsonManagedReference
     private List<Sale> sales;
     @JsonManagedReference
-    private List<SpaService> services;
+    private List<SpaServiceCategory> categories;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,14 +49,14 @@ public class Location {
     }
 
     @OneToMany(mappedBy = "location", fetch = FetchType.LAZY)
-    public List<SpaService> getServices() {
-        return services;
+    public List<SpaServiceCategory> getCategories() {
+        return categories;
     }
 
-    public Location(String title, List<Employee> employees, List<Sale> sales, List<SpaService> services) {
+    public Location(String title, List<Employee> employees, List<Sale> sales, List<SpaServiceCategory> categories) {
         this.title = title;
         this.employees = employees;
         this.sales = sales;
-        this.services = services;
+        this.categories = categories;
     }
 }

@@ -19,8 +19,6 @@ public class SpaService {
     private String description;
     @JsonBackReference
     private SpaServiceCategory spaServiceCategory;
-    @JsonBackReference
-    private Location location;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,17 +51,10 @@ public class SpaService {
         return spaServiceCategory;
     }
 
-    @ManyToOne
-    @JoinColumn(name="location_id", referencedColumnName = "loc_id")
-    public Location getLocation() {
-        return location;
-    }
-
-    public SpaService(String name, String price, String description, SpaServiceCategory spaServiceCategory, Location location) {
+    public SpaService(String name, String price, String description, SpaServiceCategory spaServiceCategory) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.spaServiceCategory = spaServiceCategory;
-        this.location = location;
     }
 }

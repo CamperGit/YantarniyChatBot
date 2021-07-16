@@ -262,8 +262,20 @@ public class BotActionListener {
         return handlersFacade.getSpaServiceMenuButtonHandler().handle(chatId, query);
     }
 
+    public List<PartialBotApiMethod<?>> handleSSContactUsButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getSSContactUsButtonHandler().handle(chatId, query);
+    }
+
     public List<PartialBotApiMethod<?>> handleSSNailsButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSNailsPricePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query,"NAILS", ScrollState.PREVIOUS);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSNailsPriceNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query, "NAILS",ScrollState.NEXT);
     }
 
     public List<PartialBotApiMethod<?>> handleSSCosmetologyButton(String chatId, CallbackQuery query) {
@@ -276,6 +288,14 @@ public class BotActionListener {
 
     public List<PartialBotApiMethod<?>> handleSSMassageButton(String chatId, CallbackQuery query) {
         return handlersFacade.getSpaServiceMenuButtonHandler().getMassageSSButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSMassagePricePrevButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query,"MASSAGE", ScrollState.PREVIOUS);
+    }
+
+    public List<PartialBotApiMethod<?>> handleSSMassagePriceNextButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getSpaServiceMenuButtonHandler().getNailsSSButtonHandler().scrollPrice(chatId, query, "MASSAGE",ScrollState.NEXT);
     }
 
     public List<PartialBotApiMethod<?>> handleSSBathhouseButton(String chatId, CallbackQuery query) {
