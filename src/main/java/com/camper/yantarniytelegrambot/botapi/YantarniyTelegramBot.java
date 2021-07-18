@@ -125,7 +125,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                         execute(sendReplyMarkup(chatId));
                     } else {
                         userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
-                        userEntityService.saveUser(userEntity);
+                        //userEntityService.saveUser(userEntity);
                     }
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
