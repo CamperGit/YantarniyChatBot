@@ -29,8 +29,7 @@ public class SpaCosmetologyButtonHandler extends SpaSpecialistsButtonHandler {
 
         if (specialists != null && !specialists.isEmpty()) {
             Employee selectedCoach = specialists.get(0);
-            answers.add(Utils.deleteMessage(chatId, query.getMessage().getMessageId()));
-            
+
             if (selectedCoach.getImage() != null) {
                 SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
                 builder.chatId(chatId);
@@ -44,6 +43,7 @@ public class SpaCosmetologyButtonHandler extends SpaSpecialistsButtonHandler {
                 answers.add(sendMessage);
             }
         }
+        answers.add(Utils.deleteMessage(chatId, query.getMessage().getMessageId()));
 
         return answers;
     }
