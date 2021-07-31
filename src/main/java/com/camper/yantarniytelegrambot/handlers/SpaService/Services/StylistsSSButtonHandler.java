@@ -12,7 +12,7 @@ import java.util.List;
 public class StylistsSSButtonHandler extends AbstractSpaServiceButtonHandler {
     @Override
     protected String getLocationName() {
-        return "COSMETOLOGY";
+        return "STYLISTS";
     }
 
     @Override
