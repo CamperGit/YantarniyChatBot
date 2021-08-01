@@ -62,7 +62,7 @@ public class SpaSalesButtonHandler implements BotButtonHandler {
             }
         } else {
             SendMessage sendMessage = new SendMessage(chatId, localeMessageSource.getMessage("onAction.spaSalesButtonEmpty"));
-            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleSpaButton", true));
+            sendMessage.setReplyMarkup(BotButtonHandler.getReturnMarkup("handleSalesButton", true));
             answers.add(sendMessage);
         }
 

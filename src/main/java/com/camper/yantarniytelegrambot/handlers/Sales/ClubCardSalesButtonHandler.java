@@ -112,7 +112,7 @@ public class ClubCardSalesButtonHandler implements BotButtonHandler {
     private InlineKeyboardMarkup getEmptySalesMarkup() {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         InlineKeyboardButton exitButton = new InlineKeyboardButton(localeMessageSource.getMessage("other.moveBack"));
-        exitButton.setCallbackData("handleClubCardButton");
+        exitButton.setCallbackData("handleSalesButton");
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(exitButton);
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>(Collections.singletonList(firstRow));

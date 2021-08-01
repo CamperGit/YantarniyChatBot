@@ -2,6 +2,7 @@ package com.camper.yantarniytelegrambot.botapi;
 
 import com.camper.yantarniytelegrambot.entity.*;
 import com.camper.yantarniytelegrambot.entity.Location;
+import com.camper.yantarniytelegrambot.enums.ScheduleType;
 import com.camper.yantarniytelegrambot.enums.UserRole;
 import com.camper.yantarniytelegrambot.handlers.BotActionListener;
 import com.camper.yantarniytelegrambot.services.*;
@@ -23,6 +24,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -41,8 +43,7 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     private BotActionListener botActionListener;
     private LocaleMessageSource localeMessageSource;
     private UserEntityService userEntityService;
-    private LocationService locationService;
-    private SpaPriceService spaPriceService;
+    private ScheduleService scheduleService;
 
     static {
         handlers = new HashMap<>();
@@ -130,9 +131,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
                 }
                 case "/auto": {
-                    /*Schedule schedule = scheduleService.findByType(ScheduleType.DEFAULT);
-                    try {
-                        schedule.setImage(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")));
+                    /*try {
+                        Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")), null, ScheduleType.DEFAULT);
                         scheduleService.saveSchedule(schedule);
                         int x = 0;
                     } catch (IOException e) {
@@ -233,13 +233,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
     }
 
     @Autowired
-    public void setSpaPriceService(SpaPriceService spaPriceService) {
-        this.spaPriceService = spaPriceService;
-    }
-
-    @Autowired
-    public void setLocationService(LocationService locationService) {
-        this.locationService = locationService;
+    public void setScheduleService(ScheduleService scheduleService) {
+        this.scheduleService = scheduleService;
     }
 
     @Autowired
