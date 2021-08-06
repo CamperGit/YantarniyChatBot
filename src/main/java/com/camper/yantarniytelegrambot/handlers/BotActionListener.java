@@ -344,7 +344,7 @@ public class BotActionListener {
     public List<PartialBotApiMethod<?>> handleReturnMainMenuButton(String chatId, CallbackQuery query) {
         UserEntity user = userEntityService.findUserByChatId(chatId);
         user.setLastEntry(new Timestamp(System.currentTimeMillis()));
-        userEntityService.saveUser(user);
+        //userEntityService.saveUser(user);
         return Utils.moveToMainMenu(chatId, query.getMessage().getMessageId());
     }
 
