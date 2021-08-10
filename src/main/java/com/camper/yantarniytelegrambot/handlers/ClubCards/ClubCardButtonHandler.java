@@ -97,7 +97,7 @@ public class ClubCardButtonHandler implements BotButtonHandler {
                 "8. Гостевой визит\n" +
                 "9. Заморозка клубной карты\n" +
                 "\n<b>Связаться с менеджером</b>: 2020302\n" +
-                "<b>Чат с менеджером</b>: https://t.me/ManagerYantarniy";;
+                "<b>Чат с менеджером</b>: https://t.me/ManagerYantarniy";
 
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
@@ -120,7 +120,7 @@ public class ClubCardButtonHandler implements BotButtonHandler {
                 "6. Гостевой визит\n" +
                 "7. Заморозка клубной карты\n" +
                 "\n<b>Связаться с менеджером</b>: 2020302\n" +
-                "<b>Чат с менеджером</b>: https://t.me/ManagerYantarniy";;
+                "<b>Чат с менеджером</b>: https://t.me/ManagerYantarniy";
         return new ArrayList<>(Utils.changeMessage(message,
                 chatId,
                 query.getMessage(),
