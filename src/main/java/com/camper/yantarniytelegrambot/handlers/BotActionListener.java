@@ -333,8 +333,12 @@ public class BotActionListener {
     //Bathhouse serv
     //SpaService menu end
 
-    public List<PartialBotApiMethod<?>> handleContactUsButton(String chatId, CallbackQuery query) {
+    public List<PartialBotApiMethod<?>> handleContactManagerButton(String chatId, CallbackQuery query) {
         return handlersFacade.getCallManagerButtonHandler().handle(chatId, query);
+    }
+
+    public List<PartialBotApiMethod<?>> handleContactAdminButton(String chatId, CallbackQuery query) {
+        return handlersFacade.getCallAdminButtonHandler().handle(chatId, query);
     }
 
     public List<PartialBotApiMethod<?>> handleQrSberButton(String chatId, CallbackQuery query) {

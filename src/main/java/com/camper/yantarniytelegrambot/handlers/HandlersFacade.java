@@ -21,16 +21,16 @@ public class HandlersFacade {
     private final ScheduleMenuButtonHandler scheduleMenuButtonHandler;
     private final SpaButtonHandler spaButtonHandler;
     private final CallManagerButtonHandler callManagerButtonHandler;
+    private final CallAdminButtonHandler callAdminButtonHandler;
     private final SberQRButtonHandler sberQRButtonHandler;
     private final SpaServiceMenuButtonHandler spaServiceMenuButtonHandler;
 
     @Autowired
-
     public HandlersFacade(SalesMenuButtonHandler salesMenuButtonHandler, EmployeeMenuButtonHandler employeeMenuButtonHandler,
                           ClubCardButtonHandler clubCardButtonHandler, FitnessButtonHandler fitnessButtonHandler,
                           ScheduleMenuButtonHandler scheduleMenuButtonHandler, SpaButtonHandler spaButtonHandler,
-                          CallManagerButtonHandler callManagerButtonHandler, SberQRButtonHandler sberQRButtonHandler,
-                          SpaServiceMenuButtonHandler spaServiceMenuButtonHandler) {
+                          CallManagerButtonHandler callManagerButtonHandler, CallAdminButtonHandler callAdminButtonHandler,
+                          SberQRButtonHandler sberQRButtonHandler, SpaServiceMenuButtonHandler spaServiceMenuButtonHandler) {
         this.salesMenuButtonHandler = salesMenuButtonHandler;
         this.employeeMenuButtonHandler = employeeMenuButtonHandler;
         this.clubCardButtonHandler = clubCardButtonHandler;
@@ -38,6 +38,7 @@ public class HandlersFacade {
         this.scheduleMenuButtonHandler = scheduleMenuButtonHandler;
         this.spaButtonHandler = spaButtonHandler;
         this.callManagerButtonHandler = callManagerButtonHandler;
+        this.callAdminButtonHandler = callAdminButtonHandler;
         this.sberQRButtonHandler = sberQRButtonHandler;
         this.spaServiceMenuButtonHandler = spaServiceMenuButtonHandler;
     }

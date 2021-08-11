@@ -189,8 +189,8 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         spaServicesButton.setCallbackData("handleSpaServiceMenuButton");
         employeesButton.setCallbackData("handleEmployeeMenuButton");
         sberQrButton.setCallbackData("handleQrSberButton");
-        contactAdminButton.setCallbackData("null");
-        contactManagerButton.setCallbackData("handleContactUsButton");
+        contactAdminButton.setCallbackData("handleContactAdminButton");
+        contactManagerButton.setCallbackData("handleContactManagerButton");
 
         List<InlineKeyboardButton> firstRow = new ArrayList<>();
         firstRow.add(employeesButton);
