@@ -74,7 +74,6 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
         return WEB_HOOK_PATH;
     }
 
-    @SneakyThrows
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
@@ -102,35 +101,37 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                     log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
                 }
             } catch (IllegalAccessException | InvocationTargetException | TelegramApiException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                log.error("Callback query exception");
             }
         }
 
-        //Commands and nonCommands messages handling
-        if (update.getMessage() != null && update.getMessage().hasText()) {
-            String text = update.getMessage().getText();
-            String chatId = update.getMessage().getChatId().toString();
-            switch (text) {
-                case "Главное меню":
-                case "/start": {
-                    UserEntity userEntity = userEntityService.findUserByChatId(chatId);
-                    if (userEntity == null) {
-                        User user = update.getMessage().getFrom();
-                        String firstName = user.getFirstName();
-                        String lastName = user.getLastName();
-                        String username = user.getUserName();
-                        UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER,
-                                new Timestamp(System.currentTimeMillis()),
-                                new Timestamp(System.currentTimeMillis()));
-                        userEntityService.putIfAbsent(newUser);
-                        execute(sendReplyMarkup(chatId));
-                    } else {
-                        userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
-                        userEntityService.saveUser(userEntity);
+        try {
+            //Commands and nonCommands messages handling
+            if (update.getMessage() != null && update.getMessage().hasText()) {
+                String text = update.getMessage().getText();
+                String chatId = update.getMessage().getChatId().toString();
+                switch (text) {
+                    case "Главное меню":
+                    case "/start": {
+                        UserEntity userEntity = userEntityService.findUserByChatId(chatId);
+                        if (userEntity == null) {
+                            User user = update.getMessage().getFrom();
+                            String firstName = user.getFirstName();
+                            String lastName = user.getLastName();
+                            String username = user.getUserName();
+                            UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER,
+                                    new Timestamp(System.currentTimeMillis()),
+                                    new Timestamp(System.currentTimeMillis()));
+                            userEntityService.putIfAbsent(newUser);
+                            execute(sendReplyMarkup(chatId));
+                        } else {
+                            userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
+                            userEntityService.saveUser(userEntity);
+                        }
+                        execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel")));
                     }
-                    return createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel"));
-                }
-                case "/auto": {
+                    case "/auto": {
                     /*try {
                         Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")), null, ScheduleType.DEFAULT);
                         scheduleService.saveSchedule(schedule);
@@ -157,13 +158,18 @@ public class YantarniyTelegramBot extends TelegramWebhookBot {
                             }
                         }
                     }*/
-                    break;
-                }
-                default: {
-                    return createMainMenuMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage"));
+                        break;
+                    }
+                    default: {
+                       execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage")));
+                    }
                 }
             }
+        } catch (TelegramApiException e) {
+            //e.printStackTrace();
+            log.error("Commands and none commands handling exception");
         }
+
         return null;
     }
 
