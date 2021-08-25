@@ -22,7 +22,7 @@ public class WebHookController {
 
     @GetMapping
     public void kaffeineUpdate() {
-        log.debug("Kaffein ping task");
+        log.info("Kaffein ping task");
     }
 
     @Autowired
