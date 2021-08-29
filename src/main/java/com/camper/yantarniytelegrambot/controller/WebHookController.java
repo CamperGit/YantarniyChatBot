@@ -15,10 +15,10 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 public class WebHookController {
     private YantarniyTelegramBot telegramBot;
 
-    @PostMapping("/")
-    public BotApiMethod<?> onUpdateReceiver(@RequestBody Update update) {
-        return telegramBot.onWebhookUpdateReceived(update);
-    }
+//    @PostMapping("/")
+//    public BotApiMethod<?> onUpdateReceiver(@RequestBody Update update) {
+//        return telegramBot.onWebhookUpdateReceived(update);
+//    }
 
     @GetMapping
     public void kaffeineUpdate() {

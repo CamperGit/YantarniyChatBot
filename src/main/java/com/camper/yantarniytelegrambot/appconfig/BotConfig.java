@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
 @ComponentScan(basePackages = "com.camper.yantarniytelegrambot")
@@ -17,9 +20,14 @@ public class BotConfig {
     @Bean
     public YantarniyTelegramBot telegramBot(@Value("${telegrambot.webHookPath}")String webHookPath,
                                             @Value("${telegrambot.username}") String username,
-                                            @Value("${telegrambot.token}") String token) {
-        return new YantarniyTelegramBot(new DefaultBotOptions(),webHookPath,username,token);
+                                            @Value("${telegrambot.token}") String token) throws TelegramApiException {
+        YantarniyTelegramBot bot = new YantarniyTelegramBot(new DefaultBotOptions(),webHookPath,username,token);
+        TelegramBotsApi api = new TelegramBotsApi(DefaultBotSession.class);
+        api.registerBot(bot);
+        return bot;
     }
+
+
 
     @Bean
     public MessageSource messageSource() {
