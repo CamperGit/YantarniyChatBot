@@ -72,7 +72,7 @@ public class YantarniyTelegramBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-//CallbackQuery handling
+        //CallbackQuery handling
         if (update.hasCallbackQuery() && !update.getCallbackQuery().getData().equals("null")) {
             CallbackQuery query = update.getCallbackQuery();
             String chatId = query.getMessage().getChatId().toString();
@@ -109,8 +109,10 @@ public class YantarniyTelegramBot extends TelegramLongPollingBot {
                 switch (text) {
                     case "Главное меню":
                     case "/start": {
+                        execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel")));
                         UserEntity userEntity = userEntityService.findUserByChatId(chatId);
                         if (userEntity == null) {
+                            execute(sendReplyMarkup(chatId));
                             User user = update.getMessage().getFrom();
                             String firstName = user.getFirstName();
                             String lastName = user.getLastName();
@@ -119,41 +121,10 @@ public class YantarniyTelegramBot extends TelegramLongPollingBot {
                                     new Timestamp(System.currentTimeMillis()),
                                     new Timestamp(System.currentTimeMillis()));
                             userEntityService.putIfAbsent(newUser);
-                            execute(sendReplyMarkup(chatId));
                         } else {
                             userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
                             userEntityService.saveUser(userEntity);
                         }
-                        execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel")));
-                    }
-                    case "/auto": {
-                    /*try {
-                        Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")), null, ScheduleType.DEFAULT);
-                        scheduleService.saveSchedule(schedule);
-                        int x = 0;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }*/
-                    /*List<Sale> sales = saleService.findAll();
-                    List<UserEntity> users = userEntityService.findAll();
-                    for (UserEntity user : users) {
-                        if (user.getRole().equals(UserRole.ADMIN)) {
-                            continue;
-                        }
-                        for (Sale sale : sales) {
-                            if (sale.getImage() != null) {
-                                SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
-                                builder.chatId(user.getChatId());
-                                builder.photo(new InputFile(new ByteArrayInputStream(sale.getImage()), "filename"));
-                                try {
-                                    execute(builder.build());
-                                } catch (TelegramApiException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }*/
-                        break;
                     }
                     default: {
                         execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage")));
@@ -161,114 +132,10 @@ public class YantarniyTelegramBot extends TelegramLongPollingBot {
                 }
             }
         } catch (TelegramApiException e) {
-            //e.printStackTrace();
             log.error("Commands and none commands handling exception");
         }
     }
 
-//    @Override
-//    public String getBotPath() {
-//        return WEB_HOOK_PATH;
-//    }
-//
-//    @Override
-//    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-//
-//        //CallbackQuery handling
-//        if (update.hasCallbackQuery() && !update.getCallbackQuery().getData().equals("null")) {
-//            CallbackQuery query = update.getCallbackQuery();
-//            String chatId = query.getMessage().getChatId().toString();
-//            String data = update.getCallbackQuery().getData();
-//            Method handler = handlers.get(data);
-//            try {
-//                if (handler != null) {
-//                    List<PartialBotApiMethod<?>> answers = (List<PartialBotApiMethod<?>>) handler.invoke(botActionListener, chatId, query);
-//                    if (answers != null) {
-//                        for (PartialBotApiMethod<?> answer : answers) {
-//                            if (answer instanceof BotApiMethod<?>) {
-//                                execute((BotApiMethod<? extends Serializable>) answer);
-//                            } else if (answer instanceof EditMessageMedia) {
-//                                execute((EditMessageMedia) answer);
-//                            } else if (answer instanceof SendPhoto) {
-//                                execute((SendPhoto) answer);
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    log.warn("Not found handler for selected button: \"" + query.getMessage().getText() + "\", and callback query value = " + query.getData());
-//                }
-//            } catch (IllegalAccessException | InvocationTargetException | TelegramApiException e) {
-//                //e.printStackTrace();
-//                log.error("Callback query exception");
-//            }
-//        }
-//
-//        try {
-//            //Commands and nonCommands messages handling
-//            if (update.getMessage() != null && update.getMessage().hasText()) {
-//                String text = update.getMessage().getText();
-//                String chatId = update.getMessage().getChatId().toString();
-//                switch (text) {
-//                    case "Главное меню":
-//                    case "/start": {
-//                        UserEntity userEntity = userEntityService.findUserByChatId(chatId);
-//                        if (userEntity == null) {
-//                            User user = update.getMessage().getFrom();
-//                            String firstName = user.getFirstName();
-//                            String lastName = user.getLastName();
-//                            String username = user.getUserName();
-//                            UserEntity newUser = new UserEntity(chatId, firstName, lastName, username, null, UserRole.USER,
-//                                    new Timestamp(System.currentTimeMillis()),
-//                                    new Timestamp(System.currentTimeMillis()));
-//                            userEntityService.putIfAbsent(newUser);
-//                            execute(sendReplyMarkup(chatId));
-//                        } else {
-//                            userEntity.setLastEntry(new Timestamp(System.currentTimeMillis()));
-//                            userEntityService.saveUser(userEntity);
-//                        }
-//                        execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("mainMenu.menuLabel")));
-//                    }
-//                    case "/auto": {
-//                    /*try {
-//                        Schedule schedule = new Schedule(Files.readAllBytes(Paths.get("C:\\Users\\sashc\\Desktop\\Телеграм бот\\Photos\\Schedules\\schedule2.jpeg")), null, ScheduleType.DEFAULT);
-//                        scheduleService.saveSchedule(schedule);
-//                        int x = 0;
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }*/
-//                    /*List<Sale> sales = saleService.findAll();
-//                    List<UserEntity> users = userEntityService.findAll();
-//                    for (UserEntity user : users) {
-//                        if (user.getRole().equals(UserRole.ADMIN)) {
-//                            continue;
-//                        }
-//                        for (Sale sale : sales) {
-//                            if (sale.getImage() != null) {
-//                                SendPhoto.SendPhotoBuilder builder = SendPhoto.builder();
-//                                builder.chatId(user.getChatId());
-//                                builder.photo(new InputFile(new ByteArrayInputStream(sale.getImage()), "filename"));
-//                                try {
-//                                    execute(builder.build());
-//                                } catch (TelegramApiException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                    }*/
-//                        break;
-//                    }
-//                    default: {
-//                       execute(createMainMenuMessage(chatId, localeMessageSource.getMessage("other.unknownNonCommandMessage")));
-//                    }
-//                }
-//            }
-//        } catch (TelegramApiException e) {
-//            //e.printStackTrace();
-//            log.error("Commands and none commands handling exception");
-//        }
-//
-//        return null;
-//    }
 
     public static SendMessage createMainMenuMessage(String chatId, String text) {
         SendMessage sendMessage = new SendMessage(chatId, text);
